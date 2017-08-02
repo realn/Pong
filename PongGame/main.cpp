@@ -2,14 +2,20 @@
 #include <algorithm>
 #include <iostream>
 
+#include <SDL_main.h>
+
 #include "App.h"
 
 #include <CBStr/StringEx.h>
-#include <CBSDL/Window.h>
+#include <CBLog/Logger.h>
 
 using utf8strvec = std::vector<cb::utf8string>;
 
 int main(int argc, char* argv[]) {
+  auto log = std::make_shared<cb::CLogger>();
+  log->AddStream({std::shared_ptr<cb::ostream>{}, &std::wcout});
+  cb::CLogger::SetInstance(log);
+
   auto cmdvec = cb::strvector();
   {
     auto utf8cmdvec = utf8strvec(argv, argv + argc);
