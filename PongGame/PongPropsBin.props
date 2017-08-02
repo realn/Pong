@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <IncludePath>$(SolutionDir)3rd\CodeBox\include\;$(SolutionDir)3rd\SDL\include\;$(SolutionDir)3rd\glm\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)3rd\CodeBox\lib\$(Configuration)\$(Platform)\;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)build\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;glew32sd.lib;SDL2.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2main.lib;libfreetype-6.lib;imm32.lib;version.lib;CBStr.lib;CBIO.lib;CBLog.lib;CBSDL.lib;CBGL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup />
+</Project>
