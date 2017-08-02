@@ -10,7 +10,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>
-      <AdditionalDependencies>opengl32.lib;glew32sd.lib;SDL2.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2main.lib;libfreetype-6.lib;imm32.lib;version.lib;CBStr.lib;CBIO.lib;CBLog.lib;CBSDL.lib;CBGL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup />

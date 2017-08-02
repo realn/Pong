@@ -13,8 +13,7 @@ namespace pong {
 
   public:
     CApp(cb::strvector const& cmdLineArgs);
-    CApp(CApp&&) = delete;
-    CApp(CApp const&) = delete;
+    CApp(CApp&& other);
     ~CApp();
 
     int Execute();

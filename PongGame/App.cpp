@@ -7,15 +7,17 @@
 #include <CBSDL/Events.h>
 
 namespace pong {
-  CApp::CApp(cb::strvector const & cmdLineArgs) 
-    : mSDLSystem(nullptr)
-    , mWindow(nullptr)
-  {
+  CApp::CApp(cb::strvector const & cmdLineArgs) {
     mSDLSystem = std::make_unique<cb::sdl::CSystem>(cb::sdl::System::Video);
     mWindow = std::make_unique<cb::sdl::CWindow>(L"Pong", 
-                                                 glm::ivec2{0, 0}, 
+                                                 cb::sdl::CWindow::PosCentered, 
                                                  glm::uvec2{800u, 480u}, 
                                                  cb::sdl::WindowFlag::OPENGL);
+  }
+
+  CApp::CApp(CApp && other) {
+    std::swap(mSDLSystem, other.mSDLSystem);
+    std::swap(mWindow, other.mWindow);
   }
 
   CApp::~CApp() {}
