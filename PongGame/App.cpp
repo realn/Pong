@@ -9,6 +9,7 @@
 #include <CBSDL/Window.h>
 #include <CBSDL/Events.h>
 #include <CBSDL/GLContext.h>
+#include <CBSDL/Timer.h>
 #include <CBGL/Rendering.h>
 #include <CBGL/System.h>
 #include <CBGL/Shader.h>
@@ -18,7 +19,10 @@
 
 namespace pong {
   CApp::CApp(cb::strvector const & cmdLineArgs)
-    : mRun(true) {
+    : mRun(true) 
+    , mScreenSize(800, 480)
+    , mVec(0.1f)
+  {
     using namespace cb::sdl;
     using namespace cb::gl;
 
@@ -28,8 +32,10 @@ namespace pong {
     mSDLSystem = std::make_unique<CSystem>(System::Video);
     mWindow = std::make_unique<CWindow>(L"Pong",
                                         CWindow::PosCentered,
-                                        glm::uvec2{800u, 480u},
+                                        mScreenSize,
                                         WindowFlag::OPENGL);
+
+    mTimer = std::make_unique<CPerfTimer>();
 
     cb::info(L"Initializing opengl context.");
     mGLContext = std::make_unique<CGLContext>(*mWindow, GLAttributeMapT{
@@ -58,15 +64,18 @@ namespace pong {
 
     {
       auto verts = std::vector<CVertex>{
-        {-0.5f, -0.2f},
-        {0.5f, -0.2f},
-        {0.0f, 0.5f},
+        {0.0f, 0.0f},
+        {1.0f, 0.0f},
+        {1.0f, 1.0f},
+        {0.0f, 1.0f},
       };
 
       mGLBuffer = std::make_unique<CBuffer>();
       mGLBuffer->SetData(verts);
     }
 
+    float aspect = static_cast<float>(mScreenSize.x) / static_cast<float>(mScreenSize.y);
+    mGameScreenSize = glm::vec2(2.0f) * glm::vec2(aspect, 1.0f);
   }
 
   CApp::CApp(CApp && other) {
@@ -83,11 +92,12 @@ namespace pong {
     mWindow->Show();
 
     while(mRun) {
+      mTimer->Update();
       PollEvents();
 
       UpdateRender();
       Render();
-      Update();
+      Update(mTimer->GetTimeDelta());
 
       mGLContext->SwapWindow(*mWindow);
     }
@@ -109,7 +119,17 @@ namespace pong {
     }
   }
 
-  void CApp::Update() {}
+  void CApp::Update(float const timeDelta) {
+    auto size = glm::vec2(1.0f);
+    auto next = mPos + mVec * timeDelta;
+    if(next.x < 0.0f || next.x > mGameScreenSize.x - size.x) {
+      mVec.x = -mVec.x;
+    }
+    if(next.y < 0.0f || next.y > mGameScreenSize.y - size.y) {
+      mVec.y = -mVec.y;
+    }
+    mPos += mVec * timeDelta;
+  }
 
   void CApp::UpdateRender() {}
 
@@ -121,9 +141,11 @@ namespace pong {
     auto gbuf = cb::gl::bind(*mGLBuffer);
     auto gvert = cb::gl::bind(CVertex::Def);
 
-    mGLProgram->SetUniform(L"mTransform", glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f));
+    auto trans = glm::ortho(0.0f, mGameScreenSize.x, 0.0f, mGameScreenSize.y);
+    auto movem = glm::translate(glm::mat4(1.0f), glm::vec3(mPos, 0.0f));
+    mGLProgram->SetUniform(L"mTransform", trans * movem);
 
-    cb::gl::drawArrays(cb::gl::PrimitiveType::TRIANGLES, 3);
+    cb::gl::drawElements(cb::gl::PrimitiveType::TRIANGLES, std::vector<glm::u16>{0, 1, 2, 0, 2, 3});
   }
 
   cb::gl::CShader CApp::LoadShader(cb::gl::ShaderType const type, cb::string const & filepath) {
