@@ -14,7 +14,9 @@ namespace pong {
 
     CVertex() {}
     CVertex(float x, float y, float s = 0.0f, float t = 0.0f, float r = 1.0f, float g = 1.0f, float b = 1.0f, float a = 1.0f)
-      : mPos(x, y), mTex(s, t), mColor(r, g, b, a) {}
+      : CVertex(x, y, s, t, glm::vec4(r, g, b, a)) {}
+    CVertex(float x, float y, float s, float t, glm::vec4 const& color)
+      : mPos(x, y), mTex(s, t), mColor(color) {}
 
     static cb::gl::CVertexDefinition Def;
   };
