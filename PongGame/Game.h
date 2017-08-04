@@ -3,21 +3,26 @@
 #include <memory>
 #include <glm/vec2.hpp>
 #include <CBGL/Fwd.h>
-#include "GamePaddle.h"
 
 namespace pong {
+  class CGamePaddle;
   class CGame {
   private:
+    glm::vec2 mFieldPos;
     glm::vec2 mFieldSize;
-    CGamePaddle mPlayer1;
+    std::unique_ptr<cb::gl::CBuffer> mBuffer;
+    std::unique_ptr<CGamePaddle> mPaddle1;
 
   public:
-    CGame(glm::vec2 const& fieldSize);
+    CGame(glm::vec2 const& screenSize);
     ~CGame();
 
     glm::vec2 GetFieldSize() const { return mFieldSize; }
 
     void Update(float const timeDelta);
     void UpdateRender();
+    void Render(cb::gl::CProgram& glProgram, glm::mat4 const& transform);
+
+    void EventMousePos(glm::vec2 const& pos);
   };
 }

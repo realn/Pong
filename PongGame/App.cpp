@@ -2,6 +2,7 @@
 #include "App.h"
 #include "Vertex.h"
 #include "Consts.h"
+#include "Game.h"
 
 #include <CBSDL/System.h>
 #include <CBSDL/GLContext.h>
@@ -14,7 +15,6 @@ namespace pong {
   CApp::CApp(cb::strvector const & cmdLineArgs)
     : mRun(true) 
     , mScreenSize(800, 480)
-    , mVec(0.1f)
   {
     using namespace cb::sdl;
     using namespace cb::gl;
@@ -58,20 +58,10 @@ namespace pong {
       }
     }
 
-    {
-      auto verts = std::vector<CVertex>{
-        {0.0f, 0.0f},
-        {1.0f, 0.0f},
-        {1.0f, 1.0f},
-        {0.0f, 1.0f},
-      };
-
-      mGLBuffer = std::make_unique<CBuffer>();
-      mGLBuffer->SetData(verts);
-    }
-
-    float aspect = static_cast<float>(mScreenSize.x) / static_cast<float>(mScreenSize.y);
+    auto aspect = static_cast<float>(mScreenSize.x) / static_cast<float>(mScreenSize.y);
     mGameScreenSize = glm::vec2(2.0f) * glm::vec2(aspect, 1.0f);
+
+    mGame = std::make_unique<CGame>(mGameScreenSize);
   }
 
   CApp::CApp(CApp && other) {
@@ -79,6 +69,8 @@ namespace pong {
     std::swap(mWindow, other.mWindow);
     std::swap(mGLContext, other.mGLContext);
     std::swap(mGLProgram, other.mGLProgram);
+    std::swap(mTimer, other.mTimer);
+    std::swap(mGame, other.mGame);
   }
 
   CApp::~CApp() {}
@@ -112,36 +104,31 @@ namespace pong {
         (event.GetType() == EventType::WINDOWEVENT && event.Window().GetType() == WindowEventType::CLOSE)) {
         mRun = false;
       }
+      if(event.GetType() == EventType::MOUSEMOTION) {
+        auto pos = glm::vec2(event.Motion().GetPosition()) / glm::vec2(mScreenSize);
+        pos.y = 1.0f - pos.y;
+        pos *= mGameScreenSize;
+        mGame->EventMousePos(pos);
+      }
     }
   }
 
   void CApp::Update(float const timeDelta) {
-    auto size = glm::vec2(1.0f);
-    auto next = mPos + mVec * timeDelta;
-    if(next.x < 0.0f || next.x > mGameScreenSize.x - size.x) {
-      mVec.x = -mVec.x;
-    }
-    if(next.y < 0.0f || next.y > mGameScreenSize.y - size.y) {
-      mVec.y = -mVec.y;
-    }
-    mPos += mVec * timeDelta;
+    mGame->Update(timeDelta);
   }
 
-  void CApp::UpdateRender() {}
+  void CApp::UpdateRender() {
+    mGame->UpdateRender();
+  }
 
   void CApp::Render() {
-    cb::gl::clearColor({0.2f, 0.2f, 0.2f, 1.0f});
+    cb::gl::clearColor({0.1f, 0.1f, 0.1f, 1.0f});
     cb::gl::clear(cb::gl::ClearBuffer::COLOR);
 
     auto gprog = cb::gl::bind(*mGLProgram);
-    auto gbuf = cb::gl::bind(*mGLBuffer);
-    auto gvert = cb::gl::bind(CVertex::Def);
 
     auto trans = glm::ortho(0.0f, mGameScreenSize.x, 0.0f, mGameScreenSize.y);
-    auto movem = glm::translate(glm::mat4(1.0f), glm::vec3(mPos, 0.0f));
-    mGLProgram->SetUniform(render::UNI_TRANSFORM, trans * movem);
-
-    cb::gl::drawElements(cb::gl::PrimitiveType::TRIANGLES, std::vector<glm::u16>{0, 1, 2, 0, 2, 3});
+    mGame->Render(*mGLProgram, trans);
   }
 
   cb::gl::CShader CApp::LoadShader(cb::gl::ShaderType const type, cb::string const & filepath) {

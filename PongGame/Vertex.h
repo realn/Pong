@@ -13,10 +13,14 @@ namespace pong {
     glm::vec4 mColor = {1.0f, 1.0f, 1.0f, 1.0f};
 
     CVertex() {}
+    CVertex(glm::vec2 const& pos, glm::vec2 const& tex, glm::vec4 const& color)
+      : mPos(pos), mTex(tex), mColor(color) {}
     CVertex(float x, float y, float s = 0.0f, float t = 0.0f, float r = 1.0f, float g = 1.0f, float b = 1.0f, float a = 1.0f)
-      : CVertex(x, y, s, t, glm::vec4(r, g, b, a)) {}
+      : CVertex(glm::vec2(x, y), glm::vec2(s, t), glm::vec4(r, g, b, a)) {}
     CVertex(float x, float y, float s, float t, glm::vec4 const& color)
-      : mPos(x, y), mTex(s, t), mColor(color) {}
+      : CVertex(glm::vec2(x, y), glm::vec2(s, t), color) {}
+    CVertex(glm::vec2 const& pos, float const s, float const t, glm::vec4 const& color)
+      : CVertex(pos, glm::vec2(s, t), color) {}
 
     static cb::gl::CVertexDefinition Def;
   };

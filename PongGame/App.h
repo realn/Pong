@@ -9,19 +9,19 @@
 #include <glm/vec2.hpp>
 
 namespace pong {
+  class CGame;
+
   class CApp {
   private:
     bool mRun;
     glm::uvec2 mScreenSize;
     glm::vec2 mGameScreenSize;
-    glm::vec2 mPos;
-    glm::vec2 mVec;
     std::unique_ptr<cb::sdl::CSystem> mSDLSystem;
     std::unique_ptr<cb::sdl::CWindow> mWindow;
     std::unique_ptr<cb::sdl::CPerfTimer> mTimer;
     std::unique_ptr<cb::sdl::CGLContext> mGLContext;
     std::unique_ptr<cb::gl::CProgram> mGLProgram;
-    std::unique_ptr<cb::gl::CBuffer> mGLBuffer;
+    std::unique_ptr<CGame> mGame;
 
   public:
     CApp(cb::strvector const& cmdLineArgs);

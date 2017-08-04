@@ -6,19 +6,24 @@
 #include "GameObject.h"
 
 namespace pong {
+  enum class PaddleMoveDir {
+    None, Up, Down,
+  };
+
   class CGamePaddle
     : public CGameObject {
   private:
     std::unique_ptr<cb::gl::CBuffer> mBuffer;
-    glm::vec2 mTargetPos;
+    PaddleMoveDir mMoveDir;
+    float mAccel;
 
   public:
-    CGamePaddle(glm::vec2 const& size, glm::vec2 const& pos, float const speed, float const accel);
+    CGamePaddle(glm::vec2 const& size, float const speed, float const accel);
     virtual ~CGamePaddle() {}
 
-    void SetTargetPos(glm::vec2 const& value) { mTargetPos = value; }
+    void SetMoveDir(PaddleMoveDir const value) { mMoveDir = value; }
 
-    glm::vec2 GetTargetPos() const { return mTargetPos; }
+    PaddleMoveDir GetMoveDir() const { return mMoveDir; }
 
     void Update(CGame& game, float const timeDelta) override;
     void UpdateRender() override;

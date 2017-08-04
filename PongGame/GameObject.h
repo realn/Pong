@@ -13,8 +13,8 @@ namespace pong {
     float mSpeed;
 
   public:
-    CGameObject(glm::vec2 const& size, glm::vec2 const& pos, float const speed)
-      : mSize(size), mPos(pos), mSpeed(speed) {}
+    CGameObject(glm::vec2 const& size, float const speed)
+      : mSize(size), mSpeed(speed) {}
     virtual ~CGameObject() {}
 
     void SetPosition(glm::vec2 const& value) { mPos = value; }
@@ -24,6 +24,7 @@ namespace pong {
     glm::vec2 GetPosition() const { return mPos; }
     glm::vec2 GetVector() const { return mVec; }
     glm::vec2 GetSize() const { return mSize; }
+    glm::vec2 GetCenterPos() const { return mPos + (mSize / 2.0f); }
     float GetSpeed() const { return mSpeed; }
 
     virtual void Update(CGame& game, float const timeDelta) = 0;

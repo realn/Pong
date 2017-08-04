@@ -6,10 +6,12 @@
 
 namespace pong {
   CGamePaddle::CGamePaddle(glm::vec2 const & size, 
-                           glm::vec2 const & pos, 
                            float const speed, 
-                           float const accel) :
-    CGameObject(size, pos, speed) {
+                           float const accel) 
+    : CGameObject(size, speed) 
+    , mMoveDir(PaddleMoveDir::None)
+    , mAccel(accel)
+  {
     
     glm::vec4 color = {1.0f, 0.0f, 0.5f, 1.0f};
     auto verts = std::vector<CVertex>{
@@ -24,14 +26,24 @@ namespace pong {
   }
 
   void CGamePaddle::Update(CGame& game, float const timeDelta) {
-    if(mTargetPos != mPos) {
-      mVec = glm::normalize(mTargetPos - mPos);
-    }
-    else {
-      mVec = glm::vec2(0.0f);
+    switch(mMoveDir) {
+    case pong::PaddleMoveDir::Up:   
+      mVec = {0.0f, glm::clamp(mVec.y + mAccel, -1.0f, 1.0f)};
+      break;
+    case pong::PaddleMoveDir::Down: 
+      mVec = {0.0f, glm::clamp(mVec.y - mAccel, -1.0f, 1.0f)};
+      break;
+    default:  
+      mVec = {0.0f, glm::clamp(mVec.y + (mAccel * -glm::sign(mVec.y)), -1.0f, 1.0f)};
+      break;
     }
 
     mPos += mVec * mSpeed * timeDelta;
+
+    if(mPos.y < 0.0f || mPos.y + mSize.y > game.GetFieldSize().y) {
+      mPos.y = glm::clamp(mPos.y, 0.0f, game.GetFieldSize().y - mSize.y);
+      mVec = glm::vec2(0.0f);
+    }
   }
 
   void CGamePaddle::UpdateRender() {}
