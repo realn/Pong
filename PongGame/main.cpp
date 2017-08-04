@@ -1,12 +1,7 @@
-#include <vector>
-#include <algorithm>
-#include <iostream>
-
-#include <SDL_main.h>
-
+#include "stdafx.h"
 #include "App.h"
 
-#include <CBStr/StringEx.h>
+#include <iostream>
 #include <CBLog/Logger.h>
 
 using utf8strvec = std::vector<cb::utf8string>;

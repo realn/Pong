@@ -1,20 +1,13 @@
+#include "stdafx.h"
 #include "App.h"
 #include "Vertex.h"
+#include "Consts.h"
 
-#include <glm/vec2.hpp>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <CBLog/Log.h>
 #include <CBSDL/System.h>
-#include <CBSDL/Window.h>
-#include <CBSDL/Events.h>
 #include <CBSDL/GLContext.h>
 #include <CBSDL/Timer.h>
-#include <CBGL/Rendering.h>
 #include <CBGL/System.h>
 #include <CBGL/Shader.h>
-#include <CBGL/Program.h>
-#include <CBGL/Buffer.h>
 #include <CBIO/File.h>
 
 namespace pong {
@@ -53,7 +46,10 @@ namespace pong {
 
       mGLProgram = std::make_unique<CProgram>();
       mGLProgram->Attach({std::move(vsh), std::move(fsh)});
-      mGLProgram->SetInLocation({{0, L"vInVertex"}, {1, L"vInColor"}});
+      mGLProgram->SetInLocation({
+        {render::IDX_VERTEX4, render::VIN_VERTEX4}, 
+        {render::IDX_COLOR4, render::VIN_COLOR4}
+      });
       mGLProgram->Link();
       if(!mGLProgram->IsLinked()) {
         cb::warn(L"Failed to link gl program.");
@@ -143,7 +139,7 @@ namespace pong {
 
     auto trans = glm::ortho(0.0f, mGameScreenSize.x, 0.0f, mGameScreenSize.y);
     auto movem = glm::translate(glm::mat4(1.0f), glm::vec3(mPos, 0.0f));
-    mGLProgram->SetUniform(L"mTransform", trans * movem);
+    mGLProgram->SetUniform(render::UNI_TRANSFORM, trans * movem);
 
     cb::gl::drawElements(cb::gl::PrimitiveType::TRIANGLES, std::vector<glm::u16>{0, 1, 2, 0, 2, 3});
   }

@@ -1,11 +1,8 @@
+#include "stdafx.h"
 #include "GamePaddle.h"
 #include "Game.h"
 #include "Vertex.h"
-
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <CBGL/Buffer.h>
-#include <CBGL/Program.h>
+#include "Consts.h"
 
 namespace pong {
   CGamePaddle::CGamePaddle(glm::vec2 const & size, 
@@ -40,9 +37,10 @@ namespace pong {
   void CGamePaddle::UpdateRender() {}
 
   void CGamePaddle::Render(cb::gl::CProgram & glProgram, glm::mat4 const& transform) const {
-    glProgram.SetUniform(L"mTransform", transform * glm::translate(glm::mat4(1.0f), {mPos, 0.0f}));
+    glProgram.SetUniform(render::UNI_TRANSFORM, 
+                         transform * glm::translate(glm::mat4(1.0f), {mPos, 0.0f}));
 
-    auto gbuf = cb::gl::bind(mBuffer);
+    auto gbuf = cb::gl::bind(*mBuffer);
     auto gver = cb::gl::bind(CVertex::Def);
 
     cb::gl::drawElements(cb::gl::PrimitiveType::TRIANGLES, std::vector<glm::u16>{0, 1, 2, 0, 2, 3});

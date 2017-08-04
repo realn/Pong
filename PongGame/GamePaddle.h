@@ -1,6 +1,8 @@
 #pragma once
 
 #include <memory>
+#include <CBGL/Fwd.h>
+
 #include "GameObject.h"
 
 namespace pong {
