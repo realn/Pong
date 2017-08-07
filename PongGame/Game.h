@@ -6,18 +6,25 @@
 
 namespace pong {
   class CGamePaddle;
+  class CGamePaddleMouseController;
+  class CGameBall;
+
   class CGame {
   private:
     glm::vec2 mFieldPos;
     glm::vec2 mFieldSize;
     std::unique_ptr<cb::gl::CBuffer> mBuffer;
-    std::unique_ptr<CGamePaddle> mPaddle1;
+    std::shared_ptr<CGamePaddle> mPaddle;
+    std::unique_ptr<CGamePaddleMouseController> mController;
+    std::unique_ptr<CGameBall> mBall;
 
   public:
     CGame(glm::vec2 const& screenSize);
     ~CGame();
 
     glm::vec2 GetFieldSize() const { return mFieldSize; }
+
+    const CGamePaddle& GetPaddle() const { return *mPaddle; }
 
     void Update(float const timeDelta);
     void UpdateRender();

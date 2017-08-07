@@ -143,8 +143,10 @@
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameBall.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GamePaddle.cpp" />
+    <ClCompile Include="GamePaddleController.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -158,6 +160,8 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="Consts.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameBall.h" />
+    <ClInclude Include="GamePaddleController.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GamePaddle.h" />
     <ClInclude Include="stdafx.h" />

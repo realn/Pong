@@ -9,9 +9,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include <SDL_types.h>
-#include <SDL_main.h>
-
 #include <CBStr/StringEx.h>
 #include <CBIO/Defines.h>
 #include <CBLog/Log.h>

@@ -22,7 +22,7 @@ namespace pong {
     cb::info(L"Application initialization.");
 
     cb::info(L"Creating window");
-    mSDLSystem = std::make_unique<CSystem>(System::Video);
+    mSDLSystem = std::make_unique<CSystem>(System::VIDEO);
     mWindow = std::make_unique<CWindow>(L"Pong",
                                         CWindow::PosCentered,
                                         mScreenSize,
