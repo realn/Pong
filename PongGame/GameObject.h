@@ -27,15 +27,6 @@ namespace pong {
     glm::vec2 GetCenterPos() const { return mPos + (mSize / 2.0f); }
     float GetSpeed() const { return mSpeed; }
 
-    glm::vec2 GetBRectMin() const { return mPos; }
-    glm::vec2 GetBRectMax() const { return mPos + mSize; }
-    glm::vec2 GetBRectMinMax() const { return {mPos.x, mPos.y + mSize.y}; }
-    glm::vec2 GetBRectMaxMin() const { return {mPos.x + mSize.x, mPos.y}; }
-
-    bool DoesBRectContains(glm::vec2 const& pos) const {
-      return glm::all(glm::greaterThan(pos, GetBRectMin())) && 
-        glm::all(glm::lessThan(pos, GetBRectMax()));
-    }
 
     virtual void Update(CGame& game, float const timeDelta) = 0;
     virtual void UpdateRender() = 0;
