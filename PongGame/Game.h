@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 #include <glm/vec2.hpp>
 #include <CBGL/Fwd.h>
 
@@ -10,12 +11,18 @@ namespace pong {
   class CGameBall;
 
   class CGame {
+  public:
+    using PaddlePtrT = std::shared_ptr<CGamePaddle>;
+    using PaddlePtrVecT = std::vector<PaddlePtrT>;
+    using PaddleControllerPtrT = std::shared_ptr<CGamePaddleMouseController>;
+    using PaddleControllerPtrVecT = std::vector<PaddleControllerPtrT>;
+
   private:
     glm::vec2 mFieldPos;
     glm::vec2 mFieldSize;
     std::unique_ptr<cb::gl::CBuffer> mBuffer;
-    std::shared_ptr<CGamePaddle> mPaddle;
-    std::unique_ptr<CGamePaddleMouseController> mController;
+    PaddlePtrVecT mPaddles;
+    PaddleControllerPtrVecT mControllers;
     std::unique_ptr<CGameBall> mBall;
 
   public:
@@ -24,7 +31,7 @@ namespace pong {
 
     glm::vec2 GetFieldSize() const { return mFieldSize; }
 
-    const CGamePaddle& GetPaddle() const { return *mPaddle; }
+    const PaddlePtrVecT& GetPaddles() const { return mPaddles; }
 
     void Update(float const timeDelta);
     void UpdateRender();

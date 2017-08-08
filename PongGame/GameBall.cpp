@@ -27,6 +27,7 @@ namespace pong {
   CGameBall::~CGameBall() {}
 
   void CGameBall::Update(CGame & game, float const timeDelta) {
+    mVec = glm::normalize(mVec);
     mPos += mVec * mSpeed * timeDelta;
 
     auto ballRect = GetBRect();
@@ -46,21 +47,24 @@ namespace pong {
       }
     }
 
-    auto paddleRect = game.GetPaddle().GetBRect();
+    auto& paddles = game.GetPaddles();
+    for(auto& paddle : paddles) {
+      auto paddleRect = paddle->GetBRect();
 
-    if(paddleRect.Contains(ballRect)) {
-      mVec = glm::normalize(fieldRect.GetCenter() - GetPosition());
-    }
-    else {
-      auto edge = paddleRect.ContainsEdgeOf(ballRect);
-      if(edge != RectEdge::None) {
-        auto norm = CBRect::GetNormal(edge);
-        mVec = (glm::vec2(1.0f) - glm::abs(norm)) * mVec + -(norm * glm::abs(mVec));
+      if(paddleRect.Contains(ballRect)) {
+        mVec = glm::normalize(fieldRect.GetCenter() - GetPosition());
       }
       else {
-        auto corner = paddleRect.ContainsCornerOf(ballRect);
-        if(corner != RectCorner::None) {
-          mVec = -CBRect::GetNormal(corner) * glm::abs(mVec);
+        auto edge = paddleRect.ContainsEdgeOf(ballRect);
+        if(edge != RectEdge::None) {
+          auto norm = CBRect::GetNormal(edge);
+          mVec = (glm::vec2(1.0f) - glm::abs(norm)) * mVec + -(norm * glm::abs(mVec));
+        }
+        else {
+          auto corner = paddleRect.ContainsCornerOf(ballRect);
+          if(corner != RectCorner::None) {
+            mVec = -CBRect::GetNormal(corner) * glm::abs(mVec);
+          }
         }
       }
     }

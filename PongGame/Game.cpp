@@ -5,6 +5,7 @@
 #include "GamePaddle.h"
 #include "GamePaddleController.h"
 #include "GameBall.h"
+#include "BRect.h"
 
 const glm::vec2 FIELD_PROPS{5.0f, 3.0f};
 const float FIELD_ASP_RATIO = FIELD_PROPS.x / FIELD_PROPS.y;
@@ -31,13 +32,29 @@ namespace pong {
       {fieldMin.x, fieldMax.y, 0.0f, 1.0f, color},
     });
 
-    mPaddle = std::make_shared<CGamePaddle>(mFieldSize / glm::vec2(16.0f, 3.0f), 0.5f, 1.0f);
-    mPaddle->SetPosition({
-      mFieldSize.x / 16.0f, 
-      (mFieldSize.y - mPaddle->GetSize().y) / 2.0f
-    });
+    {
+      auto paddle = std::make_shared<CGamePaddle>(mFieldSize / glm::vec2(16.0f, 3.0f), 0.5f, 1.0f);
+      paddle->SetPosition({
+        mFieldSize.x / 16.0f,
+        (mFieldSize.y - paddle->GetSize().y) / 2.0f
+      });
+      mPaddles.push_back(paddle);
 
-    mController = std::make_unique<CGamePaddleMouseController>(mPaddle);
+      auto controller = std::make_shared<CGamePaddleMouseController>(paddle);
+      mControllers.push_back(controller);
+    }
+
+    {
+      auto paddle = std::make_shared<CGamePaddle>(mFieldSize / glm::vec2(16.0f, 3.0f), 0.5f, 1.0f);
+      paddle->SetPosition({
+        mFieldSize.x - (mFieldSize.x / 16.0f) - paddle->GetSize().x,
+        (mFieldSize.y - paddle->GetSize().y) / 2.0f
+      });
+      mPaddles.push_back(paddle);
+
+      auto controller = std::make_shared<CGamePaddleMouseController>(paddle);
+      mControllers.push_back(controller);
+    }
 
     mBall = std::make_unique<CGameBall>(glm::vec2{0.3f, 0.3f}, 1.0f);
     mBall->SetPosition((mFieldSize - mBall->GetSize()) / 2.0f);
@@ -46,13 +63,19 @@ namespace pong {
   CGame::~CGame() {}
 
   void CGame::Update(float const timeDelta) {
-    mController->Update(*this, timeDelta);
-    mPaddle->Update(*this, timeDelta);
+    for(auto& controller : mControllers) {
+      controller->Update(*this, timeDelta);
+    }
+    for(auto& paddle : mPaddles) {
+      paddle->Update(*this, timeDelta);
+    }
     mBall->Update(*this, timeDelta);
   }
 
   void CGame::UpdateRender() {
-    mPaddle->UpdateRender();
+    for(auto& paddle : mPaddles) {
+      paddle->UpdateRender();
+    }
     mBall->UpdateRender();
   }
 
@@ -64,12 +87,15 @@ namespace pong {
 
     cb::gl::drawElements(cb::gl::PrimitiveType::TRIANGLES, std::vector<glm::u16>{0, 1, 2, 0, 2, 3});
 
-    mPaddle->Render(glProgram, transform);
+    for(auto& paddle : mPaddles) {
+      paddle->Render(glProgram, transform);
+    }
     mBall->Render(glProgram, transform);
   }
 
   void CGame::EventMousePos(glm::vec2 const & pos) {
-    mController->EventMouseMove(pos / mFieldSize);
+    for(auto& controller : mControllers) {
+      controller->EventMouseMove(pos / mFieldSize);
+    }
   }
-
 }
