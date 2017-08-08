@@ -4,6 +4,7 @@
 #include "Game.h"
 #include "Vertex.h"
 #include "Consts.h"
+#include "BRect.h"
 
 namespace pong {
   CGameBall::CGameBall(glm::vec2 const & size, float const speed) 
@@ -28,16 +29,40 @@ namespace pong {
   void CGameBall::Update(CGame & game, float const timeDelta) {
     mPos += mVec * mSpeed * timeDelta;
 
-    if(mPos.y < 0.0f || mPos.y + mSize.y > game.GetFieldSize().y) {
-      mVec.y = -mVec.y;
-    }
-    if(mPos.x < 0.0f || mPos.x + mSize.x > game.GetFieldSize().x) {
-      mVec.x = -mVec.x;
+    auto ballRect = GetBRect();
+    auto fieldRect = CBRect({0.0f, 0.0f}, game.GetFieldSize());
+
+    if(!fieldRect.Contains(ballRect)) {
+      auto edge = fieldRect.ContainsEdgeOf(ballRect);
+      if(edge != RectEdge::None) {
+        auto norm = CBRect::GetNormal(edge);
+        mVec = (glm::vec2(1.0f) - glm::abs(norm)) * mVec + norm * glm::abs(mVec);
+      }
+      else {
+        auto corner = fieldRect.ContainsCornerOf(ballRect);
+        if(corner != RectCorner::None) {
+          mVec = CBRect::GetNormal(corner) * glm::abs(mVec);
+        }
+      }
     }
 
-    if(game.GetPaddle().DoesBRectContains(GetBRectMin()) ||
-       game.GetPaddle().DoesBRectContains(GetBRectMinMax())) {
-      mVec.x = -mVec.x;
+    auto paddleRect = game.GetPaddle().GetBRect();
+
+    if(paddleRect.Contains(ballRect)) {
+      mVec = glm::normalize(fieldRect.GetCenter() - GetPosition());
+    }
+    else {
+      auto edge = paddleRect.ContainsEdgeOf(ballRect);
+      if(edge != RectEdge::None) {
+        auto norm = CBRect::GetNormal(edge);
+        mVec = (glm::vec2(1.0f) - glm::abs(norm)) * mVec + -(norm * glm::abs(mVec));
+      }
+      else {
+        auto corner = paddleRect.ContainsCornerOf(ballRect);
+        if(corner != RectCorner::None) {
+          mVec = -CBRect::GetNormal(corner) * glm::abs(mVec);
+        }
+      }
     }
   }
 

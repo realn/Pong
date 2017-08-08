@@ -45,6 +45,9 @@
     <ClCompile Include="GameBall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BRect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -72,6 +75,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameBall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BRect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

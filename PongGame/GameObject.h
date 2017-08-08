@@ -5,6 +5,8 @@
 
 namespace pong {
   class CGame;
+  class CBRect;
+
   class CGameObject {
   protected:
     glm::vec2 mSize;
@@ -27,6 +29,7 @@ namespace pong {
     glm::vec2 GetCenterPos() const { return mPos + (mSize / 2.0f); }
     float GetSpeed() const { return mSpeed; }
 
+    CBRect GetBRect() const;
 
     virtual void Update(CGame& game, float const timeDelta) = 0;
     virtual void UpdateRender() = 0;
