@@ -1,33 +1,16 @@
 #pragma once
 
-#include <memory>
-
 namespace pong {
-  class CGame;
-  class CGamePaddle;
-
-  class CGamePaddleControllerBase{
-  protected:
-    std::shared_ptr<CGamePaddle> mPaddle;
-
-  public:
-    CGamePaddleControllerBase(std::shared_ptr<CGamePaddle> paddle);
-    virtual ~CGamePaddleControllerBase();
-
-    virtual void Update(CGame& game, float const timeDelta) = 0;
+  enum class PaddleControllerType {
+    Mouse, Keyboard, AI,
   };
 
-  class CGamePaddleMouseController :
-    public CGamePaddleControllerBase {
-  private:
-    glm::vec2 mMousePos;
+  class CGame;
 
+  class IGamePaddleController {
   public:
-    CGamePaddleMouseController(std::shared_ptr<CGamePaddle> paddle);
-    virtual ~CGamePaddleMouseController();
+    virtual ~IGamePaddleController() {}
 
-    void Update(CGame& game, float const timeDelta) override;
-
-    void EventMouseMove(glm::vec2 const& pos) { mMousePos = pos; }
+    virtual void Update(CGame& game, float const timeDelta) = 0;
   };
 }

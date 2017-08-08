@@ -5,11 +5,13 @@
 #include "Consts.h"
 
 namespace pong {
-  CGamePaddle::CGamePaddle(glm::vec2 const & size, 
+  CGamePaddle::CGamePaddle(PaddleSide const side,
+                           glm::vec2 const & size, 
                            float const speed, 
                            float const accel) 
     : CGameObject(size, speed) 
     , mMoveDir(PaddleMoveDir::None)
+    , mSide(side)
     , mAccel(accel)
   {
     
@@ -26,17 +28,16 @@ namespace pong {
   }
 
   void CGamePaddle::Update(CGame& game, float const timeDelta) {
+    auto dir = glm::vec2();
     switch(mMoveDir) {
-    case pong::PaddleMoveDir::Up:   
-      mVec = {0.0f, glm::clamp(mVec.y + mAccel, -1.0f, 1.0f)};
-      break;
-    case pong::PaddleMoveDir::Down: 
-      mVec = {0.0f, glm::clamp(mVec.y - mAccel, -1.0f, 1.0f)};
-      break;
-    default:  
-      mVec = {0.0f, glm::clamp(mVec.y + (mAccel * -glm::sign(mVec.y)), -1.0f, 1.0f)};
-      break;
+    case PaddleMoveDir::Up:     dir = {0.0f, 1.0f}; break;
+    case PaddleMoveDir::Down:   dir = {0.0f, -1.0f}; break;
+    case PaddleMoveDir::Left:   dir = {-1.0f, 0.0f}; break;
+    case PaddleMoveDir::Right:  dir = {1.0f, 0.0f}; break;
+    default:  dir = -glm::sign(mVec); break;
     }
+
+    mVec = glm::clamp(mVec + dir * mAccel * timeDelta, -1.0f, 1.0f);
 
     mPos += mVec * mSpeed * timeDelta;
 

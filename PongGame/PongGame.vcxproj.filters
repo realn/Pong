@@ -39,13 +39,13 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GamePaddleController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameBall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BRect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePaddleControllerImpl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -71,13 +71,19 @@
     <ClInclude Include="Consts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GamePaddleController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameBall.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BRect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePaddleControllerImpl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePaddleController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ControlEventObservers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -110,6 +110,9 @@ namespace pong {
         pos *= mGameScreenSize;
         mGame->EventMousePos(pos);
       }
+      if(event.GetType() == EventType::KEYDOWN || event.GetType() == EventType::KEYUP) {
+        mGame->EventKeyPress(event.Key().GetScanCode(), event.Key().GetType());
+      }
     }
   }
 

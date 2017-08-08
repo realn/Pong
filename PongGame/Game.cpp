@@ -3,7 +3,7 @@
 #include "Vertex.h"
 #include "Consts.h"
 #include "GamePaddle.h"
-#include "GamePaddleController.h"
+#include "GamePaddleControllerImpl.h"
 #include "GameBall.h"
 #include "BRect.h"
 
@@ -32,35 +32,25 @@ namespace pong {
       {fieldMin.x, fieldMax.y, 0.0f, 1.0f, color},
     });
 
-    {
-      auto paddle = std::make_shared<CGamePaddle>(mFieldSize / glm::vec2(16.0f, 3.0f), 0.5f, 1.0f);
-      paddle->SetPosition({
-        mFieldSize.x / 16.0f,
-        (mFieldSize.y - paddle->GetSize().y) / 2.0f
-      });
-      mPaddles.push_back(paddle);
+    AddPlayer(PaddleControllerType::Mouse);
+    AddPlayer(PaddleControllerType::Keyboard);
 
-      auto controller = std::make_shared<CGamePaddleMouseController>(paddle);
-      mControllers.push_back(controller);
-    }
-
-    {
-      auto paddle = std::make_shared<CGamePaddle>(mFieldSize / glm::vec2(16.0f, 3.0f), 0.5f, 1.0f);
-      paddle->SetPosition({
-        mFieldSize.x - (mFieldSize.x / 16.0f) - paddle->GetSize().x,
-        (mFieldSize.y - paddle->GetSize().y) / 2.0f
-      });
-      mPaddles.push_back(paddle);
-
-      auto controller = std::make_shared<CGamePaddleMouseController>(paddle);
-      mControllers.push_back(controller);
-    }
-
-    mBall = std::make_unique<CGameBall>(glm::vec2{0.3f, 0.3f}, 1.0f);
+    mBall = std::make_unique<CGameBall>(glm::vec2{0.1f, 0.1f}, 1.5f);
     mBall->SetPosition((mFieldSize - mBall->GetSize()) / 2.0f);
   }
 
   CGame::~CGame() {}
+
+  void CGame::AddPlayer(PaddleControllerType controllerType) {
+    auto playerIndex = cb::u32(mPaddles.size());
+    auto side = GetPlayerPaddleSide(playerIndex);
+
+    auto paddle = std::make_shared<CGamePaddle>(side, GetPaddleSize(side), 0.5f, 4.0f);
+    paddle->SetPosition(GetPaddleStartPos(*paddle, side));
+    mPaddles.push_back(paddle);
+
+    AddController(paddle, controllerType);
+  }
 
   void CGame::Update(float const timeDelta) {
     for(auto& controller : mControllers) {
@@ -94,8 +84,77 @@ namespace pong {
   }
 
   void CGame::EventMousePos(glm::vec2 const & pos) {
-    for(auto& controller : mControllers) {
-      controller->EventMouseMove(pos / mFieldSize);
+    for(auto& observer : mMouseEventObservers) {
+      observer->EventMouseMove(pos / mFieldSize);
+    }
+  }
+
+  void CGame::EventKeyPress(cb::sdl::ScanCode code, cb::sdl::KeyState state) {
+    for(auto& observer : mKeyboardEventObservers) {
+      observer->EventKeyPress(code, state);
+    }
+  }
+
+
+  PaddleSide CGame::GetPlayerPaddleSide(cb::u32 const index) const {
+    switch(index) {
+    case 0: return PaddleSide::Left;
+    case 1: return PaddleSide::Right;
+    case 2: return PaddleSide::Top;
+    case 3: return PaddleSide::Bottom;
+    default:
+      return PaddleSide::Left;
+    }
+  }
+
+  glm::vec2 CGame::GetPaddleSize(PaddleSide const side) const {
+    auto size = mFieldSize / glm::vec2(16.0f, 3.0f);
+    switch(side) {
+    case PaddleSide::Left:
+    case PaddleSide::Right:
+      return size;
+
+    case PaddleSide::Top:
+    case PaddleSide::Bottom:
+      return {size.y, size.x};
+    default:
+      return {};
+    }
+  }
+
+  glm::vec2 CGame::GetPaddleStartPos(CGamePaddle const & paddle, PaddleSide const side) const {
+    auto padding = mFieldSize.x / 16.0f;
+    auto centerPos = (mFieldSize - paddle.GetSize()) / 2.0f;
+    switch(side) {
+    case PaddleSide::Left:  return {padding, centerPos.y};
+    case PaddleSide::Right: return {mFieldSize.x - paddle.GetSize().x - padding, centerPos.y};
+    case PaddleSide::Top:   return {centerPos.x, mFieldPos.y - paddle.GetSize().y - padding};
+    case PaddleSide::Bottom:return {centerPos.x, padding};
+    default:
+      return {};
+    }
+  }
+
+  void CGame::AddController(std::shared_ptr<CGamePaddle> paddle, PaddleControllerType const type) {
+    switch(type) {
+    case PaddleControllerType::Mouse:
+      {
+        auto controller = std::make_shared<CGamePaddleMouseController>(paddle);
+        mControllers.push_back(controller);
+        mMouseEventObservers.push_back(controller);
+        break;
+      }
+
+    case PaddleControllerType::Keyboard:
+      {
+        auto controller = std::make_shared<CGamePaddleKeyboardController>(paddle);
+        mControllers.push_back(controller);
+        mKeyboardEventObservers.push_back(controller);
+        break;
+      }
+
+    default:
+      break;
     }
   }
 }
