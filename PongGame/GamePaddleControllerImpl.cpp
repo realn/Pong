@@ -1,7 +1,10 @@
 #include "stdafx.h"
 #include "GamePaddleControllerImpl.h"
 #include "GamePaddle.h"
+#include "GameField.h"
 #include "Game.h"
+
+#include <glm/gtc/epsilon.hpp>
 
 namespace pong {
   CGamePaddleControllerBase::CGamePaddleControllerBase(std::shared_ptr<CGamePaddle> paddle) 
@@ -17,15 +20,15 @@ namespace pong {
   CGamePaddleMouseController::~CGamePaddleMouseController() {}
 
   void CGamePaddleMouseController::Update(CGame & game, float const timeDelta) {
-    glm::vec2 paddlePos = mPaddle->GetCenterPos() / game.GetFieldSize();
-    if(paddlePos.y < mMousePos.y) {
+    glm::vec2 paddlePos = mPaddle->GetCenterPos() / game.GetField().GetSize();
+    if(glm::epsilonEqual(paddlePos.y, mMousePos.y, 0.01f)) {
+      mPaddle->SetMoveDir(PaddleMoveDir::None);
+    }
+    else if(paddlePos.y < mMousePos.y) {
       mPaddle->SetMoveDir(PaddleMoveDir::Up);
     }
     else if(paddlePos.y > mMousePos.y) {
       mPaddle->SetMoveDir(PaddleMoveDir::Down);
-    }
-    else {
-      mPaddle->SetMoveDir(PaddleMoveDir::None);
     }
   }
 

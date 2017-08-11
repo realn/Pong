@@ -143,11 +143,13 @@
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="BRect.cpp" />
+    <ClCompile Include="GameField.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameBall.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GamePaddle.cpp" />
     <ClCompile Include="GamePaddleControllerImpl.cpp" />
+    <ClCompile Include="GamePlayer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -160,6 +162,7 @@
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="BRect.h" />
+    <ClInclude Include="GameField.h" />
     <ClInclude Include="Consts.h" />
     <ClInclude Include="ControlEventObservers.h" />
     <ClInclude Include="Game.h" />
@@ -168,6 +171,7 @@
     <ClInclude Include="GamePaddleControllerImpl.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GamePaddle.h" />
+    <ClInclude Include="GamePlayer.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>

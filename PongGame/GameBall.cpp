@@ -5,6 +5,7 @@
 #include "Vertex.h"
 #include "Consts.h"
 #include "BRect.h"
+#include "GameField.h"
 
 namespace pong {
   CGameBall::CGameBall(glm::vec2 const & size, float const speed) 
@@ -31,7 +32,7 @@ namespace pong {
     mPos += mVec * mSpeed * timeDelta;
 
     auto ballRect = GetBRect();
-    auto fieldRect = CBRect({0.0f, 0.0f}, game.GetFieldSize());
+    auto fieldRect = game.GetField().GetBRect();
 
     if(!fieldRect.Contains(ballRect)) {
       auto edge = fieldRect.ContainsEdgeOf(ballRect);

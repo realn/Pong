@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "GamePaddle.h"
+#include "GameField.h"
 #include "Game.h"
 #include "Vertex.h"
 #include "Consts.h"
@@ -41,8 +42,8 @@ namespace pong {
 
     mPos += mVec * mSpeed * timeDelta;
 
-    if(mPos.y < 0.0f || mPos.y + mSize.y > game.GetFieldSize().y) {
-      mPos.y = glm::clamp(mPos.y, 0.0f, game.GetFieldSize().y - mSize.y);
+    if(mPos.y < 0.0f || mPos.y + mSize.y > game.GetField().GetSize().y) {
+      mPos.y = glm::clamp(mPos.y, 0.0f, game.GetField().GetSize().y - mSize.y);
       mVec = glm::vec2(0.0f);
     }
   }
