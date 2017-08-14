@@ -18,3 +18,5 @@
 #include <CBGL/Buffer.h>
 #include <CBGL/Program.h>
 #include <CBGL/Rendering.h>
+
+using namespace std::literals;

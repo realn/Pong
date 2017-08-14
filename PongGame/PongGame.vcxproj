@@ -143,6 +143,7 @@
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="BRect.cpp" />
+    <ClCompile Include="Font.cpp" />
     <ClCompile Include="GameField.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameBall.cpp" />
@@ -162,6 +163,7 @@
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="BRect.h" />
+    <ClInclude Include="Font.h" />
     <ClInclude Include="GameField.h" />
     <ClInclude Include="Consts.h" />
     <ClInclude Include="ControlEventObservers.h" />
