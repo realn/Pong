@@ -3,6 +3,7 @@
 #include "Vertex.h"
 #include "Consts.h"
 #include "Game.h"
+#include "Font.h"
 
 #include <CBSDL/System.h>
 #include <CBSDL/GLContext.h>
@@ -62,6 +63,9 @@ namespace pong {
     mGameScreenSize = glm::vec2(2.0f) * glm::vec2(aspect, 1.0f);
 
     mGame = std::make_unique<CGame>(mGameScreenSize);
+
+    mFont = std::make_unique<CFont>(CFont::Load(L"font.xml"));
+    mText = std::make_unique<CText>(Print(*mFont, L"Test"));
   }
 
   CApp::CApp(CApp && other) {

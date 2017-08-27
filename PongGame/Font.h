@@ -22,7 +22,7 @@ namespace pong {
     ~CText();
 
     void SetText(cb::string const& value) { mText = value; }
-    void SetData(std::unique_ptr<cb::gl::CBuffer> buffer, std::vector<cb::u16>& indices) {
+    void SetBuffers(std::unique_ptr<cb::gl::CBuffer> buffer, std::vector<cb::u16>& indices) {
       mBuffer = std::move(buffer); mIndices = indices;
     }
     void SetTexture(std::shared_ptr<cb::gl::CTexture> texture) { mTexture = texture; }
@@ -36,6 +36,9 @@ namespace pong {
       glm::vec2 mTexMin;
       glm::vec2 mTexMax;
       glm::vec2 mAdv;
+
+      glm::vec2 getVPos(glm::ivec2 const& xy) const;
+      glm::vec2 getVTex(glm::ivec2 const& xy) const;
     };
   private:
     std::map<wchar_t, CChar> mChars;
@@ -43,13 +46,15 @@ namespace pong {
 
   public:
     CFont(std::shared_ptr<cb::gl::CTexture> texture);
+    ~CFont();
 
     void AddChar(wchar_t code, CChar const& fontChar);
 
     const CChar&  GetChar(wchar_t code) const;
     std::shared_ptr<cb::gl::CTexture> GetTexture() const { return mTexture; }
+
+    static CFont Load(cb::string const& filepath);
   };
 
-  extern CFont LoadFont(cb::string const& filepath);
   extern CText Print(CFont const& font, cb::string const& text);
 }

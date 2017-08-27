@@ -10,6 +10,8 @@
 
 namespace pong {
   class CGame;
+  class CText;
+  class CFont;
 
   class CApp {
   private:
@@ -22,6 +24,8 @@ namespace pong {
     std::unique_ptr<cb::sdl::CGLContext> mGLContext;
     std::unique_ptr<cb::gl::CProgram> mGLProgram;
     std::unique_ptr<CGame> mGame;
+    std::unique_ptr<CFont> mFont;
+    std::unique_ptr<CText> mText;
 
   public:
     CApp(cb::strvector const& cmdLineArgs);

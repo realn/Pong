@@ -95,7 +95,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>CBStr.lib;CBIO.lib;CBLog.lib;CBSDL.lib;CBGL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>CBStr.lib;CBIO.lib;CBLog.lib;CBSDL.lib;CBGL.lib;CBXml.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -107,7 +107,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>CBStr.lib;CBIO.lib;CBLog.lib;CBSDL.lib;CBGL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>CBStr.lib;CBIO.lib;CBLog.lib;CBSDL.lib;CBGL.lib;CBXml.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

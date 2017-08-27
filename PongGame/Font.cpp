@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Font.h"
+#include "Vertex.h"
 
 #include <CBSDL/Surface.h>
 #include <CBXml/Document.h>
@@ -78,8 +79,9 @@ namespace pong {
   CText::~CText() {}
 
   CFont::CFont(std::shared_ptr<cb::gl::CTexture> texture)
-    : mTexture(texture)
-  {}
+    : mTexture(texture) {}
+
+  CFont::~CFont() {}
 
   void CFont::AddChar(wchar_t code, CFont::CChar const & fontChar) {
     mChars[code] = fontChar;
@@ -95,7 +97,7 @@ namespace pong {
     return mChars.begin()->second;
   }
 
-  CFont LoadFont(cb::string const & filepath) {
+  CFont CFont::Load(cb::string const & filepath) {
     auto source = cb::readtextfileutf8(filepath);
     cb::CXmlDocument xmlDoc(source);
     if(!xmlDoc.IsValid()) {
@@ -115,9 +117,9 @@ namespace pong {
 
     for(auto& dataChar : dataFont.mChars) {
       font.AddChar(dataChar.mCode, {
-        dataChar.mPos, 
+        dataChar.mPos,
         dataChar.mSize,
-        dataChar.mTexMin, 
+        dataChar.mTexMin,
         dataChar.mTexMax,
         dataChar.mAdv
       });
@@ -125,9 +127,49 @@ namespace pong {
 
     return font;
   }
-  CText Print(CFont const & font, cb::string const & text) {
-    CText text;
 
-    return CText();
+  CText Print(CFont const & font, cb::string const & text) {
+    auto verts = std::vector<CVertex>();
+    auto indices = std::vector<cb::u16>();
+
+    auto col = glm::vec4{1.0f, 1.0f, 1.0f, 1.0f};
+    auto idx = {0, 1, 2, 0, 2, 3};
+    auto pos = glm::vec2();
+    for(auto& item : text) {
+      auto& glyph = font.GetChar(item);
+
+      auto i = static_cast<cb::u16>(verts.size());
+
+      verts.push_back({pos + glyph.getVPos({0, 0}), glyph.getVTex({0, 0}), col});
+      verts.push_back({pos + glyph.getVPos({1, 0}), glyph.getVTex({1, 0}), col});
+      verts.push_back({pos + glyph.getVPos({1, 1}), glyph.getVTex({1, 1}), col});
+      verts.push_back({pos + glyph.getVPos({0, 1}), glyph.getVTex({0, 1}), col});
+
+      std::transform(std::begin(idx), std::end(idx), std::back_inserter(indices), 
+      [i](auto& item) -> auto{
+        return static_cast<cb::u16>(i + item);
+      });
+
+      pos += glyph.mAdv;
+    }
+
+    auto buffer = std::make_unique<cb::gl::CBuffer>();
+    buffer->SetData(verts);
+
+    auto result = CText();
+    result.SetBuffers(std::move(buffer), indices);
+    result.SetText(text);
+    result.SetTexture(font.GetTexture());
+
+    return result;
+  }
+
+  glm::vec2 CFont::CChar::getVPos(glm::ivec2 const& xy) const {
+    return mPos + mSize * glm::vec2(xy);
+  }
+
+  glm::vec2 CFont::CChar::getVTex(glm::ivec2 const& xy) const {
+    auto nxy = glm::vec2(1.0f) - glm::vec2(xy);
+    return mTexMin * nxy + mTexMax * glm::vec2(xy);
   }
 }
