@@ -23,6 +23,7 @@ namespace pong {
     std::unique_ptr<cb::sdl::CPerfTimer> mTimer;
     std::unique_ptr<cb::sdl::CGLContext> mGLContext;
     std::unique_ptr<cb::gl::CProgram> mGLProgram;
+    std::unique_ptr<cb::gl::CProgram> mFontProgram;
     std::unique_ptr<CGame> mGame;
     std::unique_ptr<CFont> mFont;
     std::unique_ptr<CText> mText;
@@ -41,6 +42,7 @@ namespace pong {
     void UpdateRender();
     void Render();
 
+    static cb::gl::CProgram CreateShaderProgram(cb::string const& vertFilePath, cb::string const& fragFilePath);
     static cb::gl::CShader LoadShader(cb::gl::ShaderType const type, cb::string const& filepath);
   };
 }

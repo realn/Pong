@@ -26,6 +26,8 @@ namespace pong {
       mBuffer = std::move(buffer); mIndices = indices;
     }
     void SetTexture(std::shared_ptr<cb::gl::CTexture> texture) { mTexture = texture; }
+
+    void Render(cb::gl::CProgram& glProgram, glm::mat4 const& transform);
   };
 
   class CFont {

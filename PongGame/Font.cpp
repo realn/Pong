@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Font.h"
 #include "Vertex.h"
+#include "Consts.h"
 
 #include <CBSDL/Surface.h>
 #include <CBXml/Document.h>
@@ -77,6 +78,17 @@ namespace pong {
   }
 
   CText::~CText() {}
+
+  void CText::Render(cb::gl::CProgram& glProgram, glm::mat4 const& transform) {
+    //cb::gl::bind(*mTexture, 0);
+    cb::gl::bind(*mBuffer);
+    cb::gl::bind(CVertex::Def);
+
+    //glProgram.SetUniform(UNI_FONT_TEXTURE, 0);
+    glProgram.SetUniform(UNI_TRANSFORM, transform);
+
+    cb::gl::drawElements(cb::gl::PrimitiveType::TRIANGLES, mIndices);
+  }
 
   CFont::CFont(std::shared_ptr<cb::gl::CTexture> texture)
     : mTexture(texture) {}
@@ -170,6 +182,7 @@ namespace pong {
 
   glm::vec2 CFont::CChar::getVTex(glm::ivec2 const& xy) const {
     auto nxy = glm::vec2(1.0f) - glm::vec2(xy);
-    return mTexMin * nxy + mTexMax * glm::vec2(xy);
+    auto tex = mTexMin * nxy + mTexMax * glm::vec2(xy);
+    return {tex.x, 1.0f - tex.y};
   }
 }

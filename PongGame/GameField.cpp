@@ -30,7 +30,7 @@ namespace pong {
   void CGameField::UpdateRender() {}
 
   void CGameField::Render(cb::gl::CProgram & glProgram, glm::mat4 const & transform) const {
-    glProgram.SetUniform(render::UNI_TRANSFORM, transform);
+    glProgram.SetUniform(UNI_TRANSFORM, transform);
 
     auto gbuf = cb::gl::bind(*mBuffer);
     auto gver = cb::gl::bind(CVertex::Def);

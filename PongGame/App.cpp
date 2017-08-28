@@ -14,9 +14,8 @@
 
 namespace pong {
   CApp::CApp(cb::strvector const & cmdLineArgs)
-    : mRun(true) 
-    , mScreenSize(800, 480)
-  {
+    : mRun(true)
+    , mScreenSize(800, 480) {
     using namespace cb::sdl;
     using namespace cb::gl;
 
@@ -42,21 +41,12 @@ namespace pong {
     initextensions();
 
     {
-      auto vsh = LoadShader(ShaderType::VERTEX, L"main_vs.glsl");
-      auto fsh = LoadShader(ShaderType::FRAGMENT, L"main_fs.glsl");
-
-      mGLProgram = std::make_unique<CProgram>();
-      mGLProgram->Attach({std::move(vsh), std::move(fsh)});
-      mGLProgram->SetInLocation({
-        {render::IDX_VERTEX4, render::VIN_VERTEX4}, 
-        {render::IDX_COLOR4, render::VIN_COLOR4}
-      });
-      mGLProgram->Link();
-      if(!mGLProgram->IsLinked()) {
-        cb::warn(L"Failed to link gl program.");
-        cb::info(mGLProgram->GetLinkLog());
-        throw std::exception("GL program compilation failed.");
-      }
+      auto glProg = CreateShaderProgram(L"main_vs.glsl"s, L"main_fs.glsl"s);
+      mGLProgram = std::make_unique<CProgram>(std::move(glProg));
+    }
+    {
+      auto glProg = CreateShaderProgram(L"font_vs.glsl"s, L"font_fs.glsl"s);
+      mFontProgram = std::make_unique<CProgram>(std::move(glProg));
     }
 
     auto aspect = static_cast<float>(mScreenSize.x) / static_cast<float>(mScreenSize.y);
@@ -65,7 +55,7 @@ namespace pong {
     mGame = std::make_unique<CGame>(mGameScreenSize);
 
     mFont = std::make_unique<CFont>(CFont::Load(L"font.xml"));
-    mText = std::make_unique<CText>(Print(*mFont, L"Test"));
+    mText = std::make_unique<CText>(Print(*mFont, L"a"));
   }
 
   CApp::CApp(CApp && other) {
@@ -132,10 +122,41 @@ namespace pong {
     cb::gl::clearColor({0.1f, 0.1f, 0.1f, 1.0f});
     cb::gl::clear(cb::gl::ClearBuffer::COLOR);
 
-    auto gprog = cb::gl::bind(*mGLProgram);
+    {
+      auto trans = glm::ortho(0.0f, mGameScreenSize.x, 0.0f, mGameScreenSize.y);
+      auto gprog = cb::gl::bind(*mGLProgram);
 
-    auto trans = glm::ortho(0.0f, mGameScreenSize.x, 0.0f, mGameScreenSize.y);
-    mGame->Render(*mGLProgram, trans);
+      mGame->Render(*mGLProgram, trans);
+    }
+
+    {
+      auto trans = glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f);
+      auto gprog = cb::gl::bind(*mFontProgram);
+
+      mText->Render(*mFontProgram, trans);
+    }
+  }
+
+  cb::gl::CProgram CApp::CreateShaderProgram(cb::string const & vertFilePath, cb::string const & fragFilePath) {
+    using namespace cb::gl;
+
+    auto vsh = LoadShader(ShaderType::VERTEX, vertFilePath);
+    auto fsh = LoadShader(ShaderType::FRAGMENT, fragFilePath);
+
+    auto glProgram = CProgram();
+    glProgram.Attach({std::move(vsh), std::move(fsh)});
+    glProgram.SetInLocation({
+      {IDX_VERTEX4, VIN_VERTEX4},
+      {IDX_COLOR4, VIN_COLOR4}
+    });
+    glProgram.Link();
+    if(!glProgram.IsLinked()) {
+      cb::warn(L"Failed to link gl program.");
+      cb::info(glProgram.GetLinkLog());
+      throw std::exception("GL program compilation failed.");
+    }
+
+    return glProgram;
   }
 
   cb::gl::CShader CApp::LoadShader(cb::gl::ShaderType const type, cb::string const & filepath) {

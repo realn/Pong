@@ -113,4 +113,12 @@
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="font_vs.glsl">
+      <Filter>Shaders</Filter>
+    </Text>
+    <Text Include="font_fs.glsl">
+      <Filter>Shaders</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

@@ -51,8 +51,7 @@ namespace pong {
   void CGamePaddle::UpdateRender() {}
 
   void CGamePaddle::Render(cb::gl::CProgram & glProgram, glm::mat4 const& transform) const {
-    glProgram.SetUniform(render::UNI_TRANSFORM, 
-                         transform * glm::translate(glm::mat4(1.0f), {mPos, 0.0f}));
+    glProgram.SetUniform(UNI_TRANSFORM, transform * glm::translate(glm::mat4(1.0f), {mPos, 0.0f}));
 
     auto gbuf = cb::gl::bind(*mBuffer);
     auto gver = cb::gl::bind(CVertex::Def);

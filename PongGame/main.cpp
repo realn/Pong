@@ -8,7 +8,11 @@ using utf8strvec = std::vector<cb::utf8string>;
 
 int WinMain(void*, void*, char*, int) {
   auto log = std::make_shared<cb::CLogger>();
-  log->AddStream({std::shared_ptr<cb::ostream>{}, &std::wcout});
+  {
+    auto fslog = std::wofstream(L"main.log", std::ios::out | std::ios::trunc);
+    log->AddStream(std::make_shared<std::wofstream>(std::move(fslog)));
+  }
+  //log->AddStream({std::shared_ptr<cb::ostream>{}, &std::wcout});
   cb::CLogger::SetInstance(log);
 
   auto cmdvec = cb::strvector();
