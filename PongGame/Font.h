@@ -9,27 +9,6 @@
 #include <glm/vec2.hpp>
 
 namespace pong {
-  class CText {
-  private:
-    cb::string mText;
-    std::unique_ptr<cb::gl::CBuffer> mBuffer;
-    std::shared_ptr<cb::gl::CTexture> mTexture;
-    std::vector<cb::u16> mIndices;
-
-  public:
-    CText();
-    CText(CText && other);
-    ~CText();
-
-    void SetText(cb::string const& value) { mText = value; }
-    void SetBuffers(std::unique_ptr<cb::gl::CBuffer> buffer, std::vector<cb::u16>& indices) {
-      mBuffer = std::move(buffer); mIndices = indices;
-    }
-    void SetTexture(std::shared_ptr<cb::gl::CTexture> texture) { mTexture = texture; }
-
-    void Render(cb::gl::CProgram& glProgram, glm::mat4 const& transform);
-  };
-
   class CFont {
   public:
     struct CChar {
@@ -45,6 +24,7 @@ namespace pong {
   private:
     std::map<wchar_t, CChar> mChars;
     std::shared_ptr<cb::gl::CTexture> mTexture;
+    float mLineHeight;
 
   public:
     CFont(std::shared_ptr<cb::gl::CTexture> texture);
@@ -54,9 +34,9 @@ namespace pong {
 
     const CChar&  GetChar(wchar_t code) const;
     std::shared_ptr<cb::gl::CTexture> GetTexture() const { return mTexture; }
+    float GetLineHeight() const { return 1.0f; }
+    glm::vec2 GetTextSize(cb::string const& text, bool const charHeight = false) const;
 
     static CFont Load(cb::string const& filepath);
   };
-
-  extern CText Print(CFont const& font, cb::string const& text);
 }

@@ -22,6 +22,10 @@ namespace pong {
     CVertex(glm::vec2 const& pos, float const s, float const t, glm::vec4 const& color)
       : CVertex(pos, glm::vec2(s, t), color) {}
 
+    bool operator==(CVertex const& other) const {
+      return mPos == other.mPos && mTex == other.mTex && mColor == other.mColor;
+    }
+
     static cb::gl::CVertexDefinition Def;
   };
 }

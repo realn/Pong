@@ -79,7 +79,8 @@ namespace pong {
 
     auto gbuf = cb::gl::bind(*mBuffer);
     auto gver = cb::gl::bind(CVertex::Def);
+    auto indices = std::vector<glm::u16>{0, 1, 2, 0, 2, 3};
 
-    cb::gl::drawElements(cb::gl::PrimitiveType::TRIANGLES, std::vector<glm::u16>{0, 1, 2, 0, 2, 3});
+    cb::gl::drawElements(cb::gl::PrimitiveType::TRIANGLES, indices);
   }
 }

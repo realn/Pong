@@ -12,6 +12,7 @@ namespace pong {
   class CGame;
   class CText;
   class CFont;
+  class CCanvas;
 
   class CApp {
   private:
@@ -26,7 +27,8 @@ namespace pong {
     std::unique_ptr<cb::gl::CProgram> mFontProgram;
     std::unique_ptr<CGame> mGame;
     std::unique_ptr<CFont> mFont;
-    std::unique_ptr<CText> mText;
+    std::unique_ptr<CCanvas> mCanvas;
+    float mFrameTime = 0.0f;
 
   public:
     CApp(cb::strvector const& cmdLineArgs);
