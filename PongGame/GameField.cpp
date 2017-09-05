@@ -15,7 +15,7 @@ namespace pong {
     auto fieldMin = mPos;
     auto fieldMax = mPos + mSize;
     mBuffer = std::make_unique<cb::gl::CBuffer>();
-    mBuffer->SetData(std::vector<CVertex>{
+    mBuffer->SetData(std::vector<gfx::CVertex>{
       { fieldMin, 0.0f, 0.0f, color },
       {fieldMax.x, fieldMin.y, 1.0f, 0.0f, color},
       {fieldMax, 1.0f, 1.0f, color},
@@ -30,10 +30,10 @@ namespace pong {
   void CGameField::UpdateRender() {}
 
   void CGameField::Render(cb::gl::CProgram & glProgram, glm::mat4 const & transform) const {
-    glProgram.SetUniform(UNI_TRANSFORM, transform);
+    glProgram.SetUniform(gfx::UNI_TRANSFORM, transform);
 
     auto gbuf = cb::gl::bind(*mBuffer);
-    auto gver = cb::gl::bind(CVertex::Def);
+    auto gver = cb::gl::bind(gfx::CVertex::Def);
 
     cb::gl::drawElements(cb::gl::PrimitiveType::TRIANGLES, std::vector<glm::u16>{0, 1, 2, 0, 2, 3});
   }

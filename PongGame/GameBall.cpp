@@ -12,7 +12,7 @@ namespace pong {
     : CGameObject(size, speed)
   {
     glm::vec4 color = {0.5f, 1.0f, 0.0f, 1.0f};
-    auto verts = std::vector<CVertex>{
+    auto verts = std::vector<gfx::CVertex>{
       {0.0f, 0.0f, 0.0f, 0.0f, color},
       {size.x, 0.0f, 1.0f, 0.0f, color},
       {size.x, size.y, 1.0f, 1.0f, color},
@@ -36,14 +36,14 @@ namespace pong {
 
     if(!fieldRect.Contains(ballRect)) {
       auto edge = fieldRect.ContainsEdgeOf(ballRect);
-      if(edge != RectEdge::None) {
-        auto norm = CBRect::GetNormal(edge);
+      if(edge != gfx::RectEdge::None) {
+        auto norm = gfx::CBRect::GetNormal(edge);
         mVec = (glm::vec2(1.0f) - glm::abs(norm)) * mVec + norm * glm::abs(mVec);
       }
       else {
         auto corner = fieldRect.ContainsCornerOf(ballRect);
-        if(corner != RectCorner::None) {
-          mVec = CBRect::GetNormal(corner) * glm::abs(mVec);
+        if(corner != gfx::RectCorner::None) {
+          mVec = gfx::CBRect::GetNormal(corner) * glm::abs(mVec);
         }
       }
     }
@@ -57,14 +57,14 @@ namespace pong {
       }
       else {
         auto edge = paddleRect.ContainsEdgeOf(ballRect);
-        if(edge != RectEdge::None) {
-          auto norm = CBRect::GetNormal(edge);
+        if(edge != gfx::RectEdge::None) {
+          auto norm = gfx::CBRect::GetNormal(edge);
           mVec = (glm::vec2(1.0f) - glm::abs(norm)) * mVec + -(norm * glm::abs(mVec));
         }
         else {
           auto corner = paddleRect.ContainsCornerOf(ballRect);
-          if(corner != RectCorner::None) {
-            mVec = -CBRect::GetNormal(corner) * glm::abs(mVec);
+          if(corner != gfx::RectCorner::None) {
+            mVec = -gfx::CBRect::GetNormal(corner) * glm::abs(mVec);
           }
         }
       }
@@ -74,11 +74,11 @@ namespace pong {
   void CGameBall::UpdateRender() {}
 
   void CGameBall::Render(cb::gl::CProgram & glProgram, glm::mat4 const & transform) const {
-    glProgram.SetUniform(UNI_TRANSFORM,
+    glProgram.SetUniform(gfx::UNI_TRANSFORM,
                          transform * glm::translate(glm::mat4(1.0f), {mPos, 0.0f}));
 
     auto gbuf = cb::gl::bind(*mBuffer);
-    auto gver = cb::gl::bind(CVertex::Def);
+    auto gver = cb::gl::bind(gfx::CVertex::Def);
     auto indices = std::vector<glm::u16>{0, 1, 2, 0, 2, 3};
 
     cb::gl::drawElements(cb::gl::PrimitiveType::TRIANGLES, indices);

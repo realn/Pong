@@ -6,7 +6,7 @@
 #include <glm/vec4.hpp>
 #include <CBGL/VertexDefinition.h>
 
-namespace pong {
+namespace gfx {
   struct CVertex {
     glm::vec2 mPos;
     glm::vec2 mTex;

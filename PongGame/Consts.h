@@ -2,7 +2,7 @@
 
 #include <CBStr/Defines.h>
 
-namespace pong {
+namespace gfx {
   static const cb::string UNI_TRANSFORM = L"mTransform";
   static const cb::string UNI_BASE_TEXTURE = L"texBase";
   static const cb::string UNI_FONT_TEXTURE = L"texFont";
@@ -11,7 +11,9 @@ namespace pong {
 
   constexpr auto IDX_VERTEX4 = 0u;
   constexpr auto IDX_COLOR4 = 1u;
+}
 
+namespace pong {
   constexpr auto UPDATE_TIME_STEP = 0.005f;
   constexpr auto UPDATE_MAX_STEPS = 20u;
   constexpr auto UPDATE_MAX_EVENTS = 50u;

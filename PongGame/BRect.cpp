@@ -1,13 +1,13 @@
 #include "stdafx.h"
 #include "BRect.h"
 
-namespace pong {
+namespace gfx {
   CBRect CBRect::GetEdge(RectEdge side) const {
     switch(side) {
-    case pong::RectEdge::XMin: return CBRect(GetMin(), {0.0f, mSize.y});
-    case pong::RectEdge::XMax: return CBRect(GetMaxMin(), {0.0f, mSize.y});
-    case pong::RectEdge::YMin: return CBRect(GetMin(), {mSize.x, 0.0f});
-    case pong::RectEdge::YMax: return CBRect(GetMinMax(), {mSize.x, 0.0f});
+    case RectEdge::XMin: return CBRect(GetMin(), {0.0f, mSize.y});
+    case RectEdge::XMax: return CBRect(GetMaxMin(), {0.0f, mSize.y});
+    case RectEdge::YMin: return CBRect(GetMin(), {mSize.x, 0.0f});
+    case RectEdge::YMax: return CBRect(GetMinMax(), {mSize.x, 0.0f});
     default:
       return *this;
     }
@@ -15,10 +15,10 @@ namespace pong {
 
   CBRect CBRect::GetCorner(RectCorner corner) const {
     switch(corner) {
-    case pong::RectCorner::Min:     return CBRect(GetMin(), {0.0f, 0.0f});
-    case pong::RectCorner::MinMax:  return CBRect(GetMinMax(), {0.0f, 0.0f});
-    case pong::RectCorner::Max:     return CBRect(GetMax(), {0.0f, 0.0f});
-    case pong::RectCorner::MaxMin:  return CBRect(GetMaxMin(), {0.0f, 0.0f});
+    case RectCorner::Min:     return CBRect(GetMin(), {0.0f, 0.0f});
+    case RectCorner::MinMax:  return CBRect(GetMinMax(), {0.0f, 0.0f});
+    case RectCorner::Max:     return CBRect(GetMax(), {0.0f, 0.0f});
+    case RectCorner::MaxMin:  return CBRect(GetMaxMin(), {0.0f, 0.0f});
     default:
       return *this;
     }
@@ -54,23 +54,23 @@ namespace pong {
 
   glm::vec2 CBRect::GetNormal(RectEdge edge) {
     switch(edge) {
-    case pong::RectEdge::XMin:  return {-1.0f, 0.0f};
-    case pong::RectEdge::XMax:  return {1.0f, 0.0f};
-    case pong::RectEdge::YMin:  return {0.0f, -1.0f};
-    case pong::RectEdge::YMax:  return {0.0f, 1.0f};
+    case RectEdge::XMin:  return {-1.0f, 0.0f};
+    case RectEdge::XMax:  return {1.0f, 0.0f};
+    case RectEdge::YMin:  return {0.0f, -1.0f};
+    case RectEdge::YMax:  return {0.0f, 1.0f};
     default:
-    case pong::RectEdge::None:  return {0.0f, 0.0f};
+    case RectEdge::None:  return {0.0f, 0.0f};
     }
   }
 
   glm::vec2 CBRect::GetNormal(RectCorner corner) {
     switch(corner) {
-    case pong::RectCorner::Min:     return glm::normalize(glm::vec2{-1.0f, -1.0f});
-    case pong::RectCorner::MinMax:  return glm::normalize(glm::vec2{-1.0f, 1.0f});
-    case pong::RectCorner::Max:     return glm::normalize(glm::vec2{1.0f, 1.0f});
-    case pong::RectCorner::MaxMin:  return glm::normalize(glm::vec2{1.0f, -1.0f});
+    case RectCorner::Min:     return glm::normalize(glm::vec2{-1.0f, -1.0f});
+    case RectCorner::MinMax:  return glm::normalize(glm::vec2{-1.0f, 1.0f});
+    case RectCorner::Max:     return glm::normalize(glm::vec2{1.0f, 1.0f});
+    case RectCorner::MaxMin:  return glm::normalize(glm::vec2{1.0f, -1.0f});
     default:
-    case pong::RectCorner::None:    return glm::vec2();
+    case RectCorner::None:    return glm::vec2();
     }
   }
 }

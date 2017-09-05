@@ -3,7 +3,7 @@
 #include <glm/fwd.hpp>
 #include <glm/vec2.hpp>
 
-namespace pong {
+namespace gfx {
   enum class RectEdge {
     None, XMin, XMax, YMin, YMax
   };
@@ -30,6 +30,8 @@ namespace pong {
     glm::vec2 GetMaxMin() const { return {mPos.x + mSize.x, mPos.y}; }
 
     glm::vec2 GetCenter() const { return mPos + (mSize / 2.0f); }
+    glm::vec2 GetUCrd(glm::uvec2 const& xy) const { return mPos + glm::vec2(xy) * mSize; }
+    glm::vec2 GetUCrd(unsigned const x, unsigned const y) const { return GetUCrd({x, y}); }
 
     CBRect GetEdge(RectEdge side) const;
     CBRect GetCorner(RectCorner corner) const;

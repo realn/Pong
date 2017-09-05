@@ -3,9 +3,12 @@
 #include <CBGL/Fwd.h>
 #include <glm/vec2.hpp>
 
+namespace gfx {
+  class CBRect;
+}
+
 namespace pong {
   class CGame;
-  class CBRect;
 
   class CGameObject {
   protected:
@@ -29,7 +32,7 @@ namespace pong {
     glm::vec2 GetCenterPos() const { return mPos + (mSize / 2.0f); }
     float GetSpeed() const { return mSpeed; }
 
-    CBRect GetBRect() const;
+    gfx::CBRect GetBRect() const;
 
     virtual void Update(CGame& game, float const timeDelta) = 0;
     virtual void UpdateRender() = 0;

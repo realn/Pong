@@ -17,7 +17,7 @@ namespace pong {
   {
     
     glm::vec4 color = {1.0f, 0.0f, 0.5f, 1.0f};
-    auto verts = std::vector<CVertex>{
+    auto verts = std::vector<gfx::CVertex>{
       {0.0f, 0.0f, 0.0f, 0.0f, color},
       {size.x, 0.0f, 1.0f, 0.0f, color},
       {size.x, size.y, 1.0f, 1.0f, color},
@@ -51,10 +51,10 @@ namespace pong {
   void CGamePaddle::UpdateRender() {}
 
   void CGamePaddle::Render(cb::gl::CProgram & glProgram, glm::mat4 const& transform) const {
-    glProgram.SetUniform(UNI_TRANSFORM, transform * glm::translate(glm::mat4(1.0f), {mPos, 0.0f}));
+    glProgram.SetUniform(gfx::UNI_TRANSFORM, transform * glm::translate(glm::mat4(1.0f), {mPos, 0.0f}));
 
     auto gbuf = cb::gl::bind(*mBuffer);
-    auto gver = cb::gl::bind(CVertex::Def);
+    auto gver = cb::gl::bind(gfx::CVertex::Def);
 
     cb::gl::drawElements(cb::gl::PrimitiveType::TRIANGLES, std::vector<glm::u16>{0, 1, 2, 0, 2, 3});
   }

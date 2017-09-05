@@ -5,13 +5,10 @@
 #include "../FontCompiler/DataFont.h"
 
 #include <CBSDL/Surface.h>
-#include <CBXml/Document.h>
-#include <CBXml/Serialize.h>
 #include <CBIO/File.h>
 #include <CBGL/Texture.h>
-#include <CBGL/State.h>
 
-namespace pong {
+namespace gfx {
   CFont::CFont(std::shared_ptr<cb::gl::CTexture> texture)
     : mTexture(texture) {}
 

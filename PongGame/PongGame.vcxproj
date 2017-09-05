@@ -152,6 +152,10 @@
     <ClCompile Include="GamePaddle.cpp" />
     <ClCompile Include="GamePaddleControllerImpl.cpp" />
     <ClCompile Include="GamePlayer.cpp" />
+    <ClCompile Include="GUILabel.cpp" />
+    <ClCompile Include="GUIPanel.cpp" />
+    <ClCompile Include="GUIRect.cpp" />
+    <ClCompile Include="GUIWidget.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -159,6 +163,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TextureAtlas.cpp" />
     <ClCompile Include="Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -176,7 +181,15 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GamePaddle.h" />
     <ClInclude Include="GamePlayer.h" />
+    <ClInclude Include="GUILabel.h" />
+    <ClInclude Include="GUILayout.h" />
+    <ClInclude Include="GUIPanel.h" />
+    <ClInclude Include="GUIRect.h" />
+    <ClInclude Include="GUIRenderContext.h" />
+    <ClInclude Include="GUIStackPanel.h" />
+    <ClInclude Include="GUIWidget.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TextureAtlas.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>

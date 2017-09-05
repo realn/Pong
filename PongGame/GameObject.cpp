@@ -3,7 +3,7 @@
 #include "BRect.h"
 
 namespace pong {
-  CBRect CGameObject::GetBRect() const {
-    return CBRect(GetPosition(), GetSize());
+  gfx::CBRect CGameObject::GetBRect() const {
+    return gfx::CBRect(GetPosition(), GetSize());
   }
 }

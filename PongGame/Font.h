@@ -8,7 +8,7 @@
 #include <CBGL/Fwd.h>
 #include <glm/vec2.hpp>
 
-namespace pong {
+namespace gfx {
   class CFont {
   public:
     struct CChar {

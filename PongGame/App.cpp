@@ -6,6 +6,11 @@
 #include "Font.h"
 #include "Canvas.h"
 
+#include "GUILabel.h"
+#include "GUIWidget.h"
+#include "GUIRect.h"
+#include "GUIRenderContext.h"
+
 #include <CBSDL/System.h>
 #include <CBSDL/GLContext.h>
 #include <CBSDL/Timer.h>
@@ -57,11 +62,16 @@ namespace pong {
 
     mGame = std::make_unique<CGame>(mGameScreenSize);
 
-    mFont = std::make_unique<CFont>(CFont::Load(L"font.xml"));
-    //mText = std::make_unique<CText>(Print(*mFont, L"Test"));
+    mFont = std::make_unique<gfx::CFont>(gfx::CFont::Load(L"font.xml"));
 
-    mCanvas = std::make_unique<CCanvas>(mFont->GetTexture(),
-                                        mFont->GetTexture());
+    auto texAtlas = gfx::CTextureAtlas(L"base.png", glm::uvec2(256));
+    mCanvas = std::make_unique<gfx::CCanvas>(mFont->GetTexture(),
+                                             mFont->GetTexture(),
+                                             texAtlas);
+
+    {
+      mGUIWidget = std::make_unique<gui::CRect>(gui::CWidget::NoId);
+    }
   }
 
   CApp::CApp(CApp && other) {
@@ -142,22 +152,23 @@ namespace pong {
 
     {
       mCanvas->Clear();
-      //mCanvas->DrawRect({1.0f, 1.0f}, {1.0f, 1.0f}, {1.0f, 0.0f, 0.0f, 1.0f});
-      auto rs = mFont->GetTextSize(L"Test"s, true);
-      mCanvas->DrawRect({0.0f, 0.0f}, rs, {1.0f, 0.0f, 0.0f, 1.0f});
-      mCanvas->Print({0.0f, 0.0f}, *mFont, L"Test"s, glm::vec4(1.0f));
+
+      auto ctx = gui::CRenderContext{*mCanvas, *mFont};
+      mGUIWidget->UpdateRender(ctx, mGameScreenSize);
+      mGUIWidget->Render(ctx, {0.0f, 0.0f});
+
       auto buf = mCanvas->CreateVertexBuffer();
 
-      auto trans = glm::ortho(0.0f, mGameScreenSize.x * 2.0f, mGameScreenSize.y * 2.0f, 0.0f);
+      auto trans = glm::ortho(0.0f, mGameScreenSize.x, mGameScreenSize.y, 0.0f);
       auto gprog = cb::gl::bind(*mFontProgram);
       auto gtex0 = cb::gl::bind(*mCanvas->GetBaseTexture(), 0);
       auto gtex1 = cb::gl::bind(*mCanvas->GetFontTexture(), 1);
       auto gbuf = cb::gl::bind(buf);
-      auto gdef = cb::gl::bind(CVertex::Def);
+      auto gdef = cb::gl::bind(gfx::CVertex::Def);
 
-      mFontProgram->SetUniform(UNI_TRANSFORM, trans);
-      mFontProgram->SetUniform(UNI_BASE_TEXTURE, 0);
-      mFontProgram->SetUniform(UNI_FONT_TEXTURE, 1);
+      mFontProgram->SetUniform(gfx::UNI_TRANSFORM, trans);
+      mFontProgram->SetUniform(gfx::UNI_BASE_TEXTURE, 0);
+      mFontProgram->SetUniform(gfx::UNI_FONT_TEXTURE, 1);
 
       {
         auto blend = cb::gl::CBlendState();
@@ -166,9 +177,8 @@ namespace pong {
         cb::gl::setState(blend);
       }
 
-      cb::gl::setStateEnabled(cb::gl::State::BLEND, true);
+      auto gstate = cb::gl::bindStateEnabled(cb::gl::State::BLEND, true);
       cb::gl::drawElements(cb::gl::PrimitiveType::TRIANGLES, mCanvas->GetIndices());
-      cb::gl::setStateEnabled(cb::gl::State::BLEND, false);
     }
   }
 
@@ -181,8 +191,8 @@ namespace pong {
     auto glProgram = CProgram();
     glProgram.Attach({std::move(vsh), std::move(fsh)});
     glProgram.SetInLocation({
-      {IDX_VERTEX4, VIN_VERTEX4},
-      {IDX_COLOR4, VIN_COLOR4}
+      {gfx::IDX_VERTEX4, gfx::VIN_VERTEX4},
+      {gfx::IDX_COLOR4, gfx::VIN_COLOR4}
     });
     glProgram.Link();
     if(!glProgram.IsLinked()) {

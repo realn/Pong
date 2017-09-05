@@ -8,11 +8,17 @@
 
 #include <glm/vec2.hpp>
 
-namespace pong {
-  class CGame;
-  class CText;
+namespace gui {
+  class CWidget;
+}
+
+namespace gfx {
   class CFont;
   class CCanvas;
+}
+
+namespace pong {
+  class CGame;
 
   class CApp {
   private:
@@ -26,8 +32,9 @@ namespace pong {
     std::unique_ptr<cb::gl::CProgram> mGLProgram;
     std::unique_ptr<cb::gl::CProgram> mFontProgram;
     std::unique_ptr<CGame> mGame;
-    std::unique_ptr<CFont> mFont;
-    std::unique_ptr<CCanvas> mCanvas;
+    std::unique_ptr<gfx::CFont> mFont;
+    std::unique_ptr<gfx::CCanvas> mCanvas;
+    std::unique_ptr<gui::CWidget> mGUIWidget;
     float mFrameTime = 0.0f;
 
   public:
