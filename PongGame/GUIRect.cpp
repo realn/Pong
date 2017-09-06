@@ -4,6 +4,8 @@
 
 namespace gui {
   void CRect::Render(CRenderContext & ctx, glm::vec2 const & pos) const {
-    ctx.Canvas.DrawRect(pos, mSize, mBackColor);
+    if(mBackColor.a != 0.0f) {
+      ctx.Canvas.DrawRect(pos, mSize, mBackColor);
+    }
   }
 }

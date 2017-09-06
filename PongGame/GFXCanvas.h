@@ -5,7 +5,7 @@
 #include <CBGL/Fwd.h>
 
 #include "Consts.h"
-#include "TextureAtlas.h"
+#include "GFXTextureAtlas.h"
 
 namespace gfx {
   struct CVertex;
@@ -48,10 +48,11 @@ namespace gfx {
                   glm::vec4 const& color = glm::vec4(1.0f));
     void DrawRect(CBRect const& rect, glm::vec4 const& color = glm::vec4(1.0f));
     void DrawRect(CBRect const& rect, CBRect const& texRect, glm::vec4 const& color = glm::vec4(1.0f));
-    void Print(glm::vec2 const& pos,
+    void Print(glm::vec2 const& tpos,
                CFont const& font, 
                cb::string const& text, 
-               glm::vec4 const& color);
+               glm::vec4 const& color,
+               glm::vec2 const& scale = glm::vec2(1.0f));
 
     void Clear();
 

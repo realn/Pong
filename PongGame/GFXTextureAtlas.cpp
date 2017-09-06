@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "TextureAtlas.h"
+#include "GFXTextureAtlas.h"
 
 namespace gfx {
   void CTextureAtlas::AddTexCoord(cb::string const & imgName, 

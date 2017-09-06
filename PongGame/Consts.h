@@ -13,6 +13,10 @@ namespace gfx {
   constexpr auto IDX_COLOR4 = 1u;
 }
 
+namespace gui {
+  constexpr auto TEXT_SCALE = 0.3f;
+}
+
 namespace pong {
   constexpr auto UPDATE_TIME_STEP = 0.005f;
   constexpr auto UPDATE_MAX_STEPS = 20u;

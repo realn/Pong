@@ -13,7 +13,8 @@ namespace gui {
 
   public:
     CRect(cb::string const& id, 
-          glm::vec4 const& backColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)) : CWidget(id), mBackColor(backColor) {}
+          glm::vec4 const& backColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)) 
+      : CWidget(id), mBackColor(backColor) {}
     virtual ~CRect() {}
 
     void SetBackColor(glm::vec4 const& backColor) { mBackColor = backColor; }
