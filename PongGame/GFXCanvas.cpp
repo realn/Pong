@@ -1,16 +1,12 @@
 #include "stdafx.h"
-#include "Canvas.h"
+#include "GFXCanvas.h"
 #include "Vertex.h"
 #include "Font.h"
 #include "BRect.h"
 
 namespace gfx {
-  CCanvas::CCanvas(std::shared_ptr<cb::gl::CTexture> baseTexture, 
-                   std::shared_ptr<cb::gl::CTexture> fontTexture,
-                   CTextureAtlas const& textureAtlas)
-    : mBaseTexture(baseTexture)
-    , mFontTexture(fontTexture)
-    , mTextureAtlas(textureAtlas)
+  CCanvas::CCanvas(CTextureAtlas const& textureAtlas)
+    : mTextureAtlas(textureAtlas)
   {}
 
   CCanvas::~CCanvas() {}
@@ -61,12 +57,12 @@ namespace gfx {
     for(auto& item : text) {
       auto& glyph = font.GetChar(item);
 
-      auto i = static_cast<cb::u16>(mVerts.size());
+      auto i = static_cast<cb::u16>(mVertices.size());
 
-      mVerts.push_back({pos + glyph.getVPos({0, 0}), glyph.getVTex({0, 0}), col});
-      mVerts.push_back({pos + glyph.getVPos({1, 0}), glyph.getVTex({1, 0}), col});
-      mVerts.push_back({pos + glyph.getVPos({1, 1}), glyph.getVTex({1, 1}), col});
-      mVerts.push_back({pos + glyph.getVPos({0, 1}), glyph.getVTex({0, 1}), col});
+      mVertices.push_back({pos + glyph.getVPos({0, 0}), glyph.getVTex({0, 0}), col});
+      mVertices.push_back({pos + glyph.getVPos({1, 0}), glyph.getVTex({1, 0}), col});
+      mVertices.push_back({pos + glyph.getVPos({1, 1}), glyph.getVTex({1, 1}), col});
+      mVertices.push_back({pos + glyph.getVPos({0, 1}), glyph.getVTex({0, 1}), col});
 
       std::transform(std::begin(idx), std::end(idx), std::back_inserter(mIndices),
                      [i](auto& item) -> auto{
@@ -78,14 +74,8 @@ namespace gfx {
   }
 
   void CCanvas::Clear() {
-    mVerts.clear();
+    mVertices.clear();
     mIndices.clear();
-  }
-
-  cb::gl::CBuffer CCanvas::CreateVertexBuffer() const {
-    auto buf = cb::gl::CBuffer();
-    buf.SetData(mVerts);
-    return buf;
   }
 
   void CCanvas::internalDrawRect(CBRect const & prect, CBRect const & trect, glm::vec4 const & color) {
@@ -100,13 +90,13 @@ namespace gfx {
 
   void CCanvas::AddVertex(glm::vec2 const & pos, glm::vec2 const & tex, glm::vec4 const & color) {
     auto vert = CVertex(pos, tex, color);
-    auto it = std::find(mVerts.begin(), mVerts.end(), vert);
-    if(it != mVerts.end()) {
-      mIndices.push_back(static_cast<cb::u16>(it - mVerts.begin()));
+    auto it = std::find(mVertices.begin(), mVertices.end(), vert);
+    if(it != mVertices.end()) {
+      mIndices.push_back(static_cast<cb::u16>(it - mVertices.begin()));
     }
     else {
-      auto index = mVerts.size();
-      mVerts.push_back(vert);
+      auto index = mVertices.size();
+      mVertices.push_back(vert);
       mIndices.push_back(static_cast<cb::u16>(index));
     }
   }

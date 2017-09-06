@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Canvas.h"
+#include "GFXCanvas.h"
 #include "Font.h"
 
 namespace gui {

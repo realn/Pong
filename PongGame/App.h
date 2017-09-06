@@ -15,6 +15,7 @@ namespace gui {
 namespace gfx {
   class CFont;
   class CCanvas;
+  class CCanvasView;
 }
 
 namespace pong {
@@ -30,10 +31,10 @@ namespace pong {
     std::unique_ptr<cb::sdl::CPerfTimer> mTimer;
     std::unique_ptr<cb::sdl::CGLContext> mGLContext;
     std::unique_ptr<cb::gl::CProgram> mGLProgram;
-    std::unique_ptr<cb::gl::CProgram> mFontProgram;
     std::unique_ptr<CGame> mGame;
     std::unique_ptr<gfx::CFont> mFont;
     std::unique_ptr<gfx::CCanvas> mCanvas;
+    std::unique_ptr<gfx::CCanvasView> mCanvasView;
     std::unique_ptr<gui::CWidget> mGUIWidget;
     float mFrameTime = 0.0f;
 

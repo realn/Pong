@@ -4,12 +4,14 @@
 #include "Consts.h"
 #include "Game.h"
 #include "Font.h"
-#include "Canvas.h"
+#include "GFXCanvas.h"
+#include "GFXCanvasView.h"
 
 #include "GUILabel.h"
 #include "GUIWidget.h"
 #include "GUIRect.h"
 #include "GUIRenderContext.h"
+#include "GUIPanel.h"
 
 #include <CBSDL/System.h>
 #include <CBSDL/GLContext.h>
@@ -52,25 +54,38 @@ namespace pong {
       auto glProg = CreateShaderProgram(L"main_vs.glsl"s, L"main_fs.glsl"s);
       mGLProgram = std::make_unique<CProgram>(std::move(glProg));
     }
-    {
-      auto glProg = CreateShaderProgram(L"font_vs.glsl"s, L"font_fs.glsl"s);
-      mFontProgram = std::make_unique<CProgram>(std::move(glProg));
-    }
 
     auto aspect = static_cast<float>(mScreenSize.x) / static_cast<float>(mScreenSize.y);
     mGameScreenSize = glm::vec2(2.0f) * glm::vec2(aspect, 1.0f);
 
     mGame = std::make_unique<CGame>(mGameScreenSize);
 
-    mFont = std::make_unique<gfx::CFont>(gfx::CFont::Load(L"font.xml"));
-
-    auto texAtlas = gfx::CTextureAtlas(L"base.png", glm::uvec2(256));
-    mCanvas = std::make_unique<gfx::CCanvas>(mFont->GetTexture(),
-                                             mFont->GetTexture(),
-                                             texAtlas);
-
     {
-      mGUIWidget = std::make_unique<gui::CRect>(gui::CWidget::NoId);
+      mFont = std::make_unique<gfx::CFont>(gfx::CFont::Load(L"font.xml"));
+
+      auto texAtlas = gfx::CTextureAtlas(L"base.png"s, glm::uvec2(256));
+      mCanvas = std::make_unique<gfx::CCanvas>(texAtlas);
+
+      auto cnvProg = 
+        std::make_shared<cb::gl::CProgram>(CreateShaderProgram(L"font_vs.glsl"s, L"font_fs.glsl"s));
+      mCanvasView = std::make_unique<gfx::CCanvasView>(cnvProg,
+                                                       mFont->GetTexture(),
+                                                       mFont->GetTexture());
+
+      {
+        auto panel = std::make_unique<gui::CPanel>(gui::CWidget::NoId);
+        auto rect = std::make_unique<gui::CLabel>(gui::CWidget::NoId);
+
+        //rect->SetBackColor({1.0f, 0.2f, 0.0f, 1.0f});
+        rect->SetText(L"Test"s);
+        rect->SetTextAlign(gui::Align::MidCenter);
+
+        panel->SetBackColor({0.0f, 0.5f, 1.0f, 1.0f});
+        panel->SetContentMargin({0.1f, 0.1f, 0.1f, 0.1f});
+        panel->SetContent(std::move(rect));
+
+        mGUIWidget = std::move(panel);
+      }
     }
   }
 
@@ -86,7 +101,6 @@ namespace pong {
   CApp::~CApp() {}
 
   int CApp::Execute() {
-
     mWindow->Show();
 
     while(mRun) {
@@ -106,7 +120,6 @@ namespace pong {
     }
 
     mWindow->Hide();
-
     return 0;
   }
 
@@ -157,28 +170,9 @@ namespace pong {
       mGUIWidget->UpdateRender(ctx, mGameScreenSize);
       mGUIWidget->Render(ctx, {0.0f, 0.0f});
 
-      auto buf = mCanvas->CreateVertexBuffer();
-
       auto trans = glm::ortho(0.0f, mGameScreenSize.x, mGameScreenSize.y, 0.0f);
-      auto gprog = cb::gl::bind(*mFontProgram);
-      auto gtex0 = cb::gl::bind(*mCanvas->GetBaseTexture(), 0);
-      auto gtex1 = cb::gl::bind(*mCanvas->GetFontTexture(), 1);
-      auto gbuf = cb::gl::bind(buf);
-      auto gdef = cb::gl::bind(gfx::CVertex::Def);
-
-      mFontProgram->SetUniform(gfx::UNI_TRANSFORM, trans);
-      mFontProgram->SetUniform(gfx::UNI_BASE_TEXTURE, 0);
-      mFontProgram->SetUniform(gfx::UNI_FONT_TEXTURE, 1);
-
-      {
-        auto blend = cb::gl::CBlendState();
-        blend.SrcFactor = cb::gl::BlendFactor::SRC_ALPHA;
-        blend.DstFactor = cb::gl::BlendFactor::ONE_MINUS_SRC_ALPHA;
-        cb::gl::setState(blend);
-      }
-
-      auto gstate = cb::gl::bindStateEnabled(cb::gl::State::BLEND, true);
-      cb::gl::drawElements(cb::gl::PrimitiveType::TRIANGLES, mCanvas->GetIndices());
+      mCanvasView->UpdateRender(*mCanvas);
+      mCanvasView->Render(trans);
     }
   }
 

@@ -11,10 +11,10 @@ namespace gui {
       Right = 0x2,
       Top = 0x4,
       Bottom = 0x8,
-      Center = Left | Right,
-      Middle = Top | Bottom,
-      MidCenter = Center | Middle,
-      Default = Top | Left,
+      Center = (Left | Right),
+      Middle = (Top | Bottom),
+      MidCenter = (Center | Middle),
+      Default = (Top | Left),
   };
 
   enum class Orientation {

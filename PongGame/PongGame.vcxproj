@@ -143,7 +143,7 @@
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="BRect.cpp" />
-    <ClCompile Include="Canvas.cpp" />
+    <ClCompile Include="GFXCanvas.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="GameField.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -152,6 +152,7 @@
     <ClCompile Include="GamePaddle.cpp" />
     <ClCompile Include="GamePaddleControllerImpl.cpp" />
     <ClCompile Include="GamePlayer.cpp" />
+    <ClCompile Include="GFXCanvasView.cpp" />
     <ClCompile Include="GUILabel.cpp" />
     <ClCompile Include="GUIPanel.cpp" />
     <ClCompile Include="GUIRect.cpp" />
@@ -169,7 +170,7 @@
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="BRect.h" />
-    <ClInclude Include="Canvas.h" />
+    <ClInclude Include="GFXCanvas.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="GameField.h" />
     <ClInclude Include="Consts.h" />
@@ -181,6 +182,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GamePaddle.h" />
     <ClInclude Include="GamePlayer.h" />
+    <ClInclude Include="GFXCanvasView.h" />
     <ClInclude Include="GUILabel.h" />
     <ClInclude Include="GUILayout.h" />
     <ClInclude Include="GUIPanel.h" />

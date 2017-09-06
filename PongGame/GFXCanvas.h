@@ -14,22 +14,17 @@ namespace gfx {
 
   class CCanvas {
   private:
-    std::shared_ptr<cb::gl::CTexture> mBaseTexture;
-    std::shared_ptr<cb::gl::CTexture> mFontTexture;
-    std::vector<CVertex> mVerts;
+    std::vector<CVertex> mVertices;
     std::vector<cb::u16> mIndices;
     CTextureAtlas mTextureAtlas;
 
   public:
-    CCanvas(std::shared_ptr<cb::gl::CTexture> baseTexture,
-            std::shared_ptr<cb::gl::CTexture> fontTexture,
-            CTextureAtlas const& textureAtlas);
+    CCanvas(CTextureAtlas const& textureAtlas);
     ~CCanvas();
 
     void SetTextureAtlas(CTextureAtlas const& atlas) { mTextureAtlas = atlas; }
 
-    std::shared_ptr<cb::gl::CTexture> GetBaseTexture() const { return mBaseTexture; }
-    std::shared_ptr<cb::gl::CTexture> GetFontTexture() const { return mFontTexture; }
+    std::vector<CVertex> const& GetVertices() const { return mVertices; }
     std::vector<cb::u16> const& GetIndices() const { return mIndices; }
     CTextureAtlas const& GetTextureAtlas() const { return mTextureAtlas; }
 
@@ -59,7 +54,6 @@ namespace gfx {
                glm::vec4 const& color);
 
     void Clear();
-    cb::gl::CBuffer CreateVertexBuffer() const;
 
   private:
     void internalDrawRect(CBRect const& prect, CBRect const& trect, glm::vec4 const& color);

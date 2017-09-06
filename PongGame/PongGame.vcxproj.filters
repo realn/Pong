@@ -49,17 +49,11 @@
     <ClCompile Include="GamePlayer.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Canvas.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Font.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Vertex.cpp">
       <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureAtlas.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GUIRect.cpp">
       <Filter>Source Files\GUI</Filter>
@@ -70,11 +64,20 @@
     <ClCompile Include="GUIWidget.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="GUIPanel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BRect.cpp">
       <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureAtlas.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="GFXCanvas.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="GFXCanvasView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIPanel.cpp">
+      <Filter>Source Files\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -114,9 +117,6 @@
     <ClInclude Include="GamePlayer.h">
       <Filter>Source Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Canvas.h">
-      <Filter>Source Files\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Font.h">
       <Filter>Source Files\Graphics</Filter>
     </ClInclude>
@@ -148,6 +148,12 @@
       <Filter>Source Files\GUI</Filter>
     </ClInclude>
     <ClInclude Include="BRect.h">
+      <Filter>Source Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="GFXCanvas.h">
+      <Filter>Source Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="GFXCanvasView.h">
       <Filter>Source Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
