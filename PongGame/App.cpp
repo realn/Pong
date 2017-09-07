@@ -172,7 +172,7 @@ namespace pong {
       mCanvas->Clear();
 
       auto ctx = gui::CRenderContext{*mCanvas, *mFont};
-      mGUIWidget->UpdateRender(ctx, mGameScreenSize);
+      mGUIWidget->UpdateWidget(ctx, mGameScreenSize);
       mGUIWidget->Render(ctx, {0.0f, 0.0f});
 
       auto trans = glm::ortho(0.0f, mGameScreenSize.x, mGameScreenSize.y, 0.0f);

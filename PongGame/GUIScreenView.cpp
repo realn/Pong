@@ -6,8 +6,7 @@
 namespace gui {
   void CScreenView::UpdateRender(CScreen & screen) {
     auto ctx = CRenderContext{ mCanvas, *mFont };
-    screen.UpdateRender(ctx);
-    screen.Render(ctx);
+    screen.UpdateRender(*mFont, mCanvas);
     mCanvasView.UpdateRender(mCanvas);
   }
 

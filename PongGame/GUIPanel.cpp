@@ -28,22 +28,22 @@ namespace gui {
     }
   }
 
-  void CPanel::UpdateRender(CRenderContext const & ctx, glm::vec2 const & spaceSize) {
-    CRect::UpdateRender(ctx, spaceSize);
+  void CPanel::UpdateWidget(CRenderContext const & ctx, glm::vec2 const & spaceSize) {
+    CRect::UpdateWidget(ctx, spaceSize);
 
     if(mContent) {
       auto marginSize = GetMarginSize(spaceSize, mContentMargin);
-      mContent->UpdateRender(ctx, marginSize);
+      mContent->UpdateWidget(ctx, marginSize);
       mContentPos = GetMarginPos(mContentMargin) + 
         GetAlignedPos(mContent->GetSize(), marginSize, mContentAlign);
     }
   }
 
-  void CPanel::Render(CRenderContext & ctx, glm::vec2 const & pos) const {
-    CRect::Render(ctx, pos);
+  void CPanel::UpdateRender(CRenderContext & ctx, glm::vec2 const & pos) const {
+    CRect::UpdateRender(ctx, pos);
 
     if(mContent) {
-      mContent->Render(ctx, pos + mContentPos);
+      mContent->UpdateRender(ctx, pos + mContentPos);
     }
   }
 }

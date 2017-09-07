@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "GUIScreen.h"
 #include "GUIWidget.h"
+#include "GUIRenderContext.h"
 
 namespace gui {
   CScreen::~CScreen() {}
@@ -11,15 +12,12 @@ namespace gui {
     }
   }
 
-  void CScreen::UpdateRender(CRenderContext const & ctx) {
+  void CScreen::UpdateRender(gfx::CFont const& font, gfx::CCanvas& canvas) {
     if(mContent) {
-      mContent->UpdateRender(ctx, mSize);
-    }
-  }
+      auto ctx = CRenderContext{canvas, font};
 
-  void CScreen::Render(CRenderContext & ctx) const {
-    if(mContent) {
-      mContent->Render(ctx, {0.0f, 0.0f});
+      mContent->UpdateWidget(ctx, mSize);
+      mContent->UpdateRender(ctx, {0.0f, 0.0f});
     }
   }
 

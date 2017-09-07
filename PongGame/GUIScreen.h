@@ -5,6 +5,11 @@
 #include <glm/fwd.hpp>
 #include <glm/vec2.hpp>
 
+namespace gfx {
+  class CCanvas;
+  class CFont;
+}
+
 namespace gui {
   class CWidget;
   struct CRenderContext;
@@ -27,8 +32,7 @@ namespace gui {
     std::unique_ptr<CWidget> ReleaseContent() { return std::move(mContent); }
 
     void Update(float timeDelta);
-    void UpdateRender(CRenderContext const& ctx);
-    void Render(CRenderContext& ctx) const;
+    void UpdateRender(gfx::CFont const& font, gfx::CCanvas& canvas);
 
     CWidget* FindWidgetById(cb::string const& id);
     const CWidget* FindWidgetById(cb::string const& id) const;

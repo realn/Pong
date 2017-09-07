@@ -36,7 +36,7 @@ namespace gui {
     virtual const CWidget* FindWidgetById(cb::string const& id) const;
 
     virtual void Update(float const timeDelta);
-    virtual void UpdateRender(CRenderContext const& ctx, glm::vec2 const& spaceSize);
-    virtual void Render(CRenderContext& ctx, glm::vec2 const& pos) const;
+    virtual void UpdateWidget(CRenderContext const& ctx, glm::vec2 const& spaceSize);
+    virtual void UpdateRender(CRenderContext& ctx, glm::vec2 const& pos) const;
   };
 }

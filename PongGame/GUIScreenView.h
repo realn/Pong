@@ -16,6 +16,7 @@ namespace gui {
 
   public:
 
+
     void UpdateRender(CScreen& screen);
     void Render(glm::mat4 const& tranform) const;
   };

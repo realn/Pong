@@ -6,8 +6,8 @@
 namespace gui {
   struct CRenderContext {
     gfx::CCanvas& Canvas;
-    gfx::CFont& Font;
+    gfx::CFont const& Font;
 
-    CRenderContext(gfx::CCanvas& canvas, gfx::CFont& font) : Canvas(canvas), Font(font) {}
+    CRenderContext(gfx::CCanvas& canvas, gfx::CFont const& font) : Canvas(canvas), Font(font) {}
   };
 }

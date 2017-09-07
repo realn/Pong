@@ -82,14 +82,14 @@
     <ClCompile Include="GFXTextureAtlas.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="GUIStackPanel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GUIScreen.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GUI</Filter>
     </ClCompile>
     <ClCompile Include="GUIScreenView.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIStackPanel.cpp">
+      <Filter>Source Files\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -139,9 +139,6 @@
       <Filter>Source Files\GUI</Filter>
     </ClInclude>
     <ClInclude Include="GUIWidget.h">
-      <Filter>Source Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GUILayout.h">
       <Filter>Source Files\GUI</Filter>
     </ClInclude>
     <ClInclude Include="GUIPanel.h">

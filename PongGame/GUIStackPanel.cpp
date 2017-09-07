@@ -13,14 +13,14 @@ namespace gui {
     }
   }
 
-  void CStackPanel::UpdateRender(CRenderContext const & ctx, glm::vec2 const & spaceSize) {
+  void CStackPanel::UpdateWidget(CRenderContext const & ctx, glm::vec2 const & spaceSize) {
     auto ipos = glm::vec2();
     auto spaceLeft = spaceSize;
     auto ori = (mOrientation == Orientation::Horizontal) ? glm::vec2(1.0f, 0.0f) : glm::vec2(0.0f, 1.0f);
     auto nori = glm::vec2(1.0f) - ori;
 
     for(auto& item : mItems) {
-      item.Widget->UpdateRender(ctx, spaceLeft);
+      item.Widget->UpdateWidget(ctx, spaceLeft);
 
       auto itemSpaceSize = item.Widget->GetSize();
       spaceLeft -= itemSpaceSize * ori;
@@ -31,7 +31,7 @@ namespace gui {
     }
   }
 
-  void CStackPanel::Render(CRenderContext & ctx, glm::vec2 const & pos) const {
+  void CStackPanel::UpdateRender(CRenderContext & ctx, glm::vec2 const & pos) const {
     for(auto& item : mItems) {
       item.Widget->Render(ctx, pos + item.Pos);
     }

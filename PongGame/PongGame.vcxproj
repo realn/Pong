@@ -187,7 +187,6 @@
     <ClInclude Include="GamePlayer.h" />
     <ClInclude Include="GFXCanvasView.h" />
     <ClInclude Include="GUILabel.h" />
-    <ClInclude Include="GUILayout.h" />
     <ClInclude Include="GUIPanel.h" />
     <ClInclude Include="GUIRect.h" />
     <ClInclude Include="GUIRenderContext.h" />
