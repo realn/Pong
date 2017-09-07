@@ -82,15 +82,21 @@
     <ClCompile Include="GFXTextureAtlas.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="GUIStackPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIScreenView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Consts.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ControlEventObservers.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
@@ -158,6 +164,15 @@
     </ClInclude>
     <ClInclude Include="GFXTextureAtlas.h">
       <Filter>Source Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIScreen.h">
+      <Filter>Source Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ControlEventObservers.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIScreenView.h">
+      <Filter>Source Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

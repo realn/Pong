@@ -156,6 +156,9 @@
     <ClCompile Include="GUILabel.cpp" />
     <ClCompile Include="GUIPanel.cpp" />
     <ClCompile Include="GUIRect.cpp" />
+    <ClCompile Include="GUIScreen.cpp" />
+    <ClCompile Include="GUIScreenView.cpp" />
+    <ClCompile Include="GUIStackPanel.cpp" />
     <ClCompile Include="GUIWidget.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -188,6 +191,8 @@
     <ClInclude Include="GUIPanel.h" />
     <ClInclude Include="GUIRect.h" />
     <ClInclude Include="GUIRenderContext.h" />
+    <ClInclude Include="GUIScreen.h" />
+    <ClInclude Include="GUIScreenView.h" />
     <ClInclude Include="GUIStackPanel.h" />
     <ClInclude Include="GUIWidget.h" />
     <ClInclude Include="stdafx.h" />

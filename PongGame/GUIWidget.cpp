@@ -10,6 +10,15 @@ namespace gui {
   }
   cb::string CWidget::NoId = cb::string();
 
+  void CWidget::UpdateRender(CRenderContext const & ctx, glm::vec2 const & spaceSize) {
+    if(glm::all(glm::equal(mFixedSize, glm::vec2(0.0f)))) {
+      mSize = spaceSize;
+    }
+    else {
+      mSize = glm::clamp(mFixedSize, glm::vec2(0.0f), spaceSize);
+    }
+  }
+
   glm::vec2 CWidget::GetAlignedPos(glm::vec2 const & size, glm::vec2 const & spaceSize, Align const align) {
     auto pos = glm::vec2();
 

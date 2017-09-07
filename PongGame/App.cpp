@@ -12,6 +12,7 @@
 #include "GUIRect.h"
 #include "GUIRenderContext.h"
 #include "GUIPanel.h"
+#include "GUIStackPanel.h"
 
 #include <CBSDL/System.h>
 #include <CBSDL/GLContext.h>
@@ -73,16 +74,20 @@ namespace pong {
                                                        mFont->GetTexture());
 
       {
-        auto panel = std::make_unique<gui::CPanel>(gui::CWidget::NoId);
-        auto rect = std::make_unique<gui::CLabel>(gui::CWidget::NoId);
+        auto panel = std::make_unique<gui::CStackPanel>(gui::CWidget::NoId);
 
-        //rect->SetBackColor({1.0f, 0.2f, 0.0f, 1.0f});
-        rect->SetText(L"Test"s);
-        rect->SetTextAlign(gui::Align::MidCenter);
-
-        panel->SetBackColor({0.0f, 0.5f, 1.0f, 1.0f});
-        panel->SetContentMargin({0.1f, 0.1f, 0.1f, 0.1f});
-        panel->SetContent(std::move(rect));
+        {
+          auto rect = gui::CRect(gui::CWidget::NoId);
+          rect.SetFixedSize({0.5f, 0.5f});
+          rect.SetBackColor({1.0f, 0.0f, 0.0f, 1.0f});
+          panel->AddWidget(std::make_unique<gui::CRect>(std::move(rect)));
+        }
+        {
+          auto rect = gui::CRect(gui::CWidget::NoId);
+          rect.SetFixedSize({0.5f, 0.5f});
+          rect.SetBackColor({0.0f, 1.0f, 0.0f, 1.0f});
+          panel->AddWidget(std::make_unique<gui::CRect>(std::move(rect)), gui::Align::Bottom);
+        }
 
         mGUIWidget = std::move(panel);
       }

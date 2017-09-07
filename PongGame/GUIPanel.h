@@ -26,12 +26,16 @@ namespace gui {
     void SetContentMargin(glm::vec4 const& margin) { mContentMargin = margin; }
     void SetContentAlign(Align const align) { mContentAlign = align; }
 
-    CWidget& GetContent() const { return *mContent; }
+    CWidget* GetContent() const { return mContent.get(); }
     glm::vec4 const& GetContentMargin() const { return mContentMargin; }
     Align GetContentAlign() const { return mContentAlign; }
 
     std::unique_ptr<CWidget> ReleaseContent() { return std::move(mContent); }
 
+    virtual CWidget* FindWidgetById(cb::string const& id);
+    virtual const CWidget* FindWidgetById(cb::string const& id) const;
+
+    virtual void Update(float const timeDelta);
     virtual void UpdateRender(CRenderContext const& ctx, glm::vec2 const& spaceSize);
     virtual void Render(CRenderContext& ctx, glm::vec2 const& pos) const;
   };
