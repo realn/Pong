@@ -91,6 +91,12 @@
     <ClCompile Include="GUIStackPanel.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="GUIWidgetContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIWidgetListContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -169,6 +175,15 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="GUIScreenView.h">
+      <Filter>Source Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIWidgetContainer.h">
+      <Filter>Source Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIWidgetListContainer.h">
+      <Filter>Source Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIConsts.h">
       <Filter>Source Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>

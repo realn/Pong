@@ -5,22 +5,9 @@
 #include <glm/fwd.hpp>
 #include <glm/vec2.hpp>
 
-namespace gui {
-  ENUM_FLAG(Align) {
-    Left = 0x1,
-      Right = 0x2,
-      Top = 0x4,
-      Bottom = 0x8,
-      Center = (Left | Right),
-      Middle = (Top | Bottom),
-      MidCenter = (Center | Middle),
-      Default = (Top | Left),
-  };
+#include "GUIConsts.h"
 
-  enum class Orientation {
-    Horizontal = 0,
-    Vertical = 1,
-  };
+namespace gui {
 
   struct CRenderContext;
 
