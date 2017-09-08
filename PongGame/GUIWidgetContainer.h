@@ -3,6 +3,8 @@
 #include <memory>
 #include <glm/vec4.hpp>
 
+#include "GUIConsts.h"
+
 namespace gui {
   class CWidget;
 
@@ -13,11 +15,10 @@ namespace gui {
     Align mContentAlign;
 
   public:
-    CWidgetContainer(glm::vec4 const& contentMargin, Align const contentAlign)
-      : mContentMargin(contentMargin), mContentAlign(contentAlign) {}
+    CWidgetContainer(glm::vec4 const& contentMargin, Align const contentAlign);
     virtual ~CWidgetContainer();
 
-    void SetContent(std::unique_ptr<CWidget> content) { mContent = std::move(content); }
+    void SetContent(std::unique_ptr<CWidget> content);
     void SetContentMargin(glm::vec4 const& margin) { mContentMargin = margin; }
     void SetContentAlign(Align const align) { mContentAlign = align; }
 
@@ -26,9 +27,9 @@ namespace gui {
     glm::vec4 const& GetContentMargin() const { return mContentMargin; }
     Align GetContentAlign() const { return mContentAlign; }
 
-    std::unique_ptr<CWidget> ReleaseContent() { return std::move(mContent); }
+    std::unique_ptr<CWidget> ReleaseContent();
 
-    virtual CWidget* FindWidgetById(cb::string const& id) = 0;
-    virtual const CWidget* FindWidgetById(cb::string const& id) const = 0;
+    virtual CWidget* FindWidgetById(cb::string const& id);
+    virtual const CWidget* FindWidgetById(cb::string const& id) const;
   };
 }

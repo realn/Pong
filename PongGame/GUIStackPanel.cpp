@@ -33,26 +33,22 @@ namespace gui {
 
   void CStackPanel::UpdateRender(CRenderContext & ctx, glm::vec2 const & pos) const {
     for(auto& item : mItems) {
-      item.Widget->Render(ctx, pos + item.Pos);
+      item.Widget->UpdateRender(ctx, pos + item.Pos);
     }
   }
 
   CWidget * CStackPanel::FindWidgetById(cb::string const & id) {
-    for(auto& item : mItems) {
-      auto result = item.Widget->FindWidgetById(id);
-      if(result) {
-        return result;
-      }
+    auto result = CWidgetListContainer::FindWidgetById(id);
+    if(result) {
+      return result;
     }
     return CWidget::FindWidgetById(id);
   }
 
   const CWidget * CStackPanel::FindWidgetById(cb::string const & id) const {
-    for(auto& item : mItems) {
-      auto result = item.Widget->FindWidgetById(id);
-      if(result) {
-        return result;
-      }
+    auto result = CWidgetListContainer::FindWidgetById(id);
+    if(result) {
+      return result;
     }
     return CWidget::FindWidgetById(id);
   }

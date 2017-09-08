@@ -4,13 +4,10 @@
 #include "Consts.h"
 #include "../FontCompiler/DataFont.h"
 
-#include <CBSDL/Surface.h>
 #include <CBIO/File.h>
-#include <CBGL/Texture.h>
 
 namespace gfx {
-  CFont::CFont(std::shared_ptr<cb::gl::CTexture> texture)
-    : mTexture(texture) {}
+  CFont::CFont(cb::string const& textureFilePath) : mTextureFilePath(textureFilePath) {}
 
   CFont::~CFont() {}
 
@@ -62,13 +59,7 @@ namespace gfx {
       throw std::exception("Failed to parse font xml.");
     }
 
-    auto surf = cb::sdl::CSurface::Load(dataFont.mTexture);
-    surf.Convert(cb::sdl::PixelFormat::RGBA32);
-
-    auto tex = std::make_shared<cb::gl::CTexture>(surf.GetSize(), cb::gl::TextureFormat::RGBA8);
-    tex->SetData(cb::gl::InputFormat::RGBA, surf.GetPixels());
-
-    auto font = CFont(tex);
+    auto font = CFont(dataFont.mTexture);
 
     for(auto& dataChar : dataFont.mChars) {
       font.AddChar(dataChar.mCode, {

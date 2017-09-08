@@ -3,18 +3,14 @@
 #include <memory>
 
 #include "GUIWidget.h"
+#include "GUIWidgetListContainer.h"
 
 namespace gui {
   class CStackPanel 
     : public CWidget
+    , public CWidgetListContainer
   {
   protected:
-    struct CItem {
-      glm::vec2 Pos;
-      std::unique_ptr<CWidget> Widget;
-      Align Align;
-    };
-    std::vector<CItem> mItems;
     Orientation mOrientation;
     Align mContentAlign;
 

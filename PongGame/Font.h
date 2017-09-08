@@ -23,18 +23,19 @@ namespace gfx {
     };
   private:
     std::map<wchar_t, CChar> mChars;
-    std::shared_ptr<cb::gl::CTexture> mTexture;
     float mLineHeight;
+    cb::string mTextureFilePath;
 
   public:
-    CFont(std::shared_ptr<cb::gl::CTexture> texture);
+    CFont(cb::string const& textureFilePath = cb::string());
     ~CFont();
 
     void AddChar(wchar_t code, CChar const& fontChar);
 
     const CChar&  GetChar(wchar_t code) const;
-    std::shared_ptr<cb::gl::CTexture> GetTexture() const { return mTexture; }
     float GetLineHeight() const { return 1.0f; }
+    cb::string const& GetTextureFilePath() const { return mTextureFilePath; }
+
     glm::vec2 GetTextSize(cb::string const& text, bool const charHeight = false) const;
 
     static CFont Load(cb::string const& filepath);

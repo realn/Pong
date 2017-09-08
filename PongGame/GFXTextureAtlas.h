@@ -24,8 +24,8 @@ namespace gfx {
                   glm::uvec2 const& textureSize)
       : mTextureSize(textureSize), mTextureFileName(textureFileName) {}
 
-    glm::uvec2 GetTextureSize() const { mTextureSize; }
-    cb::string GetTextureFileName() const { mTextureFileName; }
+    glm::uvec2 GetTextureSize() const { return mTextureSize; }
+    cb::string GetTextureFileName() const { return mTextureFileName; }
 
     void AddTexCoord(cb::string const& imgName, glm::vec2 const& min, glm::vec2 const& max);
     void AddImgCoord(cb::string const& imgName, glm::uvec2 const& min, glm::uvec2 const& max);

@@ -3,21 +3,17 @@
 
 namespace gui {
   CWidget * CPanel::FindWidgetById(cb::string const & id) {
-    if(mContent) {
-      auto result = mContent->FindWidgetById(id);
-      if(result) {
-        return result;
-      }
+    auto widget = CWidgetContainer::FindWidgetById(id);
+    if(widget) {
+      return widget;
     }
     return CWidget::FindWidgetById(id);
   }
 
   const CWidget * CPanel::FindWidgetById(cb::string const & id) const {
-    if(mContent) {
-      auto result = mContent->FindWidgetById(id);
-      if(result) {
-        return result;
-      }
+    auto widget = CWidgetContainer::FindWidgetById(id);
+    if(widget) {
+      return widget;
     }
     return CWidget::FindWidgetById(id);
   }

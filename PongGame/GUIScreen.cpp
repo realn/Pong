@@ -4,6 +4,9 @@
 #include "GUIRenderContext.h"
 
 namespace gui {
+  CScreen::CScreen(glm::vec2 const & size, glm::vec4 const& contentMargin, Align const contentAlign) 
+    : CWidgetContainer(contentMargin, contentAlign), mSize(size) {}
+
   CScreen::~CScreen() {}
 
   void CScreen::Update(float timeDelta) {
@@ -19,19 +22,5 @@ namespace gui {
       mContent->UpdateWidget(ctx, mSize);
       mContent->UpdateRender(ctx, {0.0f, 0.0f});
     }
-  }
-
-  CWidget * CScreen::FindWidgetById(cb::string const & id) {
-    if(mContent) {
-      return mContent->FindWidgetById(id);
-    }
-    return nullptr;
-  }
-
-  const CWidget * CScreen::FindWidgetById(cb::string const & id) const {
-    if(mContent) {
-      return mContent->FindWidgetById(id);
-    }
-    return nullptr;
   }
 }

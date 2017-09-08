@@ -13,6 +13,8 @@
 #include "GUIRenderContext.h"
 #include "GUIPanel.h"
 #include "GUIStackPanel.h"
+#include "GUIScreen.h"
+#include "GUIScreenView.h"
 
 #include <CBSDL/System.h>
 #include <CBSDL/GLContext.h>
@@ -62,16 +64,16 @@ namespace pong {
     mGame = std::make_unique<CGame>(mGameScreenSize);
 
     {
-      mFont = std::make_unique<gfx::CFont>(gfx::CFont::Load(L"font.xml"));
+      mFont = std::make_shared<gfx::CFont>(gfx::CFont::Load(L"font.xml"s));
 
-      auto texAtlas = gfx::CTextureAtlas(L"base.png"s, glm::uvec2(256));
-      mCanvas = std::make_unique<gfx::CCanvas>(texAtlas);
+      mScreen = std::make_unique<gui::CScreen>(mGameScreenSize);
+
+      auto texAtlas = gfx::CTextureAtlas(L"texture.png"s, glm::uvec2(256));
 
       auto cnvProg = 
         std::make_shared<cb::gl::CProgram>(CreateShaderProgram(L"font_vs.glsl"s, L"font_fs.glsl"s));
-      mCanvasView = std::make_unique<gfx::CCanvasView>(cnvProg,
-                                                       mFont->GetTexture(),
-                                                       mFont->GetTexture());
+
+      mScreenView = std::make_unique<gui::CScreenView>(mFont, cnvProg, texAtlas);
 
       {
         auto panel = std::make_unique<gui::CStackPanel>(gui::CWidget::NoId);
@@ -89,7 +91,7 @@ namespace pong {
           panel->AddWidget(std::make_unique<gui::CRect>(std::move(rect)), gui::Align::Bottom);
         }
 
-        mGUIWidget = std::move(panel);
+        mScreen->SetContent(std::move(panel));
       }
     }
   }
@@ -169,15 +171,8 @@ namespace pong {
     }
 
     {
-      mCanvas->Clear();
-
-      auto ctx = gui::CRenderContext{*mCanvas, *mFont};
-      mGUIWidget->UpdateWidget(ctx, mGameScreenSize);
-      mGUIWidget->Render(ctx, {0.0f, 0.0f});
-
-      auto trans = glm::ortho(0.0f, mGameScreenSize.x, mGameScreenSize.y, 0.0f);
-      mCanvasView->UpdateRender(*mCanvas);
-      mCanvasView->Render(trans);
+      mScreenView->UpdateRender(*mScreen);
+      mScreenView->Render();
     }
   }
 
