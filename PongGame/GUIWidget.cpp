@@ -10,7 +10,7 @@ namespace gui {
   }
   cb::string CWidget::NoId = cb::string();
 
-  void CWidget::UpdateWidget(CRenderContext const & ctx, glm::vec2 const & spaceSize) {
+  void CWidget::UpdateWidget(CUpdateContext const & ctx, glm::vec2 const & spaceSize) {
     if(glm::all(glm::equal(mFixedSize, glm::vec2(0.0f)))) {
       mSize = spaceSize;
     }

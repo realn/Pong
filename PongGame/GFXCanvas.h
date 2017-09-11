@@ -6,9 +6,9 @@
 
 #include "Consts.h"
 #include "GFXTextureAtlas.h"
+#include "Vertex.h"
 
 namespace gfx {
-  struct CVertex;
   class CFont;
   class CBRect;
 

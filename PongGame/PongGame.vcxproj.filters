@@ -141,9 +141,6 @@
     <ClInclude Include="GUIRect.h">
       <Filter>Source Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="GUIRenderContext.h">
-      <Filter>Source Files\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="GUIWidget.h">
       <Filter>Source Files\GUI</Filter>
     </ClInclude>
@@ -184,6 +181,9 @@
       <Filter>Source Files\GUI</Filter>
     </ClInclude>
     <ClInclude Include="GUIConsts.h">
+      <Filter>Source Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIContext.h">
       <Filter>Source Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>

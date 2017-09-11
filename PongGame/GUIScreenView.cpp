@@ -14,10 +14,8 @@ namespace gui {
   CScreenView::CScreenView(std::shared_ptr<gfx::CFont> font,
                            std::shared_ptr<cb::gl::CProgram> guiProgram,
                            gfx::CTextureAtlas const& textureAtlas)
-    : mFont(font), mTransform(1.0f)
+    : mFont(font), mTextureAtlas(textureAtlas), mTransform(1.0f)
   {
-    mCanvas = std::make_unique<gfx::CCanvas>(textureAtlas);
-
     auto fontTexture = LoadTexture(font->GetTextureFilePath());
     auto baseTexture = LoadTexture(textureAtlas.GetTextureFileName());
 
@@ -26,13 +24,14 @@ namespace gui {
 
   CScreenView::~CScreenView() {}
 
-  void CScreenView::UpdateRender(CScreen & screen) {
+  gfx::CCanvas CScreenView::CreateCanvas() const {
+    return gfx::CCanvas(mTextureAtlas);
+  }
+
+  void CScreenView::UpdateRender(CScreen const& screen, gfx::CCanvas const& canvas) {
     auto screenSize = screen.GetSize();
     mTransform = glm::ortho(0.0f, screenSize.x, screenSize.y, 0.0f);
-
-    mCanvas->Clear();
-    screen.UpdateRender(*mFont, *mCanvas);
-    mCanvasView->UpdateRender(*mCanvas);
+    mCanvasView->UpdateRender(canvas);
   }
 
   void gui::CScreenView::Render() const {

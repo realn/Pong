@@ -10,6 +10,7 @@
 namespace gfx {
   class CCanvas;
   class CFont;
+  class CTextureAtlas;
 }
 
 namespace gui {
@@ -32,8 +33,8 @@ namespace gui {
 
     glm::vec2 GetSize() const { return mSize; }
 
-    void Update(float timeDelta);
-    void UpdateRender(gfx::CFont const& font, gfx::CCanvas& canvas);
+    void Update(float const timeDelta);
+    void UpdateRender(gfx::CCanvas& canvas, gfx::CFont const& font);
 
     template<typename _Type>
     _Type* FindById(cb::string const& id) {

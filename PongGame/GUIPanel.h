@@ -22,7 +22,7 @@ namespace gui {
     virtual ~CPanel() {}
 
     virtual void Update(float const timeDelta);
-    virtual void UpdateWidget(CRenderContext const& ctx, glm::vec2 const& spaceSize);
+    virtual void UpdateWidget(CUpdateContext const& ctx, glm::vec2 const& spaceSize);
     virtual void UpdateRender(CRenderContext& ctx, glm::vec2 const& pos) const;
 
     virtual CWidget* FindWidgetById(cb::string const& id) override;

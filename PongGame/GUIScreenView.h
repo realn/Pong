@@ -18,8 +18,8 @@ namespace gui {
   class CScreenView {
   private:
     std::shared_ptr<gfx::CFont> mFont;
-    std::unique_ptr<gfx::CCanvas> mCanvas;
     std::unique_ptr<gfx::CCanvasView> mCanvasView;
+    gfx::CTextureAtlas mTextureAtlas;
     glm::mat4 mTransform;
 
   public:
@@ -28,10 +28,12 @@ namespace gui {
                 gfx::CTextureAtlas const& textureAtlas);
     ~CScreenView();
 
-    gfx::CFont& GetFont() { return *mFont; }
-    gfx::CCanvas& GetCanvas() { return *mCanvas; }
+    gfx::CCanvas CreateCanvas() const;
 
-    void UpdateRender(CScreen& screen);
+    gfx::CFont const& GetFont() const { return *mFont; }
+    gfx::CTextureAtlas const& GetTextureAtlas() const { return mTextureAtlas; }
+
+    void UpdateRender(CScreen const& screen, gfx::CCanvas const& canvas);
     void Render() const;
 
   private:

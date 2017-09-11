@@ -2,29 +2,13 @@
 #include "GUIPanel.h"
 
 namespace gui {
-  CWidget * CPanel::FindWidgetById(cb::string const & id) {
-    auto widget = CWidgetContainer::FindWidgetById(id);
-    if(widget) {
-      return widget;
-    }
-    return CWidget::FindWidgetById(id);
-  }
-
-  const CWidget * CPanel::FindWidgetById(cb::string const & id) const {
-    auto widget = CWidgetContainer::FindWidgetById(id);
-    if(widget) {
-      return widget;
-    }
-    return CWidget::FindWidgetById(id);
-  }
-
   void CPanel::Update(float const timeDelta) {
     if(mContent) {
       mContent->Update(timeDelta);
     }
   }
 
-  void CPanel::UpdateWidget(CRenderContext const & ctx, glm::vec2 const & spaceSize) {
+  void CPanel::UpdateWidget(CUpdateContext const & ctx, glm::vec2 const & spaceSize) {
     CRect::UpdateWidget(ctx, spaceSize);
 
     if(mContent) {
@@ -42,4 +26,21 @@ namespace gui {
       mContent->UpdateRender(ctx, pos + mContentPos);
     }
   }
+
+  CWidget * CPanel::FindWidgetById(cb::string const & id) {
+    auto widget = CWidgetContainer::FindWidgetById(id);
+    if(widget) {
+      return widget;
+    }
+    return CWidget::FindWidgetById(id);
+  }
+
+  const CWidget * CPanel::FindWidgetById(cb::string const & id) const {
+    auto widget = CWidgetContainer::FindWidgetById(id);
+    if(widget) {
+      return widget;
+    }
+    return CWidget::FindWidgetById(id);
+  }
 }
+

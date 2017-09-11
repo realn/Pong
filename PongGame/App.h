@@ -15,8 +15,6 @@ namespace gui {
 
 namespace gfx {
   class CFont;
-  class CCanvas;
-  class CCanvasView;
 }
 
 namespace pong {
@@ -40,7 +38,7 @@ namespace pong {
 
   public:
     CApp(cb::strvector const& cmdLineArgs);
-    CApp(CApp&& other);
+    CApp(CApp&& other) = default;
     ~CApp();
 
     int Execute();
@@ -48,6 +46,7 @@ namespace pong {
   private:
     void PollEvents();
 
+    void Update();
     void Update(float const timeDelta);
     void UpdateRender();
     void Render();

@@ -8,7 +8,7 @@
 #include "GUIConsts.h"
 
 namespace gui {
-
+  struct CUpdateContext;
   struct CRenderContext;
 
   class CWidget {
@@ -30,7 +30,7 @@ namespace gui {
     glm::vec2 const& GetFixedSize() const { return mFixedSize; }
 
     virtual void Update(float const timeDelta) {}
-    virtual void UpdateWidget(CRenderContext const& ctx, glm::vec2 const& spaceSize);
+    virtual void UpdateWidget(CUpdateContext const& ctx, glm::vec2 const& spaceSize);
     virtual void UpdateRender(CRenderContext& ctx, glm::vec2 const& pos) const = 0;
 
     virtual CWidget* FindWidgetById(cb::string const& id) { return (id == mId) ? this : nullptr; }

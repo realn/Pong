@@ -1,10 +1,12 @@
 #include "stdafx.h"
 #include "GUILabel.h"
-#include "GUIRenderContext.h"
+#include "GUIContext.h"
+#include "GFXCanvas.h"
+#include "Font.h"
 #include "Consts.h"
 
 namespace gui {
-  void CLabel::UpdateWidget(CRenderContext const & ctx, glm::vec2 const & spaceSize) {
+  void CLabel::UpdateWidget(CUpdateContext const& ctx, glm::vec2 const & spaceSize) {
     mSize = ctx.Font.GetTextSize(mText, true) * glm::vec2(TEXT_SCALE) * mTextScale;
     mTextAlignPos = GetAlignedPos(mSize, spaceSize, mTextAlign);
   }

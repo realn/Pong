@@ -192,7 +192,7 @@
     <ClInclude Include="GUILabel.h" />
     <ClInclude Include="GUIPanel.h" />
     <ClInclude Include="GUIRect.h" />
-    <ClInclude Include="GUIRenderContext.h" />
+    <ClInclude Include="GUIContext.h" />
     <ClInclude Include="GUIScreen.h" />
     <ClInclude Include="GUIScreenView.h" />
     <ClInclude Include="GUIStackPanel.h" />

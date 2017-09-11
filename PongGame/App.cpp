@@ -10,7 +10,6 @@
 #include "GUILabel.h"
 #include "GUIWidget.h"
 #include "GUIRect.h"
-#include "GUIRenderContext.h"
 #include "GUIPanel.h"
 #include "GUIStackPanel.h"
 #include "GUIScreen.h"
@@ -96,15 +95,6 @@ namespace pong {
     }
   }
 
-  CApp::CApp(CApp && other) {
-    std::swap(mSDLSystem, other.mSDLSystem);
-    std::swap(mWindow, other.mWindow);
-    std::swap(mGLContext, other.mGLContext);
-    std::swap(mGLProgram, other.mGLProgram);
-    std::swap(mTimer, other.mTimer);
-    std::swap(mGame, other.mGame);
-  }
-
   CApp::~CApp() {}
 
   int CApp::Execute() {
@@ -112,16 +102,11 @@ namespace pong {
 
     while(mRun) {
       mTimer->Update();
-      PollEvents();
 
+      PollEvents();
       UpdateRender();
       Render();
-
-      mFrameTime += mTimer->GetTimeDelta();
-      for(auto i = 0u; i < UPDATE_MAX_STEPS && mFrameTime > UPDATE_TIME_STEP; i++) {
-        Update(UPDATE_TIME_STEP);
-        mFrameTime -= UPDATE_TIME_STEP;
-      }
+      Update();
 
       mGLContext->SwapWindow(*mWindow);
     }
@@ -151,12 +136,26 @@ namespace pong {
     }
   }
 
+  void CApp::Update() {
+    mFrameTime += mTimer->GetTimeDelta();
+    for(auto i = 0u; i < UPDATE_MAX_STEPS && mFrameTime > UPDATE_TIME_STEP; i++) {
+      Update(UPDATE_TIME_STEP);
+      mFrameTime -= UPDATE_TIME_STEP;
+    }
+  }
+
   void CApp::Update(float const timeDelta) {
     mGame->Update(timeDelta);
+
+    mScreen->Update(timeDelta);
   }
 
   void CApp::UpdateRender() {
     mGame->UpdateRender();
+
+    auto canvas = mScreenView->CreateCanvas();
+    mScreen->UpdateRender(canvas, mScreenView->GetFont());
+    mScreenView->UpdateRender(*mScreen, canvas);
   }
 
   void CApp::Render() {
@@ -170,10 +169,7 @@ namespace pong {
       mGame->Render(*mGLProgram, trans);
     }
 
-    {
-      mScreenView->UpdateRender(*mScreen);
-      mScreenView->Render();
-    }
+    mScreenView->Render();
   }
 
   cb::gl::CProgram CApp::CreateShaderProgram(cb::string const & vertFilePath, cb::string const & fragFilePath) {

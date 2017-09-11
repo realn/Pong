@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "GUIRect.h"
-#include "GUIRenderContext.h"
+#include "GUIContext.h"
+#include "GFXCanvas.h"
 
 namespace gui {
   void CRect::UpdateRender(CRenderContext & ctx, glm::vec2 const & pos) const {

@@ -48,7 +48,5 @@ namespace gui {
 
     virtual CWidget* FindWidgetById(cb::string const& id);
     virtual const CWidget* FindWidgetById(cb::string const& id) const;
-
-    
   };
 }
