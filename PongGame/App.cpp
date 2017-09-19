@@ -65,7 +65,7 @@ namespace pong {
     {
       mFont = std::make_shared<gfx::CFont>(gfx::CFont::Load(L"font.xml"s));
 
-      mScreen = std::make_unique<gui::CScreen>(mGameScreenSize);
+      mScreen = std::make_unique<gui::CScreen>(gui::CScreen::Load(L"gameui.xml"s));
 
       auto texAtlas = gfx::CTextureAtlas(L"texture.png"s, glm::uvec2(256));
 
@@ -73,25 +73,6 @@ namespace pong {
         std::make_shared<cb::gl::CProgram>(CreateShaderProgram(L"font_vs.glsl"s, L"font_fs.glsl"s));
 
       mScreenView = std::make_unique<gui::CScreenView>(mFont, cnvProg, texAtlas);
-
-      {
-        auto panel = std::make_unique<gui::CStackPanel>(gui::CWidget::NoId);
-
-        {
-          auto rect = gui::CRect(gui::CWidget::NoId);
-          rect.SetFixedSize({0.5f, 0.5f});
-          rect.SetBackColor({1.0f, 0.0f, 0.0f, 1.0f});
-          panel->AddWidget(std::make_unique<gui::CRect>(std::move(rect)));
-        }
-        {
-          auto rect = gui::CRect(gui::CWidget::NoId);
-          rect.SetFixedSize({0.5f, 0.5f});
-          rect.SetBackColor({0.0f, 1.0f, 0.0f, 1.0f});
-          panel->AddWidget(std::make_unique<gui::CRect>(std::move(rect)), gui::Align::Bottom);
-        }
-
-        mScreen->SetContent(std::move(panel));
-      }
     }
   }
 

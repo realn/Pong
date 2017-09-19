@@ -162,6 +162,7 @@
     <ClCompile Include="GUIWidget.cpp" />
     <ClCompile Include="GUIWidgetContainer.cpp" />
     <ClCompile Include="GUIWidgetListContainer.cpp" />
+    <ClCompile Include="GUIXml.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -199,6 +200,7 @@
     <ClInclude Include="GUIWidget.h" />
     <ClInclude Include="GUIWidgetContainer.h" />
     <ClInclude Include="GUIWidgetListContainer.h" />
+    <ClInclude Include="GUIXml.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="GFXTextureAtlas.h" />
     <ClInclude Include="Vertex.h" />

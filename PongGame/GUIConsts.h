@@ -4,7 +4,8 @@
 
 namespace gui {
   ENUM_FLAG(Align) {
-    Left = 0x1,
+    None = 0,
+      Left = 0x1,
       Right = 0x2,
       Top = 0x4,
       Bottom = 0x8,

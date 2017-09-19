@@ -14,7 +14,7 @@ namespace gfx {
 }
 
 namespace gui {
-  constexpr auto TEXT_SCALE = 0.3f;
+  constexpr auto TEXT_SCALE = 1.0f;
 }
 
 namespace pong {

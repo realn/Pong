@@ -27,6 +27,7 @@ namespace gui {
     CScreen(glm::vec2 const& size = glm::vec2(), 
             glm::vec4 const& contentMargin = glm::vec4(), 
             Align const contentAlign = Align::Default);
+    CScreen(CScreen&&) = default;
     virtual ~CScreen();
 
     void SetSize(glm::vec2 const& size) { mSize = size; }
@@ -44,5 +45,7 @@ namespace gui {
     const _Type* FindById(cb::string const& id) const {
       return dynamic_cast<const _Type*>(FindWidgetById(id));
     }
+
+    static CScreen Load(cb::string const& filepath);
   };
 }

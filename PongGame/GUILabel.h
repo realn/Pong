@@ -18,6 +18,7 @@ namespace gui {
     CLabel(cb::string const& id = cb::string(), cb::string const& text = cb::string(),
            glm::vec4 const& textColor = glm::vec4(1.0f), Align const align = Align::Default)
       : CWidget(id), mText(text), mTextColor(textColor), mTextScale(1.0f), mTextAlign(align) {}
+    CLabel(CLabel&&) = default;
     virtual ~CLabel() {}
 
     void SetText(cb::string const& text) { mText = text; }

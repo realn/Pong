@@ -16,6 +16,7 @@ namespace gui {
 
   public:
     CWidgetContainer(glm::vec4 const& contentMargin, Align const contentAlign);
+    CWidgetContainer(CWidgetContainer&&) = default;
     virtual ~CWidgetContainer();
 
     void SetContent(std::unique_ptr<CWidget> content);

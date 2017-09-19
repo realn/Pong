@@ -19,6 +19,7 @@ namespace gui {
            glm::vec4 const& contentMargin = glm::vec4(0.0f),
            Align const contentAlign = Align::Default)
       : CRect(id, backColor), CWidgetContainer(contentMargin, contentAlign) {}
+    CPanel(CPanel&&) = default;
     virtual ~CPanel() {}
 
     virtual void Update(float const timeDelta);

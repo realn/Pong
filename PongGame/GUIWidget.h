@@ -21,6 +21,7 @@ namespace gui {
 
   public:
     CWidget(cb::string const& id) : mId(id) {}
+    CWidget(CWidget&&) = default;
     virtual ~CWidget() {}
 
     void SetFixedSize(glm::vec2 const& size) { mFixedSize = size; }

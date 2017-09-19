@@ -14,26 +14,31 @@ namespace gui {
   }
 
   void CStackPanel::UpdateWidget(CUpdateContext const & ctx, glm::vec2 const & spaceSize) {
-    auto ipos = glm::vec2();
-    auto spaceLeft = spaceSize;
+    auto fullSpace = GetMarginSize(spaceSize, mContentMargin);
+    auto spaceLeft = fullSpace;
     auto ori = (mOrientation == Orientation::Horizontal) ? glm::vec2(1.0f, 0.0f) : glm::vec2(0.0f, 1.0f);
     auto nori = glm::vec2(1.0f) - ori;
 
+    auto pos = glm::vec2();
     for(auto& item : mItems) {
       item.Widget->UpdateWidget(ctx, spaceLeft);
 
       auto itemSpaceSize = item.Widget->GetSize();
+
       spaceLeft -= itemSpaceSize * ori;
       itemSpaceSize = spaceLeft * nori + itemSpaceSize * ori;
       
-      item.Pos = ipos + GetAlignedPos(item.Widget->GetSize(), itemSpaceSize, item.Align);
-      ipos += itemSpaceSize * ori;
+      item.Pos = pos + GetAlignedPos(item.Widget->GetSize(), itemSpaceSize, item.Align);
+      pos += itemSpaceSize * ori;
     }
+
+    mAlignedPos = GetMarginPos(mContentMargin) + 
+      GetAlignedPos(fullSpace - spaceLeft * ori, fullSpace, mContentAlign);
   }
 
   void CStackPanel::UpdateRender(CRenderContext & ctx, glm::vec2 const & pos) const {
     for(auto& item : mItems) {
-      item.Widget->UpdateRender(ctx, pos + item.Pos);
+      item.Widget->UpdateRender(ctx, pos + mAlignedPos + item.Pos);
     }
   }
 

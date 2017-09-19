@@ -30,9 +30,19 @@ namespace gui {
 
   protected:
     ItemListT mItems;
+    Align mContentAlign;
+    glm::vec4 mContentMargin;
 
   public:
+    CWidgetListContainer() : mContentAlign(Align::Default), mContentMargin(0.0f) {}
+    CWidgetListContainer(CWidgetListContainer&&) = default;
     virtual ~CWidgetListContainer();
+
+    void SetContentAlign(Align const value) { mContentAlign = value; }
+    void SetContentMargin(glm::vec4 const& value) { mContentMargin = value; }
+
+    Align GetContentAlign() const { return mContentAlign; }
+    glm::vec4 GetContentMargin() const { return mContentMargin; }
 
     iterator begin() { return mItems.begin(); }
     const_iterator begin() const { return mItems.begin(); }

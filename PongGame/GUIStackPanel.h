@@ -12,12 +12,16 @@ namespace gui {
   {
   protected:
     Orientation mOrientation;
-    Align mContentAlign;
+    glm::vec2 mAlignedPos;
 
   public:
     CStackPanel(cb::string const& id, Orientation const orientation = Orientation::Horizontal)
       : CWidget(id), mOrientation(orientation) {}
+    CStackPanel(CStackPanel&&) = default;
     virtual ~CStackPanel() {}
+
+    void SetOrientation(Orientation const value) { mOrientation = value; }
+    Orientation GetOrientation() const { return mOrientation; }
 
     void AddWidget(std::unique_ptr<CWidget> widget, Align const align = Align::Default);
 
@@ -27,5 +31,8 @@ namespace gui {
 
     virtual CWidget* FindWidgetById(cb::string const& id) override;
     virtual const CWidget* FindWidgetById(cb::string const& id) const override;
+
+  private:
+    ItemListT& GetItemsByAlign();
   };
 }

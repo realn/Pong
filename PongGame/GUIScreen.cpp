@@ -3,6 +3,10 @@
 #include "GUIWidget.h"
 #include "GUIContext.h"
 #include "GFXCanvas.h"
+#include "GUIXml.h"
+
+#include <CBXml/Document.h>
+#include <CBIO/File.h>
 
 namespace gui {
   CScreen::CScreen(glm::vec2 const & size, glm::vec4 const& contentMargin, Align const contentAlign) 
@@ -27,5 +31,20 @@ namespace gui {
         mContent->UpdateRender(ctx, {0.0f, 0.0f});
       }
     }
+  }
+
+  CScreen CScreen::Load(cb::string const & filepath) {
+    auto xmlDoc = cb::CXmlDocument(cb::readtextfileutf8(filepath));
+    if(!xmlDoc.IsValid()) {
+      throw std::exception("Invalid xml doc file for screen loading.");
+    }
+    if(xmlDoc.RootNode.GetName() != L"Screen"s) {
+      throw std::exception("Invalid root node for screen reading.");
+    }
+    auto screen = CScreen();
+    if(!cb::ReadXmlObject(xmlDoc.RootNode, screen)) {
+      throw std::exception("Failed reading xml gui screen.");
+    }
+    return screen;
   }
 }
