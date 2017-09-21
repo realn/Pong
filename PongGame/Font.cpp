@@ -34,11 +34,11 @@ namespace gfx {
     for(auto i = 0u; i < text.length()-1; i++) {
       auto data = GetChar(text[i]);
       result.x += data.mAdv.x;
-      result.y = glm::max(result.y, data.mSize.y);
+      result.y = glm::max(result.y, data.mMax.y - data.mMin.y);
     }
 
     auto data = GetChar(*text.rbegin());
-    result.x += data.mSize.x;
+    result.x += data.mMax.x - data.mMin.x;
 
     if(!charHeight) {
       result.y = glm::max(result.y, 1.0f);
@@ -60,26 +60,32 @@ namespace gfx {
     }
 
     auto font = CFont(dataFont.mTexture);
+    auto lineSize = glm::vec2(static_cast<float>(dataFont.mLineHeight));
+    auto texSize = glm::vec2(dataFont.mTextureSize);
 
     for(auto& dataChar : dataFont.mChars) {
       font.AddChar(dataChar.mCode, {
-        dataChar.mPos,
-        dataChar.mSize,
-        dataChar.mTexMin,
-        dataChar.mTexMax,
-        dataChar.mAdv
+        glm::vec2(dataChar.mMin.x, dataFont.mAscent - dataChar.mMin.y) / lineSize,
+        glm::vec2(dataChar.mMax.x, dataFont.mAscent - dataChar.mMax.y) / lineSize,
+        glm::vec2(dataChar.mTexMin.x, dataChar.mTexMax.y) / texSize,
+        glm::vec2(dataChar.mTexMax.x, dataChar.mTexMin.y) / texSize,
+        glm::vec2(dataChar.mAdv) / lineSize
       });
     }
 
     return font;
   }
 
+  glm::vec2 getOrg(glm::vec2 const& min, glm::vec2 const& max, glm::vec2 const& xy) {
+    auto nxy = glm::vec2(1.0f) - xy;
+    return min * nxy + max * xy;
+  }
+
   glm::vec2 CFont::CChar::getVPos(glm::ivec2 const& xy) const {
-    return mPos + mSize * glm::vec2(xy);
+    return getOrg(mMin, mMax, glm::vec2(xy));
   }
 
   glm::vec2 CFont::CChar::getVTex(glm::ivec2 const& xy) const {
-    auto nxy = glm::vec2(1.0f) - glm::vec2(xy);
-    return mTexMin * nxy + mTexMax * glm::vec2(xy);
+    return getOrg(mTexMin, mTexMax, glm::vec2(xy));
   }
 }

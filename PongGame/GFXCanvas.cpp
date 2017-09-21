@@ -68,10 +68,7 @@ namespace gfx {
       mVertices.push_back({pos + glyph.getVPos({1, 1}) * scale, glyph.getVTex({1, 1}), col});
       mVertices.push_back({pos + glyph.getVPos({0, 1}) * scale, glyph.getVTex({0, 1}), col});
 
-      std::transform(std::begin(idx), std::end(idx), std::back_inserter(mIndices),
-                     [i](auto& item) -> auto{
-        return static_cast<cb::u16>(i + item);
-      });
+      for(auto& item : idx) { mIndices.push_back(static_cast<cb::u16>(i + item)); }
 
       pos += glyph.mAdv * scale;
     }

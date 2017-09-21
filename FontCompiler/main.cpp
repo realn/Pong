@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
   params.TexSize = 512u;
   params.FontSize = 46u;
   params.FontChars = L"abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`~!@#$^&*()-_=+[]{};:'\",./<>?|\\"s;
-  params.TexCharBorder = 2u;
+  params.TexCharBorder = 6u;
   params.CharColor = glm::vec4(1.0f);
   params.OutputName = L"font";
   params.OutputPath = L"../PongGame/";

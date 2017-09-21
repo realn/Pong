@@ -12,8 +12,8 @@ namespace gfx {
   class CFont {
   public:
     struct CChar {
-      glm::vec2 mPos;
-      glm::vec2 mSize;
+      glm::vec2 mMin;
+      glm::vec2 mMax;
       glm::vec2 mTexMin;
       glm::vec2 mTexMax;
       glm::vec2 mAdv;
@@ -24,6 +24,8 @@ namespace gfx {
   private:
     std::map<wchar_t, CChar> mChars;
     float mLineHeight;
+    float mAscent;
+    float mDescent;
     cb::string mTextureFilePath;
 
   public:

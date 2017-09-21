@@ -29,6 +29,10 @@ bool CompileFont(CFontParams const & params) {
   auto outFont = data::CFont();
   outFont.mName = font.GetName();
   outFont.mTexture = cb::makefilename(params.OutputName, L"png"s);
+  outFont.mLineHeight = ctx.LineHeight;
+  outFont.mTextureSize = glm::uvec2(params.TexSize);
+  outFont.mAscent = font.GetAscent();
+  outFont.mDescent = font.GetDescent();
 
   for(auto& item : params.FontChars) {
     auto glyphSurface = font.RenderGlyphBlended(item, params.CharColor);
@@ -38,9 +42,9 @@ bool CompileFont(CFontParams const & params) {
     auto fontChar = data::CFontChar{item};
 
     ctx.RowHeight = std::max(ctx.RowHeight, glyphSize.y);
-    if(ctx.TexPos.x + glyphSize.x + 2 * params.TexCharBorder > params.TexSize) {
+    if(ctx.TexPos.x + glyphSize.x + params.TexCharBorder > params.TexSize) {
       ctx.TexPos.x = params.TexCharBorder;
-      ctx.TexPos.y += ctx.RowHeight + 2 * params.TexCharBorder;
+      ctx.TexPos.y += ctx.RowHeight + params.TexCharBorder;
       if(ctx.TexPos.y > params.TexSize) {
         break;
       }
@@ -48,13 +52,14 @@ bool CompileFont(CFontParams const & params) {
     }
 
     finalSurface.Paste(ctx.TexPos, glyphSurface);
-    fontChar.mTexMin = glm::vec2(ctx.TexPos) / glm::vec2(static_cast<float>(params.TexSize));
-    fontChar.mTexMax = glm::vec2(ctx.TexPos + glyphSize) / glm::vec2(static_cast<float>(params.TexSize));
-    ctx.TexPos.x += glyphSize.x + 2 * params.TexCharBorder;
+    fontChar.mTexMin = ctx.TexPos;// / glm::vec2(static_cast<float>(params.TexSize));
+    fontChar.mTexMax = ctx.TexPos + glyphSize;// / glm::vec2(static_cast<float>(params.TexSize));
 
-    fontChar.mPos = glm::vec2(metrics.min) / glm::vec2(static_cast<float>(ctx.LineHeight));
-    fontChar.mSize = glm::vec2(metrics.max - metrics.min) / glm::vec2(static_cast<float>(ctx.LineHeight));
-    fontChar.mAdv = glm::vec2(metrics.advance, 0.0f) / glm::vec2(static_cast<float>(ctx.LineHeight));
+    ctx.TexPos.x += glyphSize.x + params.TexCharBorder;
+
+    fontChar.mMin = metrics.min;// / glm::vec2(static_cast<float>(ctx.LineHeight));
+    fontChar.mMax = metrics.max;// / glm::vec2(static_cast<float>(ctx.LineHeight));
+    fontChar.mAdv = glm::ivec2(metrics.advance, 0);// / glm::vec2(static_cast<float>(ctx.LineHeight));
 
     outFont.mChars.push_back(fontChar);
   }

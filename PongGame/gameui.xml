@@ -1,5 +1,5 @@
 <Screen Size="3,2">
     <StackPanel>
-        <Label Align="Middle">A!%^&*()_+{}{}:";'</Label>
+        <Label Align="Middle">A!^:";'</Label>
     </StackPanel>
 </Screen>
