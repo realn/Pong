@@ -10,7 +10,7 @@
 
 namespace gui {
   CScreen::CScreen(glm::vec2 const & size, glm::vec4 const& contentMargin, Align const contentAlign) 
-    : CWidgetContainer(contentMargin, contentAlign), mSize(size) {}
+    : CWidgetContainer(contentMargin, contentAlign), mSize(size), mTextScale(1.0f) {}
 
   CScreen::~CScreen() {}
 
@@ -23,11 +23,11 @@ namespace gui {
   void CScreen::UpdateRender(gfx::CCanvas& canvas, gfx::CFont const& font) {
     if(mContent) {
       {
-        auto ctx = CUpdateContext{font};
+        auto ctx = CUpdateContext{font, mTextScale};
         mContent->UpdateWidget(ctx, mSize);
       }
       {
-        auto ctx = CRenderContext{font, canvas};
+        auto ctx = CRenderContext{font, canvas, mTextScale};
         mContent->UpdateRender(ctx, {0.0f, 0.0f});
       }
     }

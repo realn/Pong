@@ -2,12 +2,6 @@
 #include "GUIWidget.h"
 
 namespace gui {
-  namespace {
-    template<typename _Type>
-    constexpr bool isTrue(_Type const value) {
-      return static_cast<cb::u32>(value) > 0;
-    }
-  }
   cb::string CWidget::NoId = cb::string();
 
   void CWidget::UpdateWidget(CUpdateContext const & ctx, glm::vec2 const & spaceSize) {
@@ -22,20 +16,20 @@ namespace gui {
   glm::vec2 CWidget::GetAlignedPos(glm::vec2 const & size, glm::vec2 const & spaceSize, Align const align) {
     auto pos = glm::vec2();
 
-    if(isTrue(align & Align::Left) && isTrue(align & Align::Right)) { 
+    if(isTrueAnd(align, Align::Center)) { 
       pos.x = (spaceSize.x - size.x) / 2.0f; 
     }
-    else if(isTrue(align & Align::Right)) { 
+    else if(isTrueAnd(align, Align::Right)) { 
       pos.x = spaceSize.x - size.x; 
     }
     else { 
       pos.x = 0.0f; 
     }
 
-    if(isTrue(align & Align::Top) && isTrue(align & Align::Bottom)) { 
+    if(isTrueAnd(align, Align::Middle)) { 
       pos.y = (spaceSize.y - size.y) / 2.0f; 
     }
-    else if(isTrue(align & Align::Bottom)) { 
+    else if(isTrueAnd(align, Align::Top)) { 
       pos.y = spaceSize.y - size.y; 
     }
     else { 

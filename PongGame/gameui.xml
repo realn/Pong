@@ -1,5 +1,3 @@
-<Screen Size="3,2">
-    <StackPanel>
-        <Label Align="Middle">A!^:";'</Label>
-    </StackPanel>
+<Screen Size="16,9" TextScale="2.0">
+    <Rect BackColor="1,0,0,1" />
 </Screen>

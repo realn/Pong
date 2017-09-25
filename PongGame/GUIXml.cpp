@@ -124,16 +124,16 @@ namespace cb {
   }
   static string toStr(gui::Align const align) {
     auto result = cb::strvector();
-    if(isTrueAnd(align & gui::Align::MidCenter)) {
+    if(isTrueAnd(align, gui::Align::MidCenter)) {
       result.push_back(L"MidCenter"s);
     }
     else {
       auto temp = align;
       for(auto& item : alignMultiStrMap) {
-        if(isTrueAnd(temp & item.first)) { result.push_back(item.second); temp &= ~item.first; }
+        if(isTrueAnd(temp, item.first)) { result.push_back(item.second); temp &= ~item.first; }
       }
       for(auto& item : alignStrMap) { 
-        if(isTrueAnd(temp & item.first)) { result.push_back(item.second); }
+        if(isTrueAnd(temp, item.first)) { result.push_back(item.second); }
       }
     }
     return join(result, L","s);
@@ -250,12 +250,15 @@ CB_DEFINEXMLREAD(gui::CStackPanel) {
 
 CB_DEFINEXMLREAD(gui::CScreen) {
   auto size = glm::vec2(10.0f);
+  auto textScale = glm::vec2(1.0f);
   auto contentAlign = gui::Align::Default;
   auto contentMargin = glm::vec4(0.0f);
 
   if(GetAttribute(XML_WIDGET_SIZE, size)) { mObject.SetSize(size); }
   if(GetAttribute(XML_WIDGET_CONTENTALIGN, contentAlign)) { mObject.SetContentAlign(contentAlign); }
   if(GetAttribute(XML_WIDGET_CONTENTMARGIN, contentMargin)) { mObject.SetContentMargin(contentMargin); }
+  if(GetAttribute(XML_WIDGET_TEXTSCALE, textScale)) { mObject.SetTextScale(textScale); }
+  if(GetAttribute(XML_WIDGET_TEXTSCALE, textScale.x)) { mObject.SetTextScale(glm::vec2(textScale.x)); }
 
   for(auto& node : mNode.Nodes) {
     auto widget = widgetFactory.CreateWidget(node);

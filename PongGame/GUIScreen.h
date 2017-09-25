@@ -22,6 +22,7 @@ namespace gui {
   {
   private:
     glm::vec2 mSize;
+    glm::vec2 mTextScale;
 
   public:
     CScreen(glm::vec2 const& size = glm::vec2(), 
@@ -30,9 +31,12 @@ namespace gui {
     CScreen(CScreen&&) = default;
     virtual ~CScreen();
 
-    void SetSize(glm::vec2 const& size) { mSize = size; }
+    void SetSize(glm::vec2 const& value) { mSize = value; }
+    void SetTextScale(glm::vec2 const& value) { mTextScale = value; }
 
     glm::vec2 GetSize() const { return mSize; }
+    glm::vec2 GetTextScale() const { return mTextScale; }
+    float GetAspectRation() const { return mSize.x / mSize.y; }
 
     void Update(float const timeDelta);
     void UpdateRender(gfx::CCanvas& canvas, gfx::CFont const& font);

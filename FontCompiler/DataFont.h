@@ -43,9 +43,12 @@ namespace data {
     wchar_t mCode = 0;
     glm::ivec2 mMin;
     glm::ivec2 mMax;
-    glm::uvec2 mTexMin;
-    glm::uvec2 mTexMax;
+    glm::ivec2 mTexMin;
+    glm::ivec2 mTexMax;
     glm::ivec2 mAdv;
+
+    glm::ivec2 GetSize() const { return (mMax - mMin); }
+    glm::ivec2 GetTexSize() const { return (mTexMax - mTexMin); }
   };
 
   struct CFont {

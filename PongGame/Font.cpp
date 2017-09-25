@@ -63,10 +63,12 @@ namespace gfx {
     auto lineSize = glm::vec2(static_cast<float>(dataFont.mLineHeight));
     auto texSize = glm::vec2(dataFont.mTextureSize);
 
+    auto posAdj = glm::vec2(0.0f, dataFont.mAscent) / lineSize;
+
     for(auto& dataChar : dataFont.mChars) {
       font.AddChar(dataChar.mCode, {
-        glm::vec2(dataChar.mMin.x, dataFont.mAscent - dataChar.mMin.y) / lineSize,
-        glm::vec2(dataChar.mMax.x, dataFont.mAscent - dataChar.mMax.y) / lineSize,
+        glm::vec2(dataChar.mMin.x, -dataChar.mMax.y) / lineSize + posAdj,
+        glm::vec2(dataChar.GetTexSize()) / lineSize + posAdj,
         glm::vec2(dataChar.mTexMin.x, dataChar.mTexMax.y) / texSize,
         glm::vec2(dataChar.mTexMax.x, dataChar.mTexMin.y) / texSize,
         glm::vec2(dataChar.mAdv) / lineSize
@@ -80,6 +82,7 @@ namespace gfx {
     auto nxy = glm::vec2(1.0f) - xy;
     return min * nxy + max * xy;
   }
+
 
   glm::vec2 CFont::CChar::getVPos(glm::ivec2 const& xy) const {
     return getOrg(mMin, mMax, glm::vec2(xy));
