@@ -5,9 +5,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Shaders">
-      <UniqueIdentifier>{00ef3c88-8ec9-4fc4-8082-d9660dd1a1f6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Game">
       <UniqueIdentifier>{9aa2b002-ce76-45f3-bc0b-6dd1c962f0dc}</UniqueIdentifier>
     </Filter>
@@ -19,6 +16,12 @@
     </Filter>
     <Filter Include="Source Files\Core">
       <UniqueIdentifier>{25ceb9fe-e190-4255-a827-564127111441}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>{7b3dd730-cc06-4bbc-82b8-007436f2a05b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Shaders">
+      <UniqueIdentifier>{00ef3c88-8ec9-4fc4-8082-d9660dd1a1f6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -195,18 +198,34 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="main_vs.glsl">
-      <Filter>Shaders</Filter>
+      <Filter>Assets\Shaders</Filter>
     </None>
     <None Include="main_fs.glsl">
-      <Filter>Shaders</Filter>
+      <Filter>Assets\Shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="font_vs.glsl">
-      <Filter>Shaders</Filter>
+      <Filter>Assets\Shaders</Filter>
     </Text>
     <Text Include="font_fs.glsl">
-      <Filter>Shaders</Filter>
+      <Filter>Assets\Shaders</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="font.xml">
+      <Filter>Assets</Filter>
+    </Xml>
+    <Xml Include="gameui.xml">
+      <Filter>Assets</Filter>
+    </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="font.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="texture.png">
+      <Filter>Assets</Filter>
+    </Image>
   </ItemGroup>
 </Project>

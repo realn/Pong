@@ -12,8 +12,8 @@
 static const auto XML_WIDGET_ID = L"Id"s;
 static const auto XML_WIDGET_SIZE = L"Size"s;
 static const auto XML_WIDGET_BACKCOLOR = L"BackColor"s;
-static const auto XML_WIDGET_CONTENTALIGN = L"Align"s;
-static const auto XML_WIDGET_CONTENTMARGIN = L"Margin"s;
+static const auto XML_WIDGET_CONTENTALIGN = L"ContentAlign"s;
+static const auto XML_WIDGET_CONTENTMARGIN = L"ContentMargin"s;
 static const auto XML_WIDGET_ITEMALIGN = L"Align"s;
 static const auto XML_WIDGET_ITEMMARGIN = L"Margin"s;
 static const auto XML_WIDGET_ORIENTATION = L"Orientation"s;
@@ -156,6 +156,7 @@ namespace cb {
   }
 
   static bool fromStr(string const& text, gui::Align& outValue) {
+    outValue = gui::Align::None;
     auto list = split(text, L","s);
     if(std::find(list.begin(), list.end(), L"MidCenter"s) != list.end()) {
       outValue |= gui::Align::MidCenter;

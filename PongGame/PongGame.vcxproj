@@ -213,6 +213,14 @@
     <Text Include="font_fs.glsl" />
     <Text Include="font_vs.glsl" />
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="font.xml" />
+    <Xml Include="gameui.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="font.png" />
+    <Image Include="texture.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -1,3 +1,12 @@
 <Screen Size="16,9" TextScale="2.0">
-    <Rect BackColor="1,0,0,1" />
+	<Panel BackColor="1,0,0,1">
+		<StackPanel>
+			<Panel BackColor="0,1,0,1">
+			<StackPanel ContentAlign="Right,Middle">
+				<Label>Player 2: </Label>
+				<Label>0</Label>
+			</StackPanel>
+			</Panel>
+		</StackPanel>
+	</Panel>
 </Screen>

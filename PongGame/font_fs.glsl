@@ -22,7 +22,7 @@ void main() {
 	float sc = step(0.001f, c);
 
 	vOutColor = 
-		vec4(vVFColor.rgb, c) * sc * 0.001f +
-		texture(texBase, vVFTCoord) * vec4(vVFColor.rgb, b) * sb * 0.001f +
-		texture(texFont, vVFTCoord) * vec4(vVFColor.rgb, f);// * sf;
+		vec4(vVFColor.rgb, c) * sc +
+		texture(texBase, vVFTCoord) * vec4(vVFColor.rgb, b) * sb +
+		texture(texFont, vVFTCoord) * vec4(vVFColor.rgb, f) * sf;
 }
