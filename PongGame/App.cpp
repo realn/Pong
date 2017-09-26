@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "App.h"
-#include "Vertex.h"
 #include "Consts.h"
 #include "Game.h"
 #include "GFXCanvas.h"

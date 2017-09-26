@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "GFXCanvasView.h"
 #include "GFXCanvas.h"
-#include "Vertex.h"
-#include "Consts.h"
+#include "GFXVertex.h"
+#include "GFXConsts.h"
 
 #include <CBGL/State.h>
 #include <CBGL/Texture.h>

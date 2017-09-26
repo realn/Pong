@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "Vertex.h"
-#include "Consts.h"
+#include "GFXVertex.h"
+#include "GFXConsts.h"
 
 namespace gfx {
   cb::gl::CVertexDefinition CVertex::Def{

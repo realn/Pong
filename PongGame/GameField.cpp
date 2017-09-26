@@ -1,10 +1,11 @@
 #include "stdafx.h"
 #include "GameField.h"
-#include "Vertex.h"
 #include "Consts.h"
 
 #include <CBGL/Buffer.h>
 #include <CBGL/Program.h>
+#include <GFXVertex.h>
+#include <GFXConsts.h>
 
 namespace pong {
   CGameField::CGameField(glm::vec2 const & pos, glm::vec2 const & size, glm::vec4 const & color) 

@@ -20,33 +20,33 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{BCCA2162-4A6E-49A0-BD56-818C1A941F93}</ProjectGuid>
+    <ProjectGuid>{9998D53B-CB0B-4E21-A0B6-FEC9A27AFF01}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>PongGame</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <RootNamespace>kikiGfx</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -59,57 +59,47 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="PongPropsBin.props" />
+    <Import Project="..\PongGame\PongPropsBin.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="PongPropsBin.props" />
+    <Import Project="..\PongGame\PongPropsBin.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="PongPropsBin.props" />
+    <Import Project="..\PongGame\PongPropsBin.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="PongPropsBin.props" />
+    <Import Project="..\PongGame\PongPropsBin.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)kikiCore\;$(SolutionDir)kikiGfx\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)kikiCore\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)kikiCore\;$(SolutionDir)kikiGfx\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)kikiCore\;$(IncludePath)</IncludePath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
-  </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>CBStr.lib;CBIO.lib;CBLog.lib;CBSDL.lib;CBGL.lib;CBXml.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>CBStr.lib;CBIO.lib;CBLog.lib;CBSDL.lib;CBGL.lib;CBXml.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -119,7 +109,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -134,7 +124,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -143,80 +133,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="App.cpp" />
-    <ClCompile Include="GameField.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameBall.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="GamePaddle.cpp" />
-    <ClCompile Include="GamePaddleControllerImpl.cpp" />
-    <ClCompile Include="GamePlayer.cpp" />
-    <ClCompile Include="GUILabel.cpp" />
-    <ClCompile Include="GUIPanel.cpp" />
-    <ClCompile Include="GUIRect.cpp" />
-    <ClCompile Include="GUIScreen.cpp" />
-    <ClCompile Include="GUIScreenView.cpp" />
-    <ClCompile Include="GUIStackPanel.cpp" />
-    <ClCompile Include="GUIWidget.cpp" />
-    <ClCompile Include="GUIWidgetContainer.cpp" />
-    <ClCompile Include="GUIWidgetListContainer.cpp" />
-    <ClCompile Include="GUIXml.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClInclude Include="GFXCanvas.h" />
+    <ClInclude Include="GFXCanvasView.h" />
+    <ClInclude Include="GFXConsts.h" />
+    <ClInclude Include="GFXFwd.h" />
+    <ClInclude Include="GFXTextureAtlas.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="GFXVertex.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GFXCanvas.cpp" />
+    <ClCompile Include="GFXCanvasView.cpp" />
+    <ClCompile Include="GFXTextureAtlas.cpp" />
     <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="App.h" />
-    <ClInclude Include="GameField.h" />
-    <ClInclude Include="Consts.h" />
-    <ClInclude Include="ControlEventObservers.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="GameBall.h" />
-    <ClInclude Include="GamePaddleController.h" />
-    <ClInclude Include="GamePaddleControllerImpl.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="GamePaddle.h" />
-    <ClInclude Include="GamePlayer.h" />
-    <ClInclude Include="GUIConsts.h" />
-    <ClInclude Include="GUILabel.h" />
-    <ClInclude Include="GUIPanel.h" />
-    <ClInclude Include="GUIRect.h" />
-    <ClInclude Include="GUIContext.h" />
-    <ClInclude Include="GUIScreen.h" />
-    <ClInclude Include="GUIScreenView.h" />
-    <ClInclude Include="GUIStackPanel.h" />
-    <ClInclude Include="GUIWidget.h" />
-    <ClInclude Include="GUIWidgetContainer.h" />
-    <ClInclude Include="GUIWidgetListContainer.h" />
-    <ClInclude Include="GUIXml.h" />
-    <ClInclude Include="stdafx.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="main_fs.glsl" />
-    <None Include="main_vs.glsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="font_fs.glsl" />
-    <Text Include="font_vs.glsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="font.xml" />
-    <Xml Include="gameui.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="font.png" />
-    <Image Include="texture.png" />
+    <ClCompile Include="GFXVertex.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\kikiCore\kikiCore.vcxproj">
       <Project>{a60bd768-632d-4ebf-bcf4-75eb57c42ba3}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\kikiGfx\kikiGfx.vcxproj">
-      <Project>{9998d53b-cb0b-4e21-a0b6-fec9a27aff01}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

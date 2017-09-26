@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "GFXCanvas.h"
-#include "Vertex.h"
+#include "GFXVertex.h"
 #include <CoreFont.h>
 #include <CoreBRect.h>
 

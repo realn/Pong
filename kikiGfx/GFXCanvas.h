@@ -4,9 +4,9 @@
 #include <CBGL/Fwd.h>
 #include <CoreFwd.h>
 
-#include "Consts.h"
+#include "GFXConsts.h"
 #include "GFXTextureAtlas.h"
-#include "Vertex.h"
+#include "GFXVertex.h"
 
 namespace gfx {
   class CCanvas {

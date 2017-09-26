@@ -2,8 +2,10 @@
 #include "GamePaddle.h"
 #include "GameField.h"
 #include "Game.h"
-#include "Vertex.h"
 #include "Consts.h"
+
+#include <GFXVertex.h>
+#include <GFXConsts.h>
 
 namespace pong {
   CGamePaddle::CGamePaddle(PaddleSide const side,

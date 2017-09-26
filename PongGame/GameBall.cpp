@@ -2,11 +2,12 @@
 #include "GameBall.h"
 #include "GamePaddle.h"
 #include "Game.h"
-#include "Vertex.h"
 #include "Consts.h"
 #include "GameField.h"
 
 #include <CoreBRect.h>
+#include <GFXVertex.h>
+#include <GFXConsts.h>
 
 namespace pong {
   CGameBall::CGameBall(glm::vec2 const & size, float const speed) 

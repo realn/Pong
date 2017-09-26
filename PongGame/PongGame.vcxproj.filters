@@ -55,9 +55,6 @@
     <ClCompile Include="GamePlayer.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Vertex.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="GUIRect.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
@@ -67,17 +64,8 @@
     <ClCompile Include="GUIWidget.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="GFXCanvas.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="GUIPanel.cpp">
       <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="GFXCanvasView.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="GFXTextureAtlas.cpp">
-      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="GUIScreen.cpp">
       <Filter>Source Files\GUI</Filter>
@@ -132,9 +120,6 @@
     <ClInclude Include="GamePlayer.h">
       <Filter>Source Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Vertex.h">
-      <Filter>Source Files\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="GUILabel.h">
       <Filter>Source Files\GUI</Filter>
     </ClInclude>
@@ -149,15 +134,6 @@
     </ClInclude>
     <ClInclude Include="GUIStackPanel.h">
       <Filter>Source Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GFXCanvas.h">
-      <Filter>Source Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="GFXCanvasView.h">
-      <Filter>Source Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="GFXTextureAtlas.h">
-      <Filter>Source Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="GUIScreen.h">
       <Filter>Source Files\GUI</Filter>

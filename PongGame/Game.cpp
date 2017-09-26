@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Game.h"
-#include "Vertex.h"
 #include "Consts.h"
 #include "GamePaddle.h"
 #include "GamePaddleControllerImpl.h"
