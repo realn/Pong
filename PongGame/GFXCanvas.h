@@ -1,17 +1,14 @@
 #pragma once
 
 #include <memory>
-
 #include <CBGL/Fwd.h>
+#include <CoreFwd.h>
 
 #include "Consts.h"
 #include "GFXTextureAtlas.h"
 #include "Vertex.h"
 
 namespace gfx {
-  class CFont;
-  class CBRect;
-
   class CCanvas {
   private:
     std::vector<CVertex> mVertices;
@@ -35,31 +32,22 @@ namespace gfx {
                   glm::vec2 const& posB,
                   float const width = 0.01f,
                   glm::vec4 const& color = glm::vec4(1.0f));
-    void DrawTriangle(glm::vec2 const& posA,
-                      glm::vec2 const& posB,
-                      glm::vec2 const& posC,
+    void DrawTriangle(glm::vec2 const& posA, glm::vec2 const& posB, glm::vec2 const& posC,
                       glm::vec4 const& color = glm::vec4(1.0f));
-    void DrawRect(glm::vec2 const& pos,
-                  glm::vec2 const& size,
-                  glm::vec4 const& color = glm::vec4(1.0f));
+    void DrawRect(glm::vec2 const& pos, glm::vec2 const& size, glm::vec4 const& color = glm::vec4(1.0f));
     void DrawRect(glm::vec2 const& pos,
                   glm::vec2 const& size,
                   cb::string const& imgName,
                   glm::vec4 const& color = glm::vec4(1.0f));
-    void DrawRect(CBRect const& rect, glm::vec4 const& color = glm::vec4(1.0f));
-    void DrawRect(CBRect const& rect, CBRect const& texRect, glm::vec4 const& color = glm::vec4(1.0f));
-    void Print(glm::vec2 const& tpos,
-               CFont const& font, 
-               cb::string const& text, 
-               glm::vec4 const& color,
-               glm::vec2 const& scale = glm::vec2(1.0f));
+    void DrawRect(core::CBRect const& rect, glm::vec4 const& color = glm::vec4(1.0f));
+    void DrawRect(core::CBRect const& rect, core::CBRect const& texRect, glm::vec4 const& color = glm::vec4(1.0f));
+    void Print(glm::vec2 const& tpos, core::CFont const& font, cb::string const& text, 
+               glm::vec4 const& color, glm::vec2 const& scale = glm::vec2(1.0f));
 
     void Clear();
 
   private:
-    void internalDrawRect(CBRect const& prect, CBRect const& trect, glm::vec4 const& color);
-    void AddVertex(glm::vec2 const& pos,
-                   glm::vec2 const& tex,
-                   glm::vec4 const& color);
+    void internalDrawRect(core::CBRect const& prect, core::CBRect const& trect, glm::vec4 const& color);
+    void AddVertex(glm::vec2 const& pos, glm::vec2 const& tex, glm::vec4 const& color);
   };
 }

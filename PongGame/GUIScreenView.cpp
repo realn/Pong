@@ -4,14 +4,15 @@
 #include "GFXCanvas.h"
 #include "GFXCanvasView.h"
 #include "GFXTextureAtlas.h"
-#include "Font.h"
+
+#include <CoreFont.h>
 
 #include <CBIO/File.h>
 #include <CBSDL/Surface.h>
 #include <CBGL/Texture.h>
 
 namespace gui {
-  CScreenView::CScreenView(std::shared_ptr<gfx::CFont> font,
+  CScreenView::CScreenView(std::shared_ptr<core::CFont> font,
                            std::shared_ptr<cb::gl::CProgram> guiProgram,
                            gfx::CTextureAtlas const& textureAtlas)
     : mFont(font), mTextureAtlas(textureAtlas), mTransform(1.0f)

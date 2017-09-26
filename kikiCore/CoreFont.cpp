@@ -1,12 +1,10 @@
 #include "stdafx.h"
-#include "Font.h"
-#include "Vertex.h"
-#include "Consts.h"
+#include "CoreFont.h"
 #include "../FontCompiler/DataFont.h"
 
 #include <CBIO/File.h>
 
-namespace gfx {
+namespace core {
   CFont::CFont(cb::string const& textureFilePath) : mTextureFilePath(textureFilePath) {}
 
   CFont::~CFont() {}

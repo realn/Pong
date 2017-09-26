@@ -15,8 +15,5 @@
 #include <CBSDL/Window.h>
 #include <CBSDL/Surface.h>
 #include <CBSDL/Events.h>
-#include <CBGL/Buffer.h>
-#include <CBGL/Program.h>
-#include <CBGL/Rendering.h>
 
 using namespace std::literals;

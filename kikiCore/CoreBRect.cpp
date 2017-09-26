@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "BRect.h"
+#include "CoreBRect.h"
 
-namespace gfx {
+namespace core {
   CBRect CBRect::GetEdge(RectEdge side) const {
     switch(side) {
     case RectEdge::XMin: return CBRect(GetMin(), {0.0f, mSize.y});

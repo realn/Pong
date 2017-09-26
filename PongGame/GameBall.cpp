@@ -4,8 +4,9 @@
 #include "Game.h"
 #include "Vertex.h"
 #include "Consts.h"
-#include "BRect.h"
 #include "GameField.h"
+
+#include <CoreBRect.h>
 
 namespace pong {
   CGameBall::CGameBall(glm::vec2 const & size, float const speed) 
@@ -36,14 +37,14 @@ namespace pong {
 
     if(!fieldRect.Contains(ballRect)) {
       auto edge = fieldRect.ContainsEdgeOf(ballRect);
-      if(edge != gfx::RectEdge::None) {
-        auto norm = gfx::CBRect::GetNormal(edge);
+      if(edge != core::RectEdge::None) {
+        auto norm = core::CBRect::GetNormal(edge);
         mVec = (glm::vec2(1.0f) - glm::abs(norm)) * mVec + norm * glm::abs(mVec);
       }
       else {
         auto corner = fieldRect.ContainsCornerOf(ballRect);
-        if(corner != gfx::RectCorner::None) {
-          mVec = gfx::CBRect::GetNormal(corner) * glm::abs(mVec);
+        if(corner != core::RectCorner::None) {
+          mVec = core::CBRect::GetNormal(corner) * glm::abs(mVec);
         }
       }
     }
@@ -57,14 +58,14 @@ namespace pong {
       }
       else {
         auto edge = paddleRect.ContainsEdgeOf(ballRect);
-        if(edge != gfx::RectEdge::None) {
-          auto norm = gfx::CBRect::GetNormal(edge);
+        if(edge != core::RectEdge::None) {
+          auto norm = core::CBRect::GetNormal(edge);
           mVec = (glm::vec2(1.0f) - glm::abs(norm)) * mVec + -(norm * glm::abs(mVec));
         }
         else {
           auto corner = paddleRect.ContainsCornerOf(ballRect);
-          if(corner != gfx::RectCorner::None) {
-            mVec = -gfx::CBRect::GetNormal(corner) * glm::abs(mVec);
+          if(corner != core::RectCorner::None) {
+            mVec = -core::CBRect::GetNormal(corner) * glm::abs(mVec);
           }
         }
       }

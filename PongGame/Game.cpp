@@ -6,7 +6,6 @@
 #include "GamePaddleControllerImpl.h"
 #include "GameBall.h"
 #include "GameField.h"
-#include "BRect.h"
 
 const glm::vec2 FIELD_PROPS{5.0f, 3.0f};
 const float FIELD_ASP_RATIO = FIELD_PROPS.x / FIELD_PROPS.y;

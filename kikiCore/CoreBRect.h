@@ -3,7 +3,7 @@
 #include <glm/fwd.hpp>
 #include <glm/vec2.hpp>
 
-namespace gfx {
+namespace core {
   enum class RectEdge {
     None, XMin, XMax, YMin, YMax
   };

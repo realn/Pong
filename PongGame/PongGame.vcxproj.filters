@@ -76,12 +76,6 @@
     <ClCompile Include="GFXCanvasView.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="BRect.cpp">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Font.cpp">
-      <Filter>Source Files\Core</Filter>
-    </ClCompile>
     <ClCompile Include="GFXTextureAtlas.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
@@ -161,12 +155,6 @@
     </ClInclude>
     <ClInclude Include="GFXCanvasView.h">
       <Filter>Source Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="BRect.h">
-      <Filter>Source Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Font.h">
-      <Filter>Source Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="GFXTextureAtlas.h">
       <Filter>Source Files\Graphics</Filter>

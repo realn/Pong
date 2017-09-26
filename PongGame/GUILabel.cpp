@@ -2,8 +2,9 @@
 #include "GUILabel.h"
 #include "GUIContext.h"
 #include "GFXCanvas.h"
-#include "Font.h"
 #include "Consts.h"
+
+#include <CoreFont.h>
 
 namespace gui {
   void CLabel::UpdateWidget(CUpdateContext const& ctx, glm::vec2 const & spaceSize) {
