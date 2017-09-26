@@ -14,29 +14,16 @@ namespace gui {
   }
 
   glm::vec2 CWidget::GetAlignedPos(glm::vec2 const & size, glm::vec2 const & spaceSize, Align const align) {
-    auto pos = glm::vec2();
+    auto val = glm::vec2(0.0f);
+    auto spaceLeft = spaceSize - size;
 
-    if(isTrueAnd(align, Align::Center)) { 
-      pos.x = (spaceSize.x - size.x) / 2.0f; 
-    }
-    else if(isTrueAnd(align, Align::Right)) { 
-      pos.x = spaceSize.x - size.x; 
-    }
-    else { 
-      pos.x = 0.0f; 
-    }
+    if(isTrueAnd(align, Align::Center)) { val.x = 0.5f; }
+    else if(isTrueAnd(align, Align::Right)) { val.x = 1.0f; }
 
-    if(isTrueAnd(align, Align::Middle)) { 
-      pos.y = (spaceSize.y - size.y) / 2.0f; 
-    }
-    else if(isTrueAnd(align, Align::Top)) { 
-      pos.y = spaceSize.y - size.y; 
-    }
-    else { 
-      pos.y = 0.0f; 
-    }
+    if(isTrueAnd(align, Align::Middle)) { val.y = 0.5f; }
+    else if(isTrueAnd(align, Align::Top)) { val.y = 1.0f; }
 
-    return pos;
+    return spaceLeft * val;
   }
 
   glm::vec2 CWidget::GetMarginPos(glm::vec4 const & margin) {

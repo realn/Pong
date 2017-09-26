@@ -18,7 +18,7 @@ namespace gfx {
       glm::vec2 mTexMax;
       glm::vec2 mAdv;
 
-      glm::vec2 getVPos(glm::ivec2 const& xy) const;
+      glm::vec2 getVPos(glm::ivec2 const& xy, glm::vec2 const& scale = glm::vec2(1.0f)) const;
       glm::vec2 getVTex(glm::ivec2 const& xy) const;
     };
   private:

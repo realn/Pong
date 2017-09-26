@@ -3,11 +3,11 @@
 #include <CBStr/Defines.h>
 
 namespace gfx {
-  static const cb::string UNI_TRANSFORM = L"mTransform";
-  static const cb::string UNI_BASE_TEXTURE = L"texBase";
-  static const cb::string UNI_FONT_TEXTURE = L"texFont";
-  static const cb::string VIN_VERTEX4 = L"vInVertex";
-  static const cb::string VIN_COLOR4 = L"vInColor";
+  static const auto UNI_TRANSFORM = L"mTransform"s;
+  static const auto UNI_BASE_TEXTURE = L"texBase"s;
+  static const auto UNI_FONT_TEXTURE = L"texFont"s;
+  static const auto VIN_VERTEX4 = L"vInVertex"s;
+  static const auto VIN_COLOR4 = L"vInColor"s;
 
   constexpr auto IDX_VERTEX4 = 0u;
   constexpr auto IDX_COLOR4 = 1u;

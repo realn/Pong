@@ -143,12 +143,12 @@ namespace pong {
     cb::gl::clearColor({0.1f, 0.1f, 0.1f, 1.0f});
     cb::gl::clear(cb::gl::ClearBuffer::COLOR | cb::gl::ClearBuffer::DEPTH);
 
-    //{
-    //  auto trans = glm::ortho(0.0f, mGameScreenSize.x, 0.0f, mGameScreenSize.y);
-    //  auto gprog = cb::gl::bind(*mGLProgram);
+    {
+      auto trans = glm::ortho(0.0f, mGameScreenSize.x, 0.0f, mGameScreenSize.y);
+      auto gprog = cb::gl::bind(*mGLProgram);
 
-    //  mGame->Render(*mGLProgram, trans);
-    //}
+      mGame->Render(*mGLProgram, trans);
+    }
 
     mScreenView->Render();
   }

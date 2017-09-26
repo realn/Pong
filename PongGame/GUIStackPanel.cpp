@@ -14,6 +14,7 @@ namespace gui {
   }
 
   void CStackPanel::UpdateWidget(CUpdateContext const & ctx, glm::vec2 const & spaceSize) {
+    CWidget::UpdateWidget(ctx, spaceSize);
     auto fullSpace = GetMarginSize(spaceSize, mContentMargin);
     auto spaceLeft = fullSpace;
     auto ori = (mOrientation == Orientation::Horizontal) ? glm::vec2(1.0f, 0.0f) : glm::vec2(0.0f, 1.0f);

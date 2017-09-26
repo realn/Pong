@@ -29,8 +29,8 @@ namespace gui {
   }
 
   void CScreenView::UpdateRender(CScreen const& screen, gfx::CCanvas const& canvas) {
-    auto screenSize = screen.GetSize() * 2.0f;
-    mTransform = glm::ortho(-screenSize.x, screenSize.x, -screenSize.y, screenSize.y);
+    auto screenSize = screen.GetSize();
+    mTransform = glm::ortho(0.0f, screenSize.x, 0.0f, screenSize.y);
     mCanvasView->UpdateRender(canvas);
   }
 

@@ -39,6 +39,7 @@ namespace gfx {
 
     auto data = GetChar(*text.rbegin());
     result.x += data.mMax.x - data.mMin.x;
+    result.y = glm::max(result.y, data.mMax.y - data.mMin.y);
 
     if(!charHeight) {
       result.y = glm::max(result.y, 1.0f);
@@ -84,8 +85,9 @@ namespace gfx {
   }
 
 
-  glm::vec2 CFont::CChar::getVPos(glm::ivec2 const& xy) const {
-    return getOrg(mMin, mMax, glm::vec2(xy));
+  glm::vec2 CFont::CChar::getVPos(glm::ivec2 const& xy, glm::vec2 const& scale) const {
+    return mMin + glm::vec2(mMax - mMin) * glm::vec2(xy) * scale;
+    //return getOrg(mMin, mMax, glm::vec2(xy));
   }
 
   glm::vec2 CFont::CChar::getVTex(glm::ivec2 const& xy) const {
