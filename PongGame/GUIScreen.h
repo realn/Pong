@@ -1,15 +1,14 @@
 #pragma once
 
 #include <memory>
-
 #include <glm/fwd.hpp>
 #include <glm/vec2.hpp>
+#include <CoreFwd.h>
 
 #include "GUIWidgetContainer.h"
 
 namespace gfx {
   class CCanvas;
-  class CFont;
   class CTextureAtlas;
 }
 
@@ -39,7 +38,7 @@ namespace gui {
     float GetAspectRation() const { return mSize.x / mSize.y; }
 
     void Update(float const timeDelta);
-    void UpdateRender(gfx::CCanvas& canvas, gfx::CFont const& font);
+    void UpdateRender(gfx::CCanvas& canvas, core::CFont const& font);
 
     template<typename _Type>
     _Type* FindById(cb::string const& id) {

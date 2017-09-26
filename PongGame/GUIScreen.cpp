@@ -20,7 +20,7 @@ namespace gui {
     }
   }
 
-  void CScreen::UpdateRender(gfx::CCanvas& canvas, gfx::CFont const& font) {
+  void CScreen::UpdateRender(gfx::CCanvas& canvas, core::CFont const& font) {
     if(mContent) {
       {
         auto ctx = CUpdateContext{font, mTextScale};

@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "GFXCanvas.h"
 #include "Vertex.h"
-#include "Font.h"
-#include "BRect.h"
+#include <CoreFont.h>
+#include <CoreBRect.h>
 
 namespace gfx {
   CCanvas::CCanvas(CTextureAtlas const& textureAtlas)
@@ -12,6 +12,8 @@ namespace gfx {
   CCanvas::~CCanvas() {}
 
   void CCanvas::DrawPoint(glm::vec2 const & pos, float const size, glm::vec4 const & color) {
+    using namespace core;
+
     auto half = glm::vec2(size) / 2.0f;
     auto tex = glm::vec2();
     internalDrawRect(CBRect(pos - half, glm::vec2(size)), CBRect(), glm::clamp(color, 0.0f, 1.0f));
@@ -29,10 +31,12 @@ namespace gfx {
   }
 
   void CCanvas::DrawRect(glm::vec2 const & pos, glm::vec2 const & size, glm::vec4 const & color) {
-    internalDrawRect(CBRect(pos, size), CBRect(), glm::clamp(color, 0.0f, 1.0f));
+    internalDrawRect(core::CBRect(pos, size), core::CBRect(), glm::clamp(color, 0.0f, 1.0f));
   }
 
   void CCanvas::DrawRect(glm::vec2 const & pos, glm::vec2 const & size, cb::string const & imgName, glm::vec4 const & color) {
+    using namespace core;
+
     auto tex = mTextureAtlas[imgName];
     auto prect = CBRect(pos, size);
     auto trect = CBRect(tex.TexMin, tex.TexMax - tex.TexMin);
@@ -42,16 +46,16 @@ namespace gfx {
                      glm::clamp(color, 0.0f, 1.0f) + glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
   }
 
-  void CCanvas::DrawRect(CBRect const & rect, glm::vec4 const & color) {
-    internalDrawRect(rect, CBRect(), color);
+  void CCanvas::DrawRect(core::CBRect const & rect, glm::vec4 const & color) {
+    internalDrawRect(rect, core::CBRect(), color);
   }
 
-  void CCanvas::DrawRect(CBRect const & rect, CBRect const & texRect, glm::vec4 const & color) {
+  void CCanvas::DrawRect(core::CBRect const & rect, core::CBRect const & texRect, glm::vec4 const & color) {
     internalDrawRect(rect, texRect, glm::clamp(color, 0.0f, 1.0f) + glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
   }
 
   void CCanvas::Print(glm::vec2 const& tpos, 
-                      CFont const & font, 
+                      core::CFont const & font, 
                       cb::string const & text, 
                       glm::vec4 const& color,
                       glm::vec2 const& scale) {
@@ -79,7 +83,7 @@ namespace gfx {
     mIndices.clear();
   }
 
-  void CCanvas::internalDrawRect(CBRect const & prect, CBRect const & trect, glm::vec4 const & color) {
+  void CCanvas::internalDrawRect(core::CBRect const & prect, core::CBRect const & trect, glm::vec4 const & color) {
     AddVertex(prect.GetUCrd(0, 0), trect.GetUCrd(0, 0), color);
     AddVertex(prect.GetUCrd(1, 0), trect.GetUCrd(1, 0), color);
     AddVertex(prect.GetUCrd(1, 1), trect.GetUCrd(1, 1), color);

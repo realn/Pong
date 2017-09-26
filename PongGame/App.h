@@ -1,20 +1,16 @@
 #pragma once
 
 #include <memory>
-
+#include <glm/vec2.hpp>
 #include <CBStr/Defines.h>
 #include <CBSDL/Fwd.h>
 #include <CBGL/Fwd.h>
+#include <CoreFwd.h>
 
-#include <glm/vec2.hpp>
 
 namespace gui {
   class CScreen;
   class CScreenView;
-}
-
-namespace gfx {
-  class CFont;
 }
 
 namespace pong {
@@ -31,7 +27,7 @@ namespace pong {
     std::unique_ptr<cb::sdl::CGLContext> mGLContext;
     std::unique_ptr<cb::gl::CProgram> mGLProgram;
     std::unique_ptr<CGame> mGame;
-    std::shared_ptr<gfx::CFont> mFont;
+    std::shared_ptr<core::CFont> mFont;
     std::unique_ptr<gui::CScreen> mScreen;
     std::unique_ptr<gui::CScreenView> mScreenView;
     float mFrameTime = 0.0f;

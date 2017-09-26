@@ -3,7 +3,6 @@
 #include "Vertex.h"
 #include "Consts.h"
 #include "Game.h"
-#include "Font.h"
 #include "GFXCanvas.h"
 #include "GFXCanvasView.h"
 
@@ -23,6 +22,8 @@
 #include <CBGL/Texture.h>
 #include <CBGL/State.h>
 #include <CBIO/File.h>
+
+#include <CoreFont.h>
 
 namespace pong {
   CApp::CApp(cb::strvector const & cmdLineArgs)
@@ -63,7 +64,7 @@ namespace pong {
     mGame = std::make_unique<CGame>(mGameScreenSize);
 
     {
-      mFont = std::make_shared<gfx::CFont>(gfx::CFont::Load(L"font.xml"s));
+      mFont = std::make_shared<core::CFont>(core::CFont::Load(L"font.xml"s));
 
       mScreen = std::make_unique<gui::CScreen>(gui::CScreen::Load(L"gameui.xml"s));
 
