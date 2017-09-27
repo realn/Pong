@@ -130,7 +130,9 @@
   <ItemGroup>
     <ClInclude Include="CoreBRect.h" />
     <ClInclude Include="CoreFont.h" />
+    <ClInclude Include="CoreFontRepository.h" />
     <ClInclude Include="CoreFwd.h" />
+    <ClInclude Include="CoreRepository.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>

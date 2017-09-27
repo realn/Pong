@@ -30,5 +30,11 @@
     <ClInclude Include="CoreFwd.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="CoreRepository.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreFontRepository.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
