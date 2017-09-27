@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "GUILabel.h"
 #include "GUIContext.h"
+#include "GUIConsts.h"
 #include "GFXCanvas.h"
-#include "Consts.h"
 
 #include <CoreFont.h>
 

@@ -6,12 +6,7 @@
 #include <CBSDL/Fwd.h>
 #include <CBGL/Fwd.h>
 #include <CoreFwd.h>
-
-
-namespace gui {
-  class CScreen;
-  class CScreenView;
-}
+#include <GUIFwd.h>
 
 namespace pong {
   class CGame;

@@ -19,4 +19,6 @@ namespace gui {
     Horizontal = 0,
     Vertical = 1,
   };
+
+  constexpr auto TEXT_SCALE = 1.0f;
 }

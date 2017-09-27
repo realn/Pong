@@ -4,7 +4,6 @@
 
 
 namespace gui {
-  constexpr auto TEXT_SCALE = 1.0f;
 }
 
 namespace pong {

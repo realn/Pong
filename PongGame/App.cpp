@@ -2,16 +2,13 @@
 #include "App.h"
 #include "Consts.h"
 #include "Game.h"
-#include "GFXCanvas.h"
-#include "GFXCanvasView.h"
 
-#include "GUILabel.h"
-#include "GUIWidget.h"
-#include "GUIRect.h"
-#include "GUIPanel.h"
-#include "GUIStackPanel.h"
-#include "GUIScreen.h"
-#include "GUIScreenView.h"
+#include <CoreFont.h>
+#include <GFXCanvas.h>
+#include <GFXCanvasView.h>
+
+#include <GUIScreen.h>
+#include <GUIScreenView.h>
 
 #include <CBSDL/System.h>
 #include <CBSDL/GLContext.h>
@@ -22,7 +19,6 @@
 #include <CBGL/State.h>
 #include <CBIO/File.h>
 
-#include <CoreFont.h>
 
 namespace pong {
   CApp::CApp(cb::strvector const & cmdLineArgs)

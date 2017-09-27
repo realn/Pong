@@ -8,15 +8,6 @@
     <Filter Include="Source Files\Game">
       <UniqueIdentifier>{9aa2b002-ce76-45f3-bc0b-6dd1c962f0dc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphics">
-      <UniqueIdentifier>{6631dfaf-896a-4c96-91bd-f5694b4335b3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\GUI">
-      <UniqueIdentifier>{f07d686d-a4d2-4cf9-9c04-8ca7707eba85}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Core">
-      <UniqueIdentifier>{25ceb9fe-e190-4255-a827-564127111441}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Assets">
       <UniqueIdentifier>{7b3dd730-cc06-4bbc-82b8-007436f2a05b}</UniqueIdentifier>
     </Filter>
@@ -55,36 +46,6 @@
     <ClCompile Include="GamePlayer.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="GUIRect.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="GUILabel.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIWidget.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIPanel.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIScreen.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIScreenView.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIStackPanel.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIWidgetContainer.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIWidgetListContainer.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIXml.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -120,44 +81,8 @@
     <ClInclude Include="GamePlayer.h">
       <Filter>Source Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="GUILabel.h">
-      <Filter>Source Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIRect.h">
-      <Filter>Source Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIWidget.h">
-      <Filter>Source Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIPanel.h">
-      <Filter>Source Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIStackPanel.h">
-      <Filter>Source Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIScreen.h">
-      <Filter>Source Files\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="ControlEventObservers.h">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIScreenView.h">
-      <Filter>Source Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIWidgetContainer.h">
-      <Filter>Source Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIWidgetListContainer.h">
-      <Filter>Source Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIConsts.h">
-      <Filter>Source Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIContext.h">
-      <Filter>Source Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIXml.h">
-      <Filter>Source Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
