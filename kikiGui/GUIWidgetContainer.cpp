@@ -10,6 +10,12 @@ namespace gui {
 
   void CWidgetContainer::SetContent(std::unique_ptr<CWidget> content) { mContent = std::move(content); }
 
+  inline CWidget * CWidgetContainer::GetContent() { return mContent.get(); }
+
+  inline const CWidget * CWidgetContainer::GetContent() const { return mContent.get(); }
+
+  inline glm::vec4 const & CWidgetContainer::GetContentMargin() const { return mContentMargin; }
+
   std::unique_ptr<CWidget> CWidgetContainer::ReleaseContent() { return std::move(mContent); }
 
   CWidget * CWidgetContainer::FindWidgetById(cb::string const & id) {

@@ -4,18 +4,11 @@
 #include <glm/fwd.hpp>
 #include <glm/vec2.hpp>
 #include <CoreFwd.h>
+#include <GFXFwd.h>
 
 #include "GUIWidgetContainer.h"
 
-namespace gfx {
-  class CCanvas;
-  class CTextureAtlas;
-}
-
 namespace gui {
-  class CWidget;
-  struct CRenderContext;
-
   class CScreen 
     : public CWidgetContainer
   {

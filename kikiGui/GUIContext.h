@@ -1,10 +1,7 @@
 #pragma once
 
 #include <CoreFwd.h>
-
-namespace gfx {
-  class CCanvas;
-}
+#include <GFXFwd.h>
 
 namespace gui {
   struct CUpdateContext {

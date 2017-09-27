@@ -4,14 +4,8 @@
 #include <CBGL/Fwd.h>
 
 #include <CoreFwd.h>
-
-#include "GFXTextureAtlas.h"
-
-namespace gfx {
-  class CCanvas;
-  class CCanvasView;
-  class CTextureAtlas;
-}
+#include <GFXFwd.h>
+#include <GFXTextureAtlas.h>
 
 namespace gui {
   class CScreen;

@@ -23,9 +23,9 @@ namespace gui {
     void SetContentMargin(glm::vec4 const& margin) { mContentMargin = margin; }
     void SetContentAlign(Align const align) { mContentAlign = align; }
 
-    CWidget* GetContent() { return mContent.get(); }
-    const CWidget* GetContent() const { return mContent.get(); }
-    glm::vec4 const& GetContentMargin() const { return mContentMargin; }
+    CWidget* GetContent();
+    const CWidget* GetContent() const;
+    glm::vec4 const& GetContentMargin() const;
     Align GetContentAlign() const { return mContentAlign; }
 
     std::unique_ptr<CWidget> ReleaseContent();

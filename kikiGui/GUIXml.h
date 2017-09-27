@@ -3,15 +3,7 @@
 #include <CBXml/Serialize.h>
 
 #include "GUIConsts.h"
-
-namespace gui {
-  class CWidget;
-  class CLabel;
-  class CRect;
-  class CPanel;
-  class CStackPanel;
-  class CScreen;
-}
+#include "GUIFwd.h"
 
 CB_DEFINEXMLREAD(gui::CWidget);
 CB_DEFINEXMLREAD(gui::CLabel);

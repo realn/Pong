@@ -7,6 +7,7 @@
 #include <GFXCanvas.h>
 #include <GFXCanvasView.h>
 
+#include <GUIWidget.h>
 #include <GUIScreen.h>
 #include <GUIScreenView.h>
 
