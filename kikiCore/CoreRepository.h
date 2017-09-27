@@ -3,6 +3,7 @@
 #include <memory>
 #include <map>
 #include <CBStr/Defines.h>
+#include <CBIO/Path.h>
 
 #include "CoreFont.h"
 
@@ -36,6 +37,18 @@ namespace core {
     auto ptr = it->secont.lock();
     if(!ptr) {
       return LoadAsset(name);
+    }
+    return ptr;
+  }
+  template<typename _Type>
+  inline cb::string CRepository<_Type>::GetAssetPath(cb::string const & name) const {
+    return cb::makepath(mAssetDir, cb::makefilename(name, mAssetExt));
+  }
+  template<typename _Type>
+  inline std::shared_ptr<_Type> CRepository<_Type>::LoadAsset(cb::string const & name) {
+    auto ptr = Load(name);
+    if(ptr) {
+      mRepo[name] = ptr;
     }
     return ptr;
   }
