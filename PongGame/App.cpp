@@ -2,6 +2,7 @@
 #include "App.h"
 #include "Consts.h"
 #include "Game.h"
+#include "Assets.h"
 
 #include <CoreFont.h>
 #include <GFXCanvas.h>
@@ -49,10 +50,9 @@ namespace pong {
 
     initextensions();
 
-    {
-      auto glProg = CreateShaderProgram(L"main_vs.glsl"s, L"main_fs.glsl"s);
-      mGLProgram = std::make_unique<CProgram>(std::move(glProg));
-    }
+    mAssets = std::make_unique<CAssets>(L"Assets"s);
+
+    mGLProgram = mAssets->Shaders.Get(L"main_vs,main_fs"s);
 
     auto aspect = static_cast<float>(mScreenSize.x) / static_cast<float>(mScreenSize.y);
     mGameScreenSize = glm::vec2(2.0f) * glm::vec2(aspect, 1.0f);
@@ -60,16 +60,15 @@ namespace pong {
     mGame = std::make_unique<CGame>(mGameScreenSize);
 
     {
-      mFont = std::make_shared<core::CFont>(core::CFont::Load(L"font.xml"s));
+      mFont = mAssets->Fonts.Get(L"font"s);
 
-      mScreen = std::make_unique<gui::CScreen>(gui::CScreen::Load(L"gameui.xml"s));
+      mScreen = std::make_unique<gui::CScreen>(gui::CScreen::Load(L"Assets/gameui.xml"s));
 
       auto texAtlas = gfx::CTextureAtlas(L"texture.png"s, glm::uvec2(256));
 
-      auto cnvProg = 
-        std::make_shared<cb::gl::CProgram>(CreateShaderProgram(L"font_vs.glsl"s, L"font_fs.glsl"s));
+      auto cnvProg = mAssets->Shaders.Get(L"font_vs,font_fs"s);
 
-      mScreenView = std::make_unique<gui::CScreenView>(mFont, cnvProg, texAtlas);
+      mScreenView = std::make_unique<gui::CScreenView>(mFont, cnvProg, texAtlas, mAssets->Textures);
     }
   }
 
@@ -148,43 +147,5 @@ namespace pong {
     }
 
     mScreenView->Render();
-  }
-
-  cb::gl::CProgram CApp::CreateShaderProgram(cb::string const & vertFilePath, cb::string const & fragFilePath) {
-    using namespace cb::gl;
-
-    auto vsh = LoadShader(ShaderType::VERTEX, vertFilePath);
-    auto fsh = LoadShader(ShaderType::FRAGMENT, fragFilePath);
-
-    auto glProgram = CProgram();
-    glProgram.Attach({std::move(vsh), std::move(fsh)});
-    glProgram.SetInLocation({
-      {gfx::IDX_VERTEX4, gfx::VIN_VERTEX4},
-      {gfx::IDX_COLOR4, gfx::VIN_COLOR4}
-    });
-    glProgram.Link();
-    if(!glProgram.IsLinked()) {
-      cb::warn(L"Failed to link gl program.");
-      cb::info(glProgram.GetLinkLog());
-      throw std::exception("GL program compilation failed.");
-    }
-
-    return glProgram;
-  }
-
-  cb::gl::CShader CApp::LoadShader(cb::gl::ShaderType const type, cb::string const & filepath) {
-    using namespace cb::gl;
-
-    cb::info(L"Compiling shader from file {0}", filepath);
-    auto source = cb::readtextfileutf8(filepath);
-
-    auto sh = CShader(type, source);
-    if(!sh.IsCompiled()) {
-      cb::warn(L"Shader compilation failed.");
-      cb::info(sh.GetCompileLog());
-      throw std::exception("Shader compilation failed.");
-    }
-
-    return sh;
   }
 }

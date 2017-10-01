@@ -144,6 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="Assets.cpp" />
     <ClCompile Include="GameField.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameBall.cpp" />
@@ -161,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="Assets.h" />
     <ClInclude Include="GameField.h" />
     <ClInclude Include="Consts.h" />
     <ClInclude Include="ControlEventObservers.h" />
@@ -174,20 +176,20 @@
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="main_fs.glsl" />
-    <None Include="main_vs.glsl" />
+    <None Include="Assets\main_fs.glsl" />
+    <None Include="Assets\main_vs.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="font_fs.glsl" />
-    <Text Include="font_vs.glsl" />
+    <Text Include="Assets\font_fs.glsl" />
+    <Text Include="Assets\font_vs.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="font.xml" />
-    <Xml Include="gameui.xml" />
+    <Xml Include="Assets\font.xml" />
+    <Xml Include="Assets\gameui.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="font.png" />
-    <Image Include="texture.png" />
+    <Image Include="Assets\font.png" />
+    <Image Include="Assets\texture.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\kikiCore\kikiCore.vcxproj">

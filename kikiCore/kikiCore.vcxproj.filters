@@ -16,6 +16,9 @@
     <ClCompile Include="CoreFont.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CoreFontRepository.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -30,10 +33,10 @@
     <ClInclude Include="CoreFwd.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="CoreRepository.h">
+    <ClInclude Include="CoreFontRepository.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="CoreFontRepository.h">
+    <ClInclude Include="CoreAssetRepository.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

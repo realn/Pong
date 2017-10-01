@@ -20,7 +20,8 @@ namespace gui {
   public:
     CScreenView(std::shared_ptr<core::CFont> font,
                 std::shared_ptr<cb::gl::CProgram> guiProgram,
-                gfx::CTextureAtlas const& textureAtlas);
+                gfx::CTextureAtlas const& textureAtlas,
+                core::CAssetRepository<cb::gl::CTexture>& texRepo);
     ~CScreenView();
 
     gfx::CCanvas CreateCanvas() const;
@@ -30,8 +31,5 @@ namespace gui {
 
     void UpdateRender(CScreen const& screen, gfx::CCanvas const& canvas);
     void Render() const;
-
-  private:
-    static std::shared_ptr<cb::gl::CTexture> LoadTexture(cb::string const& filepath);
   };
 }

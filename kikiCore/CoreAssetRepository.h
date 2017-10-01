@@ -9,19 +9,19 @@
 
 namespace core {
   template<typename _Type>
-  class CRepository {
+  class CAssetRepository {
   private:
     cb::string mAssetDir;
     cb::string mAssetExt;
     std::map<cb::string, std::weak_ptr<_Type>> mRepo;
 
   public:
-    CRepository(cb::string const& assetDir, cb::string const& assetExt)
+    CAssetRepository(cb::string const& assetDir, cb::string const& assetExt)
       : mAssetDir(assetDir), mAssetExt(assetExt) {}
-    virtual ~CRepository() = default;
+    virtual ~CAssetRepository() = default;
 
     std::shared_ptr<_Type> Get(cb::string const& name);
-    std::shared_ptr<_Type> Load(cb::string const& name) = 0;
+    virtual std::shared_ptr<_Type> Load(cb::string const& name) const = 0;
 
   protected:
     virtual cb::string GetAssetPath(cb::string const& name) const;
@@ -29,23 +29,29 @@ namespace core {
   };
 
   template<typename _Type>
-  inline std::shared_ptr<_Type> CRepository<_Type>::Get(cb::string const & name) {
+  std::shared_ptr<_Type> CAssetRepository<_Type>::Get(cb::string const & name) {
     auto it = mRepo.find(name);
     if(it == mRepo.end()) {
       return LoadAsset(name);
     }
-    auto ptr = it->secont.lock();
+    auto ptr = it->second.lock();
     if(!ptr) {
       return LoadAsset(name);
     }
     return ptr;
   }
+
   template<typename _Type>
-  inline cb::string CRepository<_Type>::GetAssetPath(cb::string const & name) const {
-    return cb::makepath(mAssetDir, cb::makefilename(name, mAssetExt));
+  cb::string CAssetRepository<_Type>::GetAssetPath(cb::string const & name) const {
+    auto filename = name;
+    if(!cb::ends_with(filename, mAssetExt)) {
+      filename = cb::makefilename(name, mAssetExt);
+    }
+    return cb::makepath(mAssetDir, filename);
   }
+
   template<typename _Type>
-  inline std::shared_ptr<_Type> CRepository<_Type>::LoadAsset(cb::string const & name) {
+  std::shared_ptr<_Type> CAssetRepository<_Type>::LoadAsset(cb::string const & name) {
     auto ptr = Load(name);
     if(ptr) {
       mRepo[name] = ptr;

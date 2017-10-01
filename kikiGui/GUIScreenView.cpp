@@ -6,19 +6,19 @@
 #include "GFXTextureAtlas.h"
 
 #include <CoreFont.h>
+#include <CoreAssetRepository.h>
 
-#include <CBIO/File.h>
-#include <CBSDL/Surface.h>
 #include <CBGL/Texture.h>
 
 namespace gui {
   CScreenView::CScreenView(std::shared_ptr<core::CFont> font,
                            std::shared_ptr<cb::gl::CProgram> guiProgram,
-                           gfx::CTextureAtlas const& textureAtlas)
+                           gfx::CTextureAtlas const& textureAtlas, 
+                           core::CAssetRepository<cb::gl::CTexture>& texRepo)
     : mFont(font), mTextureAtlas(textureAtlas), mTransform(1.0f)
   {
-    auto fontTexture = LoadTexture(font->GetTextureFilePath());
-    auto baseTexture = LoadTexture(textureAtlas.GetTextureFileName());
+    auto fontTexture = texRepo.Load(font->GetTextureFilePath());
+    auto baseTexture = texRepo.Load(textureAtlas.GetTextureFileName());
 
     mCanvasView = std::make_unique<gfx::CCanvasView>(guiProgram, baseTexture, fontTexture);
   }
@@ -37,15 +37,5 @@ namespace gui {
 
   void gui::CScreenView::Render() const {
     mCanvasView->Render(mTransform);
-  }
-
-  std::shared_ptr<cb::gl::CTexture> CScreenView::LoadTexture(cb::string const & filepath) {
-    auto surface = cb::sdl::CSurface::Load(filepath);
-    surface = surface.Convert(cb::sdl::PixelFormat::RGBA32);
-
-    auto texture = cb::gl::CTexture(surface.GetSize(), cb::gl::TextureFormat::RGBA8);
-    texture.SetData(cb::gl::InputFormat::RGBA, surface.GetPixels());
-
-    return std::make_shared<cb::gl::CTexture>(std::move(texture));
   }
 }

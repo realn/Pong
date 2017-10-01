@@ -28,6 +28,12 @@
     <ClInclude Include="GFXFwd.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="GFXTextureRepository.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GFXShaderRepository.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -43,6 +49,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GFXVertex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GFXTextureRepository.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GFXShaderRepository.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

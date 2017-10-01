@@ -46,6 +46,9 @@
     <ClCompile Include="GamePlayer.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Assets.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h">
@@ -84,36 +87,37 @@
     <ClInclude Include="ControlEventObservers.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Assets.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="main_vs.glsl">
+    <None Include="Assets\main_fs.glsl">
       <Filter>Assets\Shaders</Filter>
     </None>
-    <None Include="main_fs.glsl">
+    <None Include="Assets\main_vs.glsl">
       <Filter>Assets\Shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="font_vs.glsl">
+    <Text Include="Assets\font_fs.glsl">
       <Filter>Assets\Shaders</Filter>
     </Text>
-    <Text Include="font_fs.glsl">
+    <Text Include="Assets\font_vs.glsl">
       <Filter>Assets\Shaders</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="font.xml">
+    <Xml Include="Assets\font.xml">
       <Filter>Assets</Filter>
     </Xml>
-    <Xml Include="gameui.xml">
+    <Xml Include="Assets\gameui.xml">
       <Filter>Assets</Filter>
     </Xml>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="font.png">
+    <Image Include="Assets\font.png">
       <Filter>Assets</Filter>
     </Image>
-    <Image Include="texture.png">
+    <Image Include="Assets\texture.png">
       <Filter>Assets</Filter>
     </Image>
   </ItemGroup>
