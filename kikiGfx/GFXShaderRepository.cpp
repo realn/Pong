@@ -15,9 +15,12 @@ namespace gfx {
   CShaderRepository::~CShaderRepository() {}
 
   std::shared_ptr<cb::gl::CProgram> CShaderRepository::Load(cb::string const & name) const {
+    return Load(ConvertKey(name));
+  }
+
+  std::shared_ptr<cb::gl::CProgram> CShaderRepository::Load(cb::strvector const & names) const {
     auto shaders = std::vector<cb::gl::CShader>();
-    auto shadernames = cb::split(name, L","s);
-    for(auto& shadername : shadernames) {
+    for(auto& shadername : names) {
       auto type = FindShaderType(shadername);
       auto path = GetAssetPath(shadername);
 
@@ -30,10 +33,10 @@ namespace gfx {
   std::shared_ptr<cb::gl::CProgram> CShaderRepository::CreateProgram(std::vector<cb::gl::CShader>& shaders) const {
     auto program = cb::gl::CProgram();
     program.Attach(shaders);
-    program.SetInLocation({
-      {gfx::IDX_VERTEX4, gfx::VIN_VERTEX4},
-      {gfx::IDX_COLOR4, gfx::VIN_COLOR4}
-    });
+    //program.SetInLocation({
+    //  {gfx::IDX_VERTEX2_POS, gfx::VIN_VERTEX2_POS},
+    //  {gfx::IDX_VERTEX2_COLOR, gfx::VIN_VERTEX2_COLOR}
+    //});
     program.Link();
     if(!program.IsLinked()) {
       cb::warn(L"Failed to link gl program.");

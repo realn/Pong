@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CoreFont.h"
-#include "../FontCompiler/DataFont.h"
+#include "DataFont.h"
 
 #include <CBIO/File.h>
 
@@ -29,15 +29,14 @@ namespace core {
     }
 
     auto result = glm::vec2();
-    for(auto i = 0u; i < text.length()-1; i++) {
-      auto data = GetChar(text[i]);
+    for(auto& fc : text) {
+      auto data = GetChar(fc);
       result.x += data.mAdv.x;
-      result.y = glm::max(result.y, data.mMax.y - data.mMin.y);
+      result.y = glm::max(result.y, data.mMax.y);
     }
 
     auto data = GetChar(*text.rbegin());
-    result.x += data.mMax.x - data.mMin.x;
-    result.y = glm::max(result.y, data.mMax.y - data.mMin.y);
+    result.x += (data.mMax.x - data.mMin.x) - data.mAdv.x;
 
     if(!charHeight) {
       result.y = glm::max(result.y, 1.0f);
@@ -46,7 +45,13 @@ namespace core {
     return result;
   }
 
+  glm::vec2 texComb(glm::ivec2 const& min, glm::ivec2 const& max) {
+    return glm::vec2(static_cast<float>(min.x), static_cast<float>(max.y));
+  }
+
   CFont CFont::Load(cb::string const & filepath) {
+    using namespace glm;
+
     auto source = cb::readtextfileutf8(filepath);
     cb::CXmlDocument xmlDoc(source);
     if(!xmlDoc.IsValid()) {
@@ -58,37 +63,37 @@ namespace core {
       throw std::exception("Failed to parse font xml.");
     }
 
-    auto font = CFont(dataFont.mTexture);
-    auto lineSize = glm::vec2(static_cast<float>(dataFont.mLineHeight));
     auto texSize = glm::vec2(dataFont.mTextureSize);
+    auto lineDiv = static_cast<float>(dataFont.mLineHeight);
 
-    auto posAdj = glm::vec2(0.0f, dataFont.mAscent) / lineSize;
+    auto font = CFont(dataFont.mTexture);
+    font.mData.mLineSkip = static_cast<float>(dataFont.mLineSkip) / lineDiv;
+    font.mData.mLineHeight = 1.0f;
+    font.mData.mAscent = static_cast<float>(dataFont.mAscent) / lineDiv;
+    font.mData.mDescent = static_cast<float>(dataFont.mDescent) / lineDiv;
 
     for(auto& dataChar : dataFont.mChars) {
-      font.AddChar(dataChar.mCode, {
-        glm::vec2(dataChar.mMin.x, -dataChar.mMax.y) / lineSize + posAdj,
-        glm::vec2(dataChar.GetTexSize()) / lineSize + posAdj,
-        glm::vec2(dataChar.mTexMin.x, dataChar.mTexMax.y) / texSize,
-        glm::vec2(dataChar.mTexMax.x, dataChar.mTexMin.y) / texSize,
-        glm::vec2(dataChar.mAdv) / lineSize
-      });
+      auto charSize = vec2(dataChar.mTexMax - dataChar.mTexMin);
+
+      auto fontChar = CFont::CChar();
+      fontChar.mMin = vec2(0.0f) / lineDiv;
+      fontChar.mMax = charSize / lineDiv;
+      fontChar.mTexMin = texComb(dataChar.mTexMin, dataChar.mTexMax) / texSize;
+      fontChar.mTexMax = texComb(dataChar.mTexMax, dataChar.mTexMin) / texSize;
+      fontChar.mAdv = vec2(dataChar.mAdv) / lineDiv;
+      font.AddChar(dataChar.mCode, fontChar);
     }
 
     return font;
   }
 
-  glm::vec2 getOrg(glm::vec2 const& min, glm::vec2 const& max, glm::vec2 const& xy) {
-    auto nxy = glm::vec2(1.0f) - xy;
-    return min * nxy + max * xy;
-  }
-
-
   glm::vec2 CFont::CChar::getVPos(glm::ivec2 const& xy, glm::vec2 const& scale) const {
-    return mMin + glm::vec2(mMax - mMin) * glm::vec2(xy) * scale;
-    //return getOrg(mMin, mMax, glm::vec2(xy));
+    using namespace glm;
+    return mix(mMin, mMax, vec2(xy)) * scale;
   }
 
   glm::vec2 CFont::CChar::getVTex(glm::ivec2 const& xy) const {
-    return getOrg(mTexMin, mTexMax, glm::vec2(xy));
+    using namespace glm;
+    return mix(mTexMin, mTexMax, vec2(xy));
   }
 }

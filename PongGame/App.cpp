@@ -10,7 +10,7 @@
 
 #include <GUIWidget.h>
 #include <GUIScreen.h>
-#include <GUIScreenView.h>
+#include <GUILayerStack.h>
 
 #include <CBSDL/System.h>
 #include <CBSDL/GLContext.h>
@@ -52,24 +52,22 @@ namespace pong {
 
     mAssets = std::make_unique<CAssets>(L"Assets"s);
 
-    mGLProgram = mAssets->Shaders.Get(L"main_vs,main_fs"s);
-
     auto aspect = static_cast<float>(mScreenSize.x) / static_cast<float>(mScreenSize.y);
     mGameScreenSize = glm::vec2(2.0f) * glm::vec2(aspect, 1.0f);
 
-    mGame = std::make_unique<CGame>(mGameScreenSize);
+    mGame = std::make_unique<CGame>(mGameScreenSize, *mAssets);
 
-    {
-      mFont = mAssets->Fonts.Get(L"font"s);
+    //{
+    //  mFont = mAssets->Fonts.Get(L"font"s);
 
-      mScreen = std::make_unique<gui::CScreen>(gui::CScreen::Load(L"Assets/gameui.xml"s));
+    //  mScreen = std::make_unique<gui::CScreen>(gui::CScreen::Load(L"Assets/gameui.xml"s));
 
-      auto texAtlas = gfx::CTextureAtlas(L"texture.png"s, glm::uvec2(256));
+    //  auto texAtlas = gfx::CTextureAtlas(L"texture.png"s, glm::uvec2(256));
 
-      auto cnvProg = mAssets->Shaders.Get(L"font_vs,font_fs"s);
+    //  auto cnvProg = mAssets->Shaders.Get(L"font_vs,font_fs"s);
 
-      mScreenView = std::make_unique<gui::CScreenView>(mFont, cnvProg, texAtlas, mAssets->Textures);
-    }
+    //  mScreenView = std::make_unique<gui::CScreenView>(mFont, cnvProg, texAtlas, mAssets->Textures);
+    //}
   }
 
   CApp::~CApp() {}
@@ -124,15 +122,15 @@ namespace pong {
   void CApp::Update(float const timeDelta) {
     mGame->Update(timeDelta);
 
-    mScreen->Update(timeDelta);
+    //mScreen->Update(timeDelta);
   }
 
   void CApp::UpdateRender() {
     mGame->UpdateRender();
 
-    auto canvas = mScreenView->CreateCanvas();
-    mScreen->UpdateRender(canvas, mScreenView->GetFont());
-    mScreenView->UpdateRender(*mScreen, canvas);
+    //auto canvas = mScreenView->CreateCanvas();
+    //mScreen->UpdateRender(canvas, mScreenView->GetFont());
+    //mScreenView->UpdateRender(*mScreen, canvas);
   }
 
   void CApp::Render() {
@@ -141,11 +139,9 @@ namespace pong {
 
     {
       auto trans = glm::ortho(0.0f, mGameScreenSize.x, 0.0f, mGameScreenSize.y);
-      auto gprog = cb::gl::bind(*mGLProgram);
-
-      mGame->Render(*mGLProgram, trans);
+      mGame->Render(trans);
     }
 
-    mScreenView->Render();
+    //mScreenView->Render();
   }
 }

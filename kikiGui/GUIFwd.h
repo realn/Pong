@@ -6,7 +6,11 @@ namespace gui {
   class CRect;
   class CPanel;
   class CStackPanel;
+  class CAbsolute;
+  class CImage;
+  class CText;
 
+  class CLayer;
+  class CLayerStack;
   class CScreen;
-  class CScreenView;
 }

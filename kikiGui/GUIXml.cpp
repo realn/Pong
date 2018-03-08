@@ -5,8 +5,11 @@
 #include "GUIWidget.h"
 #include "GUILabel.h"
 #include "GUIRect.h"
-#include "GUIScreen.h"
+#include "GUILayer.h"
 #include "GUIPanel.h"
+#include "GUIText.h"
+#include "GUIAbsolute.h"
+#include "GUIImage.h"
 #include "GUIStackPanel.h"
 
 static const auto XML_WIDGET_ID = L"Id"s;
@@ -21,6 +24,10 @@ static const auto XML_WIDGET_TEXT = L"Text"s;
 static const auto XML_WIDGET_TEXTALIGN = L"TextAlign"s;
 static const auto XML_WIDGET_TEXTSCALE = L"TextScale"s;
 static const auto XML_WIDGET_TEXTCOLOR = L"TextColor"s;
+static const auto XML_WIDGET_POSITION = L"Position"s;
+static const auto XML_WIDGET_IMGNAME = L"ImgName"s;
+static const auto XML_WIDGET_FLIPHORIZONTAL = L"FlipHorizontal"s;
+static const auto XML_WIDGET_FLIPVERTICAL = L"FlipVertical"s;
 
 namespace {
   class IWidgetObjectXmlFactory {
@@ -94,9 +101,12 @@ public:
   static auto getWidgetFactoriesMap() {
     auto result = CWidgetXmlFactory::FactoryMapT();
     result[L"Rect"s] = std::make_unique<CWidgetXmlObjectFactory<gui::CRect>>();
+    result[L"Image"s] = std::make_unique<CWidgetXmlObjectFactory<gui::CImage>>();
     result[L"Label"s] = std::make_unique<CWidgetXmlObjectFactory<gui::CLabel>>();
     result[L"Panel"s] = std::make_unique<CWidgetXmlObjectFactory<gui::CPanel>>();
     result[L"StackPanel"s] = std::make_unique<CWidgetXmlObjectFactory<gui::CStackPanel>>();
+    result[L"Absolute"s] = std::make_unique<CWidgetXmlObjectFactory<gui::CAbsolute>>();
+    result[L"Text"] = std::make_unique<CWidgetXmlObjectFactory<gui::CText>>();
     return result;
   }
   static auto widgetFactory = CWidgetXmlFactory(getWidgetFactoriesMap());
@@ -192,6 +202,20 @@ CB_DEFINEXMLREAD(gui::CRect) {
   return true;
 }
 
+CB_DEFINEXMLREAD(gui::CImage) {
+  if(!cb::ReadXmlObject<gui::CRect>(mNode, mObject)) { return false; }
+
+  auto imgName = cb::string();
+  auto flipHor = false;
+  auto flipVer = false;
+
+  if(GetAttribute(XML_WIDGET_IMGNAME, imgName)) { mObject.SetImage(imgName); }
+  if(GetAttribute(XML_WIDGET_FLIPHORIZONTAL, flipHor)) { mObject.SetFlipHorizontal(flipHor); }
+  if(GetAttribute(XML_WIDGET_FLIPVERTICAL, flipVer)) { mObject.SetFlipVertical(flipVer); }
+
+  return true;
+}
+
 CB_DEFINEXMLREAD(gui::CLabel) {
   if(!cb::ReadXmlObject<gui::CWidget>(mNode, mObject)) { return false; }
 
@@ -207,6 +231,12 @@ CB_DEFINEXMLREAD(gui::CLabel) {
   if(GetAttribute(XML_WIDGET_TEXTCOLOR, color)) { mObject.SetTextColor(color); }
   if(GetAttribute(XML_WIDGET_TEXT, text)) { mObject.SetText(text); }
   else { mObject.SetText(mNode.GetValue()); }
+  return true;
+}
+
+CB_DEFINEXMLREAD(gui::CText) {
+  if(!cb::ReadXmlObject<gui::CLabel>(mNode, mObject)) { return false; }
+
   return true;
 }
 
@@ -249,13 +279,32 @@ CB_DEFINEXMLREAD(gui::CStackPanel) {
   return true;
 }
 
-CB_DEFINEXMLREAD(gui::CScreen) {
-  auto size = glm::vec2(10.0f);
+CB_DEFINEXMLREAD(gui::CAbsolute) {
+  if(!cb::ReadXmlObject<gui::CWidget>(mNode, mObject)) { return false; }
+
+  auto align = gui::Align::Default;
+  auto margin = glm::vec4(0.0f);
+  auto pos = glm::vec2(0.0f);
+
+  if(GetAttribute(XML_WIDGET_CONTENTALIGN, align)) { mObject.SetContentAlign(align); }
+  if(GetAttribute(XML_WIDGET_CONTENTMARGIN, margin)) { mObject.SetContentMargin(margin); }
+  if(GetAttribute(XML_WIDGET_POSITION, pos)) { mObject.SetPosition(pos); }
+
+  for(auto& node : mNode.Nodes) {
+    auto widget = widgetFactory.CreateWidget(node);
+    if(widget) {
+      mObject.SetContent(std::move(widget));
+      return true;
+    }
+  }
+  return true;
+}
+
+CB_DEFINEXMLREAD(gui::CLayer) {
   auto textScale = glm::vec2(1.0f);
   auto contentAlign = gui::Align::Default;
   auto contentMargin = glm::vec4(0.0f);
 
-  if(GetAttribute(XML_WIDGET_SIZE, size)) { mObject.SetSize(size); }
   if(GetAttribute(XML_WIDGET_CONTENTALIGN, contentAlign)) { mObject.SetContentAlign(contentAlign); }
   if(GetAttribute(XML_WIDGET_CONTENTMARGIN, contentMargin)) { mObject.SetContentMargin(contentMargin); }
   if(GetAttribute(XML_WIDGET_TEXTSCALE, textScale)) { mObject.SetTextScale(textScale); }

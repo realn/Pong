@@ -4,39 +4,27 @@
 #include "Game.h"
 #include "Consts.h"
 
-#include <GFXVertex.h>
+#include <GFXCanvas.h>
 #include <GFXConsts.h>
 
 namespace pong {
   CGamePaddle::CGamePaddle(PaddleSide const side,
-                           glm::vec2 const & size, 
-                           float const speed, 
-                           float const accel) 
-    : CGameObject(size, speed) 
+                           glm::vec2 const & size,
+                           float const speed,
+                           float const accel)
+    : CGameObject(size, speed)
+    , mColor(1.0f, 0.0f, 0.5f, 1.0f)
     , mMoveDir(PaddleMoveDir::None)
     , mSide(side)
-    , mAccel(accel)
-  {
-    
-    glm::vec4 color = {1.0f, 0.0f, 0.5f, 1.0f};
-    auto verts = std::vector<gfx::CVertex>{
-      {0.0f, 0.0f, 0.0f, 0.0f, color},
-      {size.x, 0.0f, 1.0f, 0.0f, color},
-      {size.x, size.y, 1.0f, 1.0f, color},
-      {0.0f, size.y, 0.0f, 1.0f, color},
-    };
-
-    mBuffer = std::make_unique<cb::gl::CBuffer>();
-    mBuffer->SetData(verts);
-  }
+    , mAccel(accel) {}
 
   void CGamePaddle::Update(CGame& game, float const timeDelta) {
     auto dir = glm::vec2();
     switch(mMoveDir) {
-    case PaddleMoveDir::Up:     dir = {0.0f, 1.0f}; break;
-    case PaddleMoveDir::Down:   dir = {0.0f, -1.0f}; break;
-    case PaddleMoveDir::Left:   dir = {-1.0f, 0.0f}; break;
-    case PaddleMoveDir::Right:  dir = {1.0f, 0.0f}; break;
+    case PaddleMoveDir::Up:     dir = { 0.0f, 1.0f }; break;
+    case PaddleMoveDir::Down:   dir = { 0.0f, -1.0f }; break;
+    case PaddleMoveDir::Left:   dir = { -1.0f, 0.0f }; break;
+    case PaddleMoveDir::Right:  dir = { 1.0f, 0.0f }; break;
     default:  dir = -glm::sign(mVec); break;
     }
 
@@ -50,14 +38,7 @@ namespace pong {
     }
   }
 
-  void CGamePaddle::UpdateRender() {}
-
-  void CGamePaddle::Render(cb::gl::CProgram & glProgram, glm::mat4 const& transform) const {
-    glProgram.SetUniform(gfx::UNI_TRANSFORM, transform * glm::translate(glm::mat4(1.0f), {mPos, 0.0f}));
-
-    auto gbuf = cb::gl::bind(*mBuffer);
-    auto gver = cb::gl::bind(gfx::CVertex::Def);
-
-    cb::gl::drawElements(cb::gl::PrimitiveType::TRIANGLES, std::vector<glm::u16>{0, 1, 2, 0, 2, 3});
+  void CGamePaddle::UpdateRender(gfx::CCanvas& canvas) {
+    canvas.DrawRect(GetBRect(), mColor);
   }
 }

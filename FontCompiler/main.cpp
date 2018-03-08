@@ -24,18 +24,48 @@ cb::strvector convMainArgs(int argc, char* argv[]) {
   return result;
 }
 
+template<class _Type>
+_Type takeArg(cb::strvector const& args, cb::string const& arg, _Type const& defValue) {
+  auto it = std::find(args.begin(), args.end(), arg);
+  if(it == args.end()) {
+    return defValue;
+  }
+  it++;
+  if(it == args.end()) {
+    return defValue;
+  }
+  auto value = _Type();
+  if(cb::fromStr(*it, value)) {
+    return value;
+  }
+  return defValue;
+}
+
+static auto const DEF_FONT_CHARS_LOWER = L"abcdefghijklmnopqrstuvwxyz"s;
+static auto const DEF_FONT_CHARS_UPPER = L"ABCDEFGHIJKLMNOPQRSTUVWXYZ"s;
+static auto const DEF_FONT_CHARS_NUMBER = L"0123456789"s;
+static auto const DEF_FONT_CHARS_SPECIAL = L" `~!@#$^&*()-_=+[]{};:'\",./<>?|\\"s;
+static auto const DEF_FONT_CHARS = 
+  DEF_FONT_CHARS_LOWER + 
+  DEF_FONT_CHARS_UPPER + 
+  DEF_FONT_CHARS_NUMBER + 
+  DEF_FONT_CHARS_SPECIAL;
+
 int main(int argc, char* argv[]) {
   auto args = convMainArgs(argc, argv);
 
   auto params = CFontParams();
-  params.FontPath = L"Instruction.otf"s;
-  params.TexSize = 512u;
-  params.FontSize = 46u;
-  params.FontChars = L"abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`~!@#$^&*()-_=+[]{};:'\",./<>?|\\"s;
-  params.TexCharBorder = 6u;
+  params.FontFileName = takeArg(args, L"-font"s, L"Instruction.otf"s);
+  params.FontDir = takeArg(args, L"-path"s, L"assets"s);
+  params.TexSize = takeArg(args, L"-texSize"s, 512u);
+  params.FontSize = takeArg(args, L"-fontSize"s, 54u);
+  params.FontChars = DEF_FONT_CHARS;
+  params.TexCharBorder = takeArg(args, L"-texBorder"s, 2u);
   params.CharColor = glm::vec4(1.0f);
-  params.OutputName = L"font";
-  params.OutputPath = L"../PongGame/";
+  params.BackColor = glm::vec4(0.0f);
+  params.OutputName = takeArg(args, L"-out"s, params.FontFileName);
+  params.OutputDir = takeArg(args, L"-odir"s, L"../App/assets/fonts"s);
+  params.OutputTexDir = takeArg(args, L"-otexdir"s, L"../App/assets/textures"s);
 
   auto sdlSys = cb::sdl::CSystem(cb::sdl::System::VIDEO);
 

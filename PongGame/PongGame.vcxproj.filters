@@ -87,7 +87,9 @@
     <ClInclude Include="ControlEventObservers.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Assets.h" />
+    <ClInclude Include="Assets.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\main_fs.glsl">

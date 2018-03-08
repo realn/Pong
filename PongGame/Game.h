@@ -4,11 +4,13 @@
 #include <vector>
 #include <glm/vec2.hpp>
 #include <CBGL/Fwd.h>
+#include <GFXFwd.h>
 
 namespace pong {
   enum class PaddleSide;
   enum class PaddleControllerType;
 
+  class CAssets;
   class CGameField;
   class CGamePaddle;
   class CGameBall;
@@ -35,9 +37,11 @@ namespace pong {
     KeyboardEventObserverPtrVecT mKeyboardEventObservers;
     std::unique_ptr<CGameField> mField;
     std::unique_ptr<CGameBall> mBall;
+    std::unique_ptr<gfx::CCanvas> mCanvas;
+    std::unique_ptr<gfx::CCanvasView> mCanvasView;
 
   public:
-    CGame(glm::vec2 const& screenSize);
+    CGame(glm::vec2 const& screenSize, CAssets& assets);
     ~CGame();
 
     const PaddlePtrVecT& GetPaddles() const { return mPaddles; }
@@ -47,7 +51,7 @@ namespace pong {
 
     void Update(float const timeDelta);
     void UpdateRender();
-    void Render(cb::gl::CProgram& glProgram, glm::mat4 const& transform);
+    void Render(glm::mat4 const& transform);
 
     void EventMousePos(glm::vec2 const& pos);
     void EventKeyPress(cb::sdl::ScanCode code, cb::sdl::KeyState state);

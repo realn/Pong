@@ -23,11 +23,10 @@ namespace pong {
     std::unique_ptr<cb::sdl::CGLContext> mGLContext;
     std::unique_ptr<CAssets> mAssets;
 
-    std::shared_ptr<cb::gl::CProgram> mGLProgram;
     std::unique_ptr<CGame> mGame;
     std::shared_ptr<core::CFont> mFont;
     std::unique_ptr<gui::CScreen> mScreen;
-    std::unique_ptr<gui::CScreenView> mScreenView;
+    std::unique_ptr<gui::CLayerStack> mLayerStack;
     float mFrameTime = 0.0f;
 
   public:

@@ -23,7 +23,7 @@
     <ProjectGuid>{A60BD768-632D-4EBF-BCF4-75EB57C42BA3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>kikiCore</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -85,6 +85,9 @@
     <Link>
       <SubSystem>Windows</SubSystem>
     </Link>
+    <Lib>
+      <AdditionalDependencies>CBStr.lib;CBSDL.lib;CBGL.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -128,15 +131,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CoreApp.h" />
+    <ClInclude Include="CoreAppTask.h" />
+    <ClInclude Include="CoreBLine.h" />
     <ClInclude Include="CoreBRect.h" />
+    <ClInclude Include="CoreBSphere.h" />
+    <ClInclude Include="CoreEvents.h" />
+    <ClInclude Include="CoreFastId.h" />
     <ClInclude Include="CoreFont.h" />
     <ClInclude Include="CoreFontRepository.h" />
     <ClInclude Include="CoreFwd.h" />
     <ClInclude Include="CoreAssetRepository.h" />
+    <ClInclude Include="CoreInputEvents.h" />
+    <ClInclude Include="DataFont.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CoreApp.cpp" />
+    <ClCompile Include="CoreAssetRepository.cpp" />
     <ClCompile Include="CoreBRect.cpp" />
+    <ClCompile Include="CoreBSphere.cpp" />
+    <ClCompile Include="CoreFastId.cpp" />
     <ClCompile Include="CoreFont.cpp" />
     <ClCompile Include="CoreFontRepository.cpp" />
     <ClCompile Include="stdafx.cpp">

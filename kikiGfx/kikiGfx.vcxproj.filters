@@ -19,9 +19,6 @@
     <ClInclude Include="stdafx.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="GFXVertex.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="GFXConsts.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -32,6 +29,21 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="GFXShaderRepository.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GFXMesh.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GFXHelper.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GFXMeshVertex.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GFXCanvasVertex.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GFXMeshView.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -48,13 +60,25 @@
     <ClCompile Include="GFXTextureAtlas.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GFXVertex.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GFXTextureRepository.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GFXShaderRepository.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GFXMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GFXHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GFXMeshVertex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GFXCanvasVertex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GFXMeshView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

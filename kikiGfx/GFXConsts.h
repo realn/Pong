@@ -6,11 +6,13 @@ namespace gfx {
   using namespace std::literals;
 
   static const auto UNI_TRANSFORM = L"mTransform"s;
-  static const auto UNI_BASE_TEXTURE = L"texBase"s;
-  static const auto UNI_FONT_TEXTURE = L"texFont"s;
-  static const auto VIN_VERTEX4 = L"vInVertex"s;
-  static const auto VIN_COLOR4 = L"vInColor"s;
+  static const auto UNI_MESHCOLOR = L"vMeshColor"s;
 
-  constexpr auto IDX_VERTEX4 = 0u;
-  constexpr auto IDX_COLOR4 = 1u;
+  static const auto VIN_VERTEX3_POS = L"vInVertex"s;
+  static const auto VIN_VERTEX3_NORMAL = L"vInNormal"s;
+  static const auto VIN_VERTEX3_COLOR = L"vInColor"s;
+
+  constexpr auto IDX_VERTEX3_POS = 0u;
+  constexpr auto IDX_VERTEX3_NORMAL = 1u;
+  constexpr auto IDX_VERTEX3_COLOR = 2u;
 }

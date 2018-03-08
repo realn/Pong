@@ -5,14 +5,17 @@
 #include <glm/vec4.hpp>
 
 struct CFontParams {
-  cb::string FontPath;
+  cb::string FontFileName;
+  cb::string FontDir;
   cb::string FontChars;
   cb::string OutputName;
-  cb::string OutputPath;
+  cb::string OutputDir;
+  cb::string OutputTexDir;
   unsigned FontSize;
   unsigned TexSize;
   unsigned TexCharBorder;
   glm::vec4 CharColor;
+  glm::vec4 BackColor;
 };
 
 namespace data {

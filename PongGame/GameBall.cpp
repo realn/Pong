@@ -1,29 +1,20 @@
 #include "stdafx.h"
-#include "GameBall.h"
+
+#include <CoreBRect.h>
+#include <GFXConsts.h>
+#include <GFXCanvas.h>
+
 #include "GamePaddle.h"
 #include "Game.h"
 #include "Consts.h"
 #include "GameField.h"
-
-#include <CoreBRect.h>
-#include <GFXVertex.h>
-#include <GFXConsts.h>
+#include "GameBall.h"
 
 namespace pong {
   CGameBall::CGameBall(glm::vec2 const & size, float const speed) 
     : CGameObject(size, speed)
+    , mColor(0.5f, 1.0f, 0.0f, 1.0f)
   {
-    glm::vec4 color = {0.5f, 1.0f, 0.0f, 1.0f};
-    auto verts = std::vector<gfx::CVertex>{
-      {0.0f, 0.0f, 0.0f, 0.0f, color},
-      {size.x, 0.0f, 1.0f, 0.0f, color},
-      {size.x, size.y, 1.0f, 1.0f, color},
-      {0.0f, size.y, 0.0f, 1.0f, color},
-    };
-
-    mBuffer = std::make_unique<cb::gl::CBuffer>();
-    mBuffer->SetData(verts);
-
     mVec = glm::normalize(glm::vec2{2.0f, 1.0f});
   }
 
@@ -73,16 +64,7 @@ namespace pong {
     }
   }
 
-  void CGameBall::UpdateRender() {}
-
-  void CGameBall::Render(cb::gl::CProgram & glProgram, glm::mat4 const & transform) const {
-    glProgram.SetUniform(gfx::UNI_TRANSFORM,
-                         transform * glm::translate(glm::mat4(1.0f), {mPos, 0.0f}));
-
-    auto gbuf = cb::gl::bind(*mBuffer);
-    auto gver = cb::gl::bind(gfx::CVertex::Def);
-    auto indices = std::vector<glm::u16>{0, 1, 2, 0, 2, 3};
-
-    cb::gl::drawElements(cb::gl::PrimitiveType::TRIANGLES, indices);
+  void CGameBall::UpdateRender(gfx::CCanvas& canvas) {
+    canvas.DrawRect(GetBRect(), mColor);
   }
 }

@@ -6,6 +6,8 @@
 #include <CBSDL/Defines.h>
 #include <CBGL/Fwd.h>
 
+#include <CoreBRect.h>
+
 #include "GameObject.h"
 
 namespace pong {
@@ -13,7 +15,7 @@ namespace pong {
     : public CGameObject
   {
   private:
-    std::unique_ptr<cb::gl::CBuffer> mBuffer;
+    glm::vec4 mColor;
 
   public:
     CGameField(glm::vec2 const& pos, glm::vec2 const& size, glm::vec4 const& color);
@@ -21,8 +23,6 @@ namespace pong {
 
     virtual void Update(CGame & game, float const timeDelta) override;
 
-    virtual void UpdateRender() override;
-
-    virtual void Render(cb::gl::CProgram & glProgram, glm::mat4 const & transform) const override;
+    virtual void UpdateRender(gfx::CCanvas& canvas) override;
   };
 }

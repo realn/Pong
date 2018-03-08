@@ -4,6 +4,7 @@
 #include <glm/vec2.hpp>
 
 #include <CoreFwd.h>
+#include <GFXFwd.h>
 
 namespace pong {
   class CGame;
@@ -33,7 +34,6 @@ namespace pong {
     core::CBRect GetBRect() const;
 
     virtual void Update(CGame& game, float const timeDelta) = 0;
-    virtual void UpdateRender() = 0;
-    virtual void Render(cb::gl::CProgram& glProgram, glm::mat4 const& transform) const = 0;
+    virtual void UpdateRender(gfx::CCanvas& canvas) = 0;
   };
 }

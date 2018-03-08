@@ -3,6 +3,8 @@
 #include <memory>
 #include <CBGL/Fwd.h>
 
+#include <CoreBRect.h>
+
 #include "GameObject.h"
 
 namespace pong {
@@ -16,7 +18,7 @@ namespace pong {
   class CGamePaddle
     : public CGameObject {
   private:
-    std::unique_ptr<cb::gl::CBuffer> mBuffer;
+    glm::vec4 mColor;
     PaddleSide mSide;
     PaddleMoveDir mMoveDir;
     float mAccel;
@@ -30,7 +32,6 @@ namespace pong {
     PaddleMoveDir GetMoveDir() const { return mMoveDir; }
 
     void Update(CGame& game, float const timeDelta) override;
-    void UpdateRender() override;
-    void Render(cb::gl::CProgram& glProgram, glm::mat4 const& transform) const override;
+    void UpdateRender(gfx::CCanvas& canvas) override;
   };
 }

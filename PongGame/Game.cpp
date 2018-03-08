@@ -1,16 +1,22 @@
 #include "stdafx.h"
-#include "Game.h"
+
+#include <GFXCanvas.h>
+#include <GFXCanvasView.h>
+
+#include "Assets.h"
 #include "Consts.h"
 #include "GamePaddle.h"
 #include "GamePaddleControllerImpl.h"
 #include "GameBall.h"
 #include "GameField.h"
 
+#include "Game.h"
+
 const glm::vec2 FIELD_PROPS{5.0f, 3.0f};
 const float FIELD_ASP_RATIO = FIELD_PROPS.x / FIELD_PROPS.y;
 
 namespace pong {
-  CGame::CGame(glm::vec2 const & screenSize) {
+  CGame::CGame(glm::vec2 const & screenSize, CAssets& assets) {
     {
       auto screenAspRatio = screenSize.x / screenSize.y;
       auto fieldPos = glm::vec2();
@@ -30,6 +36,18 @@ namespace pong {
 
     mBall = std::make_unique<CGameBall>(glm::vec2{0.1f, 0.1f}, 1.5f);
     mBall->SetPosition((mField->GetSize() - mBall->GetSize()) / 2.0f);
+
+    auto textureFileName = L"texture.png"s;
+    auto textureSize = glm::uvec2(512);
+    auto texture = assets.Textures.Get(textureFileName);
+    auto shaderProg = assets.Shaders.Get({ L"font_vs"s, L"font_fs"s });
+
+    shaderProg->SetInLocation(gfx::CCanvasVertex::Inputs);
+    shaderProg->Link();
+
+    mCanvas = std::make_unique<gfx::CCanvas>(gfx::CTextureAtlas(textureFileName, textureSize));
+
+    mCanvasView = std::make_unique<gfx::CCanvasView>(shaderProg, texture, texture);
   }
 
   CGame::~CGame() {}
@@ -56,18 +74,17 @@ namespace pong {
   }
 
   void CGame::UpdateRender() {
+    mCanvas->Clear();
     for(auto& paddle : mPaddles) {
-      paddle->UpdateRender();
+      paddle->UpdateRender(*mCanvas);
     }
-    mBall->UpdateRender();
+    mBall->UpdateRender(*mCanvas);
+
+    mCanvasView->UpdateRender(*mCanvas);
   }
 
-  void CGame::Render(cb::gl::CProgram & glProgram, glm::mat4 const & transform) {
-
-    for(auto& paddle : mPaddles) {
-      paddle->Render(glProgram, transform);
-    }
-    mBall->Render(glProgram, transform);
+  void CGame::Render(glm::mat4 const & transform) {
+    mCanvasView->Render(transform);
   }
 
   void CGame::EventMousePos(glm::vec2 const & pos) {
