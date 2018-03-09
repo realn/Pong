@@ -150,6 +150,7 @@
     <ClCompile Include="GameBall.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GamePaddle.cpp" />
+    <ClCompile Include="GamePaddleController.cpp" />
     <ClCompile Include="GamePaddleControllerImpl.cpp" />
     <ClCompile Include="GamePlayer.cpp" />
     <ClCompile Include="main.cpp" />

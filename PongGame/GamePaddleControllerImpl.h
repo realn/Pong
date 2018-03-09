@@ -11,27 +11,29 @@ namespace pong {
   class CGamePaddle;
 
   class CGamePaddleControllerBase 
-    : public IGamePaddleController
+    : public IGameController
   {
   protected:
     std::shared_ptr<CGamePaddle> mPaddle;
 
   public:
-    CGamePaddleControllerBase(std::shared_ptr<CGamePaddle> paddle);
+    CGamePaddleControllerBase(std::shared_ptr<CGameObject> paddle);
     virtual ~CGamePaddleControllerBase();
   };
 
   class CGamePaddleMouseController 
     : public CGamePaddleControllerBase 
     , public IMouseEventObserver
+    , public std::enable_shared_from_this<CGamePaddleMouseController>
   {
   private:
     glm::vec2 mMousePos;
 
   public:
-    CGamePaddleMouseController(std::shared_ptr<CGamePaddle> paddle);
+    CGamePaddleMouseController(std::shared_ptr<CGameObject> paddle);
     virtual ~CGamePaddleMouseController();
 
+    bool InitController(CGame& game) override;
     void Update(CGame& game, float const timeDelta) override;
 
     void EventMouseMove(glm::vec2 const& pos) override { mMousePos = pos; }
@@ -39,15 +41,18 @@ namespace pong {
 
   class CGamePaddleKeyboardController
     : public CGamePaddleControllerBase
-    , public IKeyboardEventObserver {
+    , public IKeyboardEventObserver 
+    , public std::enable_shared_from_this<CGamePaddleKeyboardController>
+  {
   private:
     bool mMoveUp;
     bool mMoveDown;
 
   public:
-    CGamePaddleKeyboardController(std::shared_ptr<CGamePaddle> paddle);
+    CGamePaddleKeyboardController(std::shared_ptr<CGameObject> paddle);
     virtual ~CGamePaddleKeyboardController();
 
+    bool InitController(CGame& game) override;
     void Update(CGame& game, float const timeDelta) override;
 
     void EventKeyPress(cb::sdl::ScanCode key, cb::sdl::KeyState state) override;

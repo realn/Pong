@@ -56,18 +56,6 @@ namespace pong {
     mGameScreenSize = glm::vec2(2.0f) * glm::vec2(aspect, 1.0f);
 
     mGame = std::make_unique<CGame>(mGameScreenSize, *mAssets);
-
-    //{
-    //  mFont = mAssets->Fonts.Get(L"font"s);
-
-    //  mScreen = std::make_unique<gui::CScreen>(gui::CScreen::Load(L"Assets/gameui.xml"s));
-
-    //  auto texAtlas = gfx::CTextureAtlas(L"texture.png"s, glm::uvec2(256));
-
-    //  auto cnvProg = mAssets->Shaders.Get(L"font_vs,font_fs"s);
-
-    //  mScreenView = std::make_unique<gui::CScreenView>(mFont, cnvProg, texAtlas, mAssets->Textures);
-    //}
   }
 
   CApp::~CApp() {}
@@ -121,16 +109,10 @@ namespace pong {
 
   void CApp::Update(float const timeDelta) {
     mGame->Update(timeDelta);
-
-    //mScreen->Update(timeDelta);
   }
 
   void CApp::UpdateRender() {
     mGame->UpdateRender();
-
-    //auto canvas = mScreenView->CreateCanvas();
-    //mScreen->UpdateRender(canvas, mScreenView->GetFont());
-    //mScreenView->UpdateRender(*mScreen, canvas);
   }
 
   void CApp::Render() {
@@ -141,7 +123,5 @@ namespace pong {
       auto trans = glm::ortho(0.0f, mGameScreenSize.x, 0.0f, mGameScreenSize.y);
       mGame->Render(trans);
     }
-
-    //mScreenView->Render();
   }
 }

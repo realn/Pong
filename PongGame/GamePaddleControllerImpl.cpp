@@ -7,17 +7,22 @@
 #include <glm/gtc/epsilon.hpp>
 
 namespace pong {
-  CGamePaddleControllerBase::CGamePaddleControllerBase(std::shared_ptr<CGamePaddle> paddle) 
-    : mPaddle(paddle)
+  CGamePaddleControllerBase::CGamePaddleControllerBase(std::shared_ptr<CGameObject> paddle) 
+    : mPaddle(std::dynamic_pointer_cast<CGamePaddle>(paddle))
   {}
 
   CGamePaddleControllerBase::~CGamePaddleControllerBase() {}
 
-  CGamePaddleMouseController::CGamePaddleMouseController(std::shared_ptr<CGamePaddle> paddle) 
+  CGamePaddleMouseController::CGamePaddleMouseController(std::shared_ptr<CGameObject> paddle) 
     : CGamePaddleControllerBase(paddle)
   {}
 
   CGamePaddleMouseController::~CGamePaddleMouseController() {}
+
+  bool CGamePaddleMouseController::InitController(CGame & game) {
+    game.RegisterMouseEventObserver(shared_from_this());
+    return true;
+  }
 
   void CGamePaddleMouseController::Update(CGame & game, float const timeDelta) {
     glm::vec2 paddlePos = mPaddle->GetCenterPos() / game.GetField().GetSize();
@@ -32,12 +37,17 @@ namespace pong {
     }
   }
 
-  CGamePaddleKeyboardController::CGamePaddleKeyboardController(std::shared_ptr<CGamePaddle> paddle) 
+  CGamePaddleKeyboardController::CGamePaddleKeyboardController(std::shared_ptr<CGameObject> paddle) 
     : CGamePaddleControllerBase(paddle)
     , mMoveUp(false), mMoveDown(false)
   {}
 
   CGamePaddleKeyboardController::~CGamePaddleKeyboardController() {}
+
+  bool CGamePaddleKeyboardController::InitController(CGame & game) {
+    game.RegisterKeyboardEventObserver(shared_from_this());
+    return true;
+  }
 
   void CGamePaddleKeyboardController::Update(CGame & game, float const timeDelta) {
     if(mMoveUp) {

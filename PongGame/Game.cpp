@@ -31,8 +31,8 @@ namespace pong {
       mField = std::make_unique<CGameField>(fieldPos, fieldSize, glm::vec4(0.5f, 0.1f, 0.2f, 1.0f));
     }
 
-    AddPlayer(PaddleControllerType::Mouse);
-    AddPlayer(PaddleControllerType::Keyboard);
+    AddPlayer(GameControllerType::Mouse);
+    AddPlayer(GameControllerType::Keyboard);
 
     mBall = std::make_unique<CGameBall>(glm::vec2{0.1f, 0.1f}, 1.5f);
     mBall->SetPosition((mField->GetSize() - mBall->GetSize()) / 2.0f);
@@ -52,7 +52,7 @@ namespace pong {
 
   CGame::~CGame() {}
 
-  void CGame::AddPlayer(PaddleControllerType controllerType) {
+  void CGame::AddPlayer(GameControllerType controllerType) {
     auto playerIndex = cb::u32(mPaddles.size());
     auto side = GetPlayerPaddleSide(playerIndex);
 
@@ -61,6 +61,14 @@ namespace pong {
     mPaddles.push_back(paddle);
 
     AddController(paddle, controllerType);
+  }
+
+  void CGame::RegisterMouseEventObserver(std::shared_ptr<IMouseEventObserver> observer) {
+    mMouseEventObservers.insert(observer);
+  }
+
+  void CGame::RegisterKeyboardEventObserver(std::shared_ptr<IKeyboardEventObserver> observer) {
+    mKeyboardEventObservers.insert(observer);
   }
 
   void CGame::Update(float const timeDelta) {
@@ -75,6 +83,7 @@ namespace pong {
 
   void CGame::UpdateRender() {
     mCanvas->Clear();
+
     for(auto& paddle : mPaddles) {
       paddle->UpdateRender(*mCanvas);
     }
@@ -139,26 +148,11 @@ namespace pong {
     }
   }
 
-  void CGame::AddController(std::shared_ptr<CGamePaddle> paddle, PaddleControllerType const type) {
-    switch(type) {
-    case PaddleControllerType::Mouse:
-      {
-        auto controller = std::make_shared<CGamePaddleMouseController>(paddle);
-        mControllers.push_back(controller);
-        mMouseEventObservers.push_back(controller);
-        break;
-      }
-
-    case PaddleControllerType::Keyboard:
-      {
-        auto controller = std::make_shared<CGamePaddleKeyboardController>(paddle);
-        mControllers.push_back(controller);
-        mKeyboardEventObservers.push_back(controller);
-        break;
-      }
-
-    default:
-      break;
+  void CGame::AddController(std::shared_ptr<CGameObject> target, GameControllerType const type) {
+    auto controller = IGameController::Create(type, target);
+    if(!controller->InitController(*this)) {
+      return;
     }
+    mControllers.push_back(controller);
   }
 }
