@@ -3,6 +3,8 @@
 #include <memory>
 #include <glm/vec2.hpp>
 
+#include <CoreEvents.h>
+
 #include "GamePaddleController.h"
 #include "ControlEventObservers.h"
 
@@ -23,8 +25,7 @@ namespace pong {
 
   class CGamePaddleMouseController 
     : public CGamePaddleControllerBase 
-    , public IMouseEventObserver
-    , public std::enable_shared_from_this<CGamePaddleMouseController>
+    , public core::IEventTarget<IMouseEventObserver>
   {
   private:
     glm::vec2 mMousePos;
@@ -41,8 +42,7 @@ namespace pong {
 
   class CGamePaddleKeyboardController
     : public CGamePaddleControllerBase
-    , public IKeyboardEventObserver 
-    , public std::enable_shared_from_this<CGamePaddleKeyboardController>
+    , public core::IEventTarget<IKeyboardEventObserver>
   {
   private:
     bool mMoveUp;

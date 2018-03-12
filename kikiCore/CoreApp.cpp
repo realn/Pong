@@ -139,33 +139,37 @@ namespace core {
   }
 
   void CAppBase::ProcessMouseEvent(cb::sdl::CEvent const & event) {
-    auto observer = IEventSource<IInputMouseEvents>::Get();
-    if(!observer)
+    auto observers = IEventSource<IInputMouseEvents>::GetObservers();
+    if(observers.empty())
       return;
 
-    using namespace cb::sdl;
-    if(event.GetType() == EventType::MOUSEMOTION) {
-      auto const mouseEvent = event.Motion();
+    for(auto observer : observers) {
+      using namespace cb::sdl;
+      if(event.GetType() == EventType::MOUSEMOTION) {
+        auto const mouseEvent = event.Motion();
 
-      auto pos =
-        glm::vec2(mouseEvent.GetPosition()) / glm::vec2(mConfig.WindowSize);
-      auto delta =
-        glm::vec2(mouseEvent.GetRelative()) / glm::vec2(mConfig.WindowSize);
+        auto pos =
+          glm::vec2(mouseEvent.GetPosition()) / glm::vec2(mConfig.WindowSize);
+        auto delta =
+          glm::vec2(mouseEvent.GetRelative()) / glm::vec2(mConfig.WindowSize);
 
-      observer->OnMouseMotion(pos, delta);
-    }
-    if(event.GetType() == EventType::MOUSEBUTTONUP ||
-       event.GetType() == EventType::MOUSEBUTTONDOWN) {
-      auto const mouseEvent = event.Button();
+        observer->OnMouseMotion(pos, delta);
+      }
+      if(event.GetType() == EventType::MOUSEBUTTONUP ||
+         event.GetType() == EventType::MOUSEBUTTONDOWN) {
+        auto const mouseEvent = event.Button();
 
-      observer->OnMouseButton(mouseEvent.GetButton(), mouseEvent.GetType());
+        observer->OnMouseButton(mouseEvent.GetButton(), mouseEvent.GetType());
+      }
     }
   }
 
   void CAppBase::ProcessKeyEvent(cb::sdl::CEvent const & event) {
-    auto observer = IEventSource<IInputKeyEvents>::Get();
-    if(!observer)
+    auto observers = IEventSource<IInputKeyEvents>::GetObservers();
+    if(observers.empty())
       return;
-    observer->OnKeyState(event.Key().GetScanCode(), event.Key().GetType());
+    for(auto observer : observers) {
+      observer->OnKeyState(event.Key().GetScanCode(), event.Key().GetType());
+    }
   }
 }

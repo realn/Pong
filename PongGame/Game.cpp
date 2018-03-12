@@ -63,14 +63,6 @@ namespace pong {
     AddController(paddle, controllerType);
   }
 
-  void CGame::RegisterMouseEventObserver(std::shared_ptr<IMouseEventObserver> observer) {
-    mMouseEventObservers.insert(observer);
-  }
-
-  void CGame::RegisterKeyboardEventObserver(std::shared_ptr<IKeyboardEventObserver> observer) {
-    mKeyboardEventObservers.insert(observer);
-  }
-
   void CGame::Update(float const timeDelta) {
     for(auto& controller : mControllers) {
       controller->Update(*this, timeDelta);
@@ -95,19 +87,6 @@ namespace pong {
   void CGame::Render(glm::mat4 const & transform) {
     mCanvasView->Render(transform);
   }
-
-  void CGame::EventMousePos(glm::vec2 const & pos) {
-    for(auto& observer : mMouseEventObservers) {
-      observer->EventMouseMove(pos / mField->GetSize());
-    }
-  }
-
-  void CGame::EventKeyPress(cb::sdl::ScanCode code, cb::sdl::KeyState state) {
-    for(auto& observer : mKeyboardEventObservers) {
-      observer->EventKeyPress(code, state);
-    }
-  }
-
 
   PaddleSide CGame::GetPlayerPaddleSide(cb::u32 const index) const {
     switch(index) {
@@ -154,5 +133,20 @@ namespace pong {
       return;
     }
     mControllers.push_back(controller);
+  }
+
+  void CGame::OnKeyState(cb::sdl::ScanCode const code, cb::sdl::KeyState const state) {
+    for(auto& observer : IEventSource<IKeyboardEventObserver>::GetObservers()) {
+      observer->EventKeyPress(code, state);
+    }
+  }
+
+  void CGame::OnMouseMotion(glm::vec2 const & pos, glm::vec2 const & delta) {
+    for(auto& observer : IEventSource<IMouseEventObserver>::GetObservers()) {
+      observer->EventMouseMove(pos / mField->GetSize());
+    }
+  }
+
+  void CGame::OnMouseButton(cb::sdl::Button const button, cb::sdl::KeyState const state) {
   }
 }

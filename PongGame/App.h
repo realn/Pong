@@ -2,17 +2,25 @@
 
 #include <memory>
 #include <glm/vec2.hpp>
+
 #include <CBStr/Defines.h>
 #include <CBSDL/Fwd.h>
 #include <CBGL/Fwd.h>
+
 #include <CoreFwd.h>
+#include <CoreEvents.h>
+#include <CoreInputEvents.h>
 #include <GUIFwd.h>
 
 namespace pong {
   class CGame;
   class CAssets;
 
-  class CApp {
+  class CApp 
+    : public core::IEventSource<core::IInputKeyEvents>
+    , public core::IEventSource<core::IInputMouseEvents>
+    , public std::enable_shared_from_this<CApp>
+  {
   private:
     bool mRun;
     glm::uvec2 mScreenSize;
@@ -23,7 +31,7 @@ namespace pong {
     std::unique_ptr<cb::sdl::CGLContext> mGLContext;
     std::unique_ptr<CAssets> mAssets;
 
-    std::unique_ptr<CGame> mGame;
+    std::shared_ptr<CGame> mGame;
     std::shared_ptr<core::CFont> mFont;
     std::unique_ptr<gui::CScreen> mScreen;
     std::unique_ptr<gui::CLayerStack> mLayerStack;

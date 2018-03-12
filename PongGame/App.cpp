@@ -24,8 +24,7 @@
 
 namespace pong {
   CApp::CApp(cb::strvector const & cmdLineArgs)
-    : mRun(true)
-    , mScreenSize(800, 480) {
+    : mRun(true), mScreenSize(800, 480) {
     using namespace cb::sdl;
     using namespace cb::gl;
 
@@ -55,7 +54,10 @@ namespace pong {
     auto aspect = static_cast<float>(mScreenSize.x) / static_cast<float>(mScreenSize.y);
     mGameScreenSize = glm::vec2(2.0f) * glm::vec2(aspect, 1.0f);
 
-    mGame = std::make_unique<CGame>(mGameScreenSize, *mAssets);
+    mGame = std::make_shared<CGame>(mGameScreenSize, *mAssets);
+
+    core::bind<core::IInputKeyEvents>(*this, *mGame);
+    core::bind<core::IInputMouseEvents>(*this, *mGame);
   }
 
   CApp::~CApp() {}
@@ -91,10 +93,16 @@ namespace pong {
         auto pos = glm::vec2(event.Motion().GetPosition()) / glm::vec2(mScreenSize);
         pos.y = 1.0f - pos.y;
         pos *= mGameScreenSize;
-        mGame->EventMousePos(pos);
+        auto observers = core::IEventSource<core::IInputMouseEvents>::GetObservers();
+        for(auto observer : observers) {
+          observer->OnMouseMotion(pos, { 0.0f, 0.0f });
+        }
       }
       if(event.GetType() == EventType::KEYDOWN || event.GetType() == EventType::KEYUP) {
-        mGame->EventKeyPress(event.Key().GetScanCode(), event.Key().GetType());
+        auto observers = core::IEventSource<core::IInputKeyEvents>::GetObservers();
+        for(auto observer : observers) {
+          observer->OnKeyState(event.Key().GetScanCode(), event.Key().GetType());
+        }
       }
     }
   }

@@ -1,10 +1,12 @@
 #include "stdafx.h"
-#include "GamePaddleControllerImpl.h"
-#include "GamePaddle.h"
-#include "GameField.h"
-#include "Game.h"
 
 #include <glm/gtc/epsilon.hpp>
+
+#include "Game.h"
+#include "GameField.h"
+#include "GamePaddle.h"
+
+#include "GamePaddleControllerImpl.h"
 
 namespace pong {
   CGamePaddleControllerBase::CGamePaddleControllerBase(std::shared_ptr<CGameObject> paddle) 
@@ -19,8 +21,8 @@ namespace pong {
 
   CGamePaddleMouseController::~CGamePaddleMouseController() {}
 
-  bool CGamePaddleMouseController::InitController(CGame & game) {
-    game.RegisterMouseEventObserver(shared_from_this());
+  bool CGamePaddleMouseController::InitController(CGame& game) {
+    core::bind<IMouseEventObserver>(game, *this);
     return true;
   }
 
@@ -44,8 +46,8 @@ namespace pong {
 
   CGamePaddleKeyboardController::~CGamePaddleKeyboardController() {}
 
-  bool CGamePaddleKeyboardController::InitController(CGame & game) {
-    game.RegisterKeyboardEventObserver(shared_from_this());
+  bool CGamePaddleKeyboardController::InitController(CGame& game) {
+    core::bind<IKeyboardEventObserver>(game, *this);
     return true;
   }
 

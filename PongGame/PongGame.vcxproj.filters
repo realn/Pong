@@ -50,7 +50,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GamePaddleController.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

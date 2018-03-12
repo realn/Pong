@@ -1,40 +1,77 @@
 #pragma once
 
+#include <memory>
+#include <set>
+
 namespace core {
-  template<typename _ObserverType>
+  template<class _ObserverT> class IEventSource;
+  template<class _ObserverT> class IEventTarget;
+
+  template<class _ObserverT>
   class IEventSource {
+  public:
+    using ObserverT = IEventTarget<_ObserverT>;
+    using ObserversT = std::set<ObserverT*>;
+
   private:
-    _ObserverType* mObserver = nullptr;
+    ObserversT mObservers;
 
   public:
     IEventSource() = default;
-    virtual ~IEventSource() = default;
+    virtual ~IEventSource();
 
-    void SetObserver(_ObserverType* observer) { mObserver = observer; }
-    _ObserverType* GetObserver() const { return mObserver; }
+    void RegisterObserver(ObserverT* observer);
+    void UnregisterObserver(ObserverT* observer);
 
-  protected:
-    _ObserverType* Get() { return mObserver; }
-    const _ObserverType* Get() const { return mObserver; }
+    ObserversT GetObservers() { return mObservers; }
+    ObserversT const GetObservers() const { return mObservers; }
   };
 
-  template<typename _ObserverType>
-  class IEventTarget : public _ObserverType {
+  template<class _ObserverT>
+  class IEventTarget : 
+    public _ObserverT 
+  {
+  public:
+    using SourceT = IEventSource<_ObserverT>;
+
   private:
-    IEventSource<_ObserverType>* mSource = nullptr;
+    SourceT* mSource = nullptr;
 
   public:
     IEventTarget() = default;
-    virtual ~IEventTarget() { if(mSource) mSource->SetObserver(nullptr); }
+    virtual ~IEventTarget() { 
+      if(mSource) {
+        mSource->UnregisterObserver(this); 
+      } 
+    }
 
-    void SetSource(IEventSource<_ObserverType>& source) {
-      mSource = &source;
+    void SetSource(SourceT* source) {
+      mSource = source;
     }
   };
 
+  template<class _ObserverT>
+  IEventSource<_ObserverT>::~IEventSource() {
+    for(auto observer : mObservers) {
+      observer->SetSource(nullptr);
+    }
+  }
+
+  template<class _ObserverT>
+  void IEventSource<_ObserverT>::RegisterObserver(typename IEventSource<_ObserverT>::ObserverT* observer) {
+    mObservers.insert(observer);
+  }
+
+  template<class _ObserverT>
+  void IEventSource<_ObserverT>::UnregisterObserver(typename IEventSource<_ObserverT>::ObserverT* observer) {
+    auto it = mObservers.find(observer);
+    mObservers.erase(it);
+  }
+
   template<typename _Type>
-  void bind(IEventSource<_Type>& source, IEventTarget<_Type>& target) {
-    target.SetSource(source);
-    source.SetObserver(&target);
+  void bind(typename IEventSource<_Type>& source, 
+            typename IEventTarget<_Type>& target) {
+    target.SetSource(&source);
+    source.RegisterObserver(&target);
   }
 }
