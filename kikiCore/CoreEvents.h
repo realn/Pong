@@ -10,21 +10,21 @@ namespace core {
   template<class _ObserverT>
   class IEventSource {
   public:
-    using ObserverT = IEventTarget<_ObserverT>;
-    using ObserversT = std::set<ObserverT*>;
+    using TargetT = IEventTarget<_ObserverT>;
+    using TargetsT = std::set<TargetT*>;
 
   private:
-    ObserversT mObservers;
+    TargetsT mTargets;
 
   public:
     IEventSource() = default;
     virtual ~IEventSource();
 
-    void RegisterObserver(ObserverT* observer);
-    void UnregisterObserver(ObserverT* observer);
+    void RegisterTarget(TargetT* target);
+    void UnregisterTarget(TargetT* target);
 
-    ObserversT GetObservers() { return mObservers; }
-    ObserversT const GetObservers() const { return mObservers; }
+    TargetsT GetObservers() { return mTargets; }
+    TargetsT const GetObservers() const { return mTargets; }
   };
 
   template<class _ObserverT>
@@ -33,45 +33,59 @@ namespace core {
   {
   public:
     using SourceT = IEventSource<_ObserverT>;
+    using SourcesT = std::set<SourceT*>;
 
   private:
-    SourceT* mSource = nullptr;
+    SourcesT mSources;
 
   public:
     IEventTarget() = default;
-    virtual ~IEventTarget() { 
-      if(mSource) {
-        mSource->UnregisterObserver(this); 
-      } 
-    }
+    virtual ~IEventTarget();
 
-    void SetSource(SourceT* source) {
-      mSource = source;
-    }
+    void RegisterSource(SourceT* source);
+    void UnregisterSource(SourceT* source);
   };
 
   template<class _ObserverT>
   IEventSource<_ObserverT>::~IEventSource() {
-    for(auto observer : mObservers) {
-      observer->SetSource(nullptr);
+    for(auto& target : mTargets) {
+      target->UnregisterSource(this);
     }
   }
 
   template<class _ObserverT>
-  void IEventSource<_ObserverT>::RegisterObserver(typename IEventSource<_ObserverT>::ObserverT* observer) {
-    mObservers.insert(observer);
+  void IEventSource<_ObserverT>::RegisterTarget(typename IEventSource<_ObserverT>::TargetT* target) {
+    mTargets.insert(target);
   }
 
   template<class _ObserverT>
-  void IEventSource<_ObserverT>::UnregisterObserver(typename IEventSource<_ObserverT>::ObserverT* observer) {
-    auto it = mObservers.find(observer);
-    mObservers.erase(it);
+  void IEventSource<_ObserverT>::UnregisterTarget(typename IEventSource<_ObserverT>::TargetT* target) {
+    auto it = mTargets.find(target);
+    mTargets.erase(it);
+  }
+
+  template<typename _ObserverT>
+  IEventTarget<_ObserverT>::~IEventTarget() {
+    for(auto source : mSources) {
+      source->UnregisterTarget(this);
+    }
+  }
+
+  template<typename _ObserverT>
+  void IEventTarget<_ObserverT>::RegisterSource(typename IEventTarget<_ObserverT>::SourceT* source) {
+    mSources.insert(source);
+  }
+
+  template<typename _ObserverT>
+  void IEventTarget<_ObserverT>::UnregisterSource(typename IEventTarget<_ObserverT>::SourceT* source) {
+    auto it = mSources.find(source);
+    mSources.erase(it);
   }
 
   template<typename _Type>
   void bind(typename IEventSource<_Type>& source, 
             typename IEventTarget<_Type>& target) {
-    target.SetSource(&source);
-    source.RegisterObserver(&target);
+    target.RegisterSource(&source);
+    source.RegisterTarget(&target);
   }
 }
