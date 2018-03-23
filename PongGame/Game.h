@@ -7,6 +7,7 @@
 
 #include <CoreEvents.h>
 #include <CoreInputEvents.h>
+#include <CoreAppEvents.h>
 #include <CoreAppTask.h>
 #include <GFXFwd.h>
 
@@ -30,6 +31,7 @@ namespace pong {
     , public core::IEventSource<IKeyboardEventObserver>
     , public core::IEventTarget<core::IInputKeyEvents>
     , public core::IEventTarget<core::IInputMouseEvents>
+    , public core::IEventTarget<core::IAppEvents>
   {
   public:
     using PaddlePtrT = std::shared_ptr<CGamePaddle>;
@@ -69,6 +71,9 @@ namespace pong {
     // Inherited via IEventTarget
     virtual void OnMouseMotion(glm::vec2 const & pos, glm::vec2 const & delta) override;
     virtual void OnMouseButton(cb::sdl::Button const button, cb::sdl::KeyState const state) override;
+
+    // Inherited via IEventTarget
+    virtual void OnAppClose(core::CAppBase& app) override;
 
   private:
     PaddleSide GetPlayerPaddleSide(cb::u32 const index) const;

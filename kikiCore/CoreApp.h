@@ -29,11 +29,13 @@ namespace core {
   };
 
   class IAppTask;
+  class IAppEvents;
   class IInputMouseEvents;
   class IInputKeyEvents;
 
   class CAppBase
-    : public IEventSource<IInputMouseEvents>
+    : public IEventSource<IAppEvents>
+    , public IEventSource<IInputMouseEvents>
     , public IEventSource<IInputKeyEvents>
   {
   private:

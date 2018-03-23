@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "CoreApp.h"
 #include "CoreAppTask.h"
+#include "CoreAppEvents.h"
 #include "CoreInputEvents.h"
 
 #include <CBSDL/System.h>
@@ -86,6 +87,10 @@ namespace core {
         return;
 
       switch(event.GetType()) {
+      case EventType::QUIT:
+        Quit();
+        break;
+
       case EventType::WINDOWEVENT:  
         ProcessWindowEvent(event);
         break;
@@ -132,11 +137,15 @@ namespace core {
 
   void CAppBase::ProcessWindowEvent(cb::sdl::CEvent const & event) {
     using namespace cb::sdl;
+    auto observers = IEventSource<IAppEvents>::GetObservers();
+    if(observers.empty())
+      return;
     auto const winEvent = event.Window();
 
-    if(winEvent.GetType() == WindowEventType::CLOSE) {
-      mRun = false;
-      return;
+    for(auto observer : observers) {
+      if(winEvent.GetType() == WindowEventType::CLOSE) {
+        observer->OnAppClose(*this);
+      }
     }
   }
 

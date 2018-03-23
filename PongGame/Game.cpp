@@ -30,6 +30,7 @@ namespace pong {
   bool CGame::Init(core::CAppBase& app) {
     core::bind<core::IInputKeyEvents>(app, *this);
     core::bind<core::IInputMouseEvents>(app, *this);
+    core::bind<core::IAppEvents>(app, *this);
 
     auto aspectRatio = app.GetConfig().GetAspectRatio();
     mScreenSize = glm::vec2(2.0f) * glm::vec2(aspectRatio, 1.0f);
@@ -173,5 +174,9 @@ namespace pong {
   }
 
   void CGame::OnMouseButton(cb::sdl::Button const button, cb::sdl::KeyState const state) {
+  }
+
+  void CGame::OnAppClose(core::CAppBase & app) {
+    app.Quit();
   }
 }

@@ -75,5 +75,6 @@
     <ClInclude Include="CoreFastId.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="CoreAppEvents.h" />
   </ItemGroup>
 </Project>
