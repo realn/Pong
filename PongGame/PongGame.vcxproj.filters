@@ -37,14 +37,14 @@
     <ClCompile Include="GamePaddle.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="GamePaddleControllerImpl.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
     <ClCompile Include="GamePlayer.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="Assets.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameController.cpp">
+      <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="GamePaddleController.cpp">
       <Filter>Source Files\Game</Filter>
@@ -72,20 +72,20 @@
     <ClInclude Include="GamePaddle.h">
       <Filter>Source Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="GamePaddleController.h">
-      <Filter>Source Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="GamePaddleControllerImpl.h">
-      <Filter>Source Files\Game</Filter>
-    </ClInclude>
     <ClInclude Include="GamePlayer.h">
       <Filter>Source Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Assets.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="ControlEventObservers.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Assets.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="GameController.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePaddleController.h">
+      <Filter>Source Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

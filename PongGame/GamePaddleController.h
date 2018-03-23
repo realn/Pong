@@ -1,22 +1,60 @@
 #pragma once
 
+#include <memory>
+#include <glm/vec2.hpp>
+
+#include <CoreEvents.h>
+
+#include "GameController.h"
+#include "ControlEventObservers.h"
+
 namespace pong {
-  enum class GameControllerType {
-    Mouse, Keyboard, AI,
+  class CGame;
+  class CGamePaddle;
+
+  class CGamePaddleControllerBase 
+    : public IGameController
+  {
+  protected:
+    std::shared_ptr<CGamePaddle> mPaddle;
+
+  public:
+    CGamePaddleControllerBase(std::shared_ptr<CGameObject> paddle);
+    virtual ~CGamePaddleControllerBase();
   };
 
-  class CGame;
-  class CGameObject;
+  class CGamePaddleMouseController 
+    : public CGamePaddleControllerBase 
+    , public core::IEventTarget<IMouseEventObserver>
+  {
+  private:
+    glm::vec2 mMousePos;
 
-  class IGameController {
   public:
+    CGamePaddleMouseController(std::shared_ptr<CGameObject> paddle);
+    virtual ~CGamePaddleMouseController();
 
-    virtual ~IGameController() {}
+    bool InitController(CGame& game) override;
+    void Update(CGame& game, float const timeDelta) override;
 
-    virtual bool InitController(CGame& game) = 0;
-    virtual void Update(CGame& game, float const timeDelta) = 0;
+    void EventMouseMove(glm::vec2 const& pos) override { mMousePos = pos; }
+  };
 
-    static std::shared_ptr<IGameController> Create(GameControllerType const type, 
-                                                   std::shared_ptr<CGameObject> target);
+  class CGamePaddleKeyboardController
+    : public CGamePaddleControllerBase
+    , public core::IEventTarget<IKeyboardEventObserver>
+  {
+  private:
+    bool mMoveUp;
+    bool mMoveDown;
+
+  public:
+    CGamePaddleKeyboardController(std::shared_ptr<CGameObject> paddle);
+    virtual ~CGamePaddleKeyboardController();
+
+    bool InitController(CGame& game) override;
+    void Update(CGame& game, float const timeDelta) override;
+
+    void EventKeyPress(cb::sdl::ScanCode key, cb::sdl::KeyState state) override;
   };
 }

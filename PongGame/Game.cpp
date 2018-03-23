@@ -9,9 +9,9 @@
 #include "Assets.h"
 #include "Consts.h"
 #include "GamePaddle.h"
-#include "GamePaddleControllerImpl.h"
 #include "GameBall.h"
 #include "GameField.h"
+#include "GameController.h"
 
 #include "Game.h"
 
