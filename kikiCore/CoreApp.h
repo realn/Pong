@@ -16,8 +16,16 @@ namespace core {
     float UpdateTimeStep = 0.025f;
     cb::u32 UpdateMaxStepsPerFrame = 20;
     cb::u32 EventMaxIters = 20;
+    cb::string WindowTitle = L"App Title";
     glm::ivec2 WindowPos = {20, 20};
     glm::uvec2 WindowSize = {800, 480};
+    cb::s32 GfxBufferSize = 32;
+    cb::s32 GfxDepthSize = 24;
+    cb::s32 GfxStencilSize = 8;
+
+    float GetAspectRatio() const {
+      return static_cast<float>(WindowSize.x) / static_cast<float>(WindowSize.y);
+    }
   };
 
   class IAppTask;
@@ -29,6 +37,7 @@ namespace core {
     , public IEventSource<IInputKeyEvents>
   {
   private:
+    cb::strvector mArgs;
     CAppConfig mConfig;
     cb::sdl::CSystem mSystem;
     cb::sdl::CPerfTimer mTimer;
@@ -38,13 +47,15 @@ namespace core {
     bool mRun = true;
 
   public:
-    CAppBase(CAppConfig const& config = CAppConfig());
+    CAppBase(cb::strvector const& args, CAppConfig const& config = CAppConfig());
     CAppBase(CAppBase&&) = default;
     virtual ~CAppBase();
 
     int Execute();
 
     void Quit() { mRun = false; }
+
+    CAppConfig const& GetConfig() const { return mConfig; }
 
   private:
     void MainLoop();
@@ -69,13 +80,14 @@ namespace core {
   class CApp
     : public CAppBase {
   public:
-    CApp(CAppConfig const& config = CAppConfig()) : CAppBase(config) {}
+    CApp(cb::strvector const& args = cb::strvector(), 
+         CAppConfig const& config = CAppConfig()) : CAppBase(args, config) {}
     CApp(CApp&&) = default;
     virtual ~CApp() = default;
 
   protected:
     std::unique_ptr<IAppTask> CreateTask() override {
-      return std::make_unique<_Type>(*this);
+      return std::make_unique<_Type>();
     }
   };
 }

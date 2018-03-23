@@ -9,18 +9,20 @@ namespace core {
   class CAppBase;
 
   class IAppTask {
-  public:
-    IAppTask(CAppBase&) {}
+  protected:
+    IAppTask() {}
     IAppTask(IAppTask const&) = delete;
     IAppTask(IAppTask&&) = default;
+
+  public:
     virtual ~IAppTask() = default;
 
-    virtual void PrepareConfig(CAppConfig& config) {}
+    virtual void PrepareConfig(cb::strvector const& args, CAppConfig& config) {}
     virtual bool Init(CAppBase& app) = 0;
 
-    virtual void Update(CAppBase& app, float const& timeDelta) = 0;
-    virtual void UpdateRender(float const timeDelta) = 0;
-    virtual void Render() = 0;
+    virtual void Update(CAppBase& app, float const timeDelta) = 0;
+    virtual void UpdateRender(CAppBase const& app, float const timeDelta) = 0;
+    virtual void Render(CAppBase const& app) const = 0;
 
   };
 }

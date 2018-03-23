@@ -8,8 +8,9 @@
 #include <CBGL/System.h>
 
 namespace core {
-  CAppBase::CAppBase(CAppConfig const& config)
-    : mConfig(config)
+  CAppBase::CAppBase(cb::strvector const& args, CAppConfig const& config)
+    : mArgs(args)
+    , mConfig(config)
     , mSystem(cb::sdl::System::VIDEO | cb::sdl::System::TIMER | cb::sdl::System::EVENTS) 
   {}
 
@@ -46,20 +47,21 @@ namespace core {
 
   bool CAppBase::Init() {
     mTask = CreateTask();
-    mTask->PrepareConfig(mConfig);
+    mTask->PrepareConfig(mArgs, mConfig);
 
     mWindow =
-      std::make_unique<cb::sdl::CWindow>(L"Trader Alpha"s,
-                                         mConfig.WindowPos, mConfig.WindowSize,
-                                         cb::sdl::WindowFlag::OPENGL | cb::sdl::WindowFlag::POPUP_MENU);
+      std::make_unique<cb::sdl::CWindow>(mConfig.WindowTitle,
+                                         mConfig.WindowPos, 
+                                         mConfig.WindowSize,
+                                         cb::sdl::WindowFlag::OPENGL);
     mWindow->Show();
 
     {
       using namespace cb::sdl;
       auto attribs = GLAttributeMapT{
-        {GLAttribute::BUFFER_SIZE, 32},
-        {GLAttribute::DEPTH_SIZE, 24},
-        {GLAttribute::STENCIL_SIZE, 8},
+        {GLAttribute::BUFFER_SIZE, mConfig.GfxBufferSize},
+        {GLAttribute::DEPTH_SIZE, mConfig.GfxDepthSize},
+        {GLAttribute::STENCIL_SIZE, mConfig.GfxStencilSize},
         {GLAttribute::DOUBLEBUFFER, 1},
       };
       mGLContext = 
@@ -121,11 +123,11 @@ namespace core {
   }
 
   void CAppBase::UpdateRender(float const timeDelta) {
-    mTask->UpdateRender(timeDelta);
+    mTask->UpdateRender(*this, timeDelta);
   }
 
   void CAppBase::Render() {
-    mTask->Render();
+    mTask->Render(*this);
   }
 
   void CAppBase::ProcessWindowEvent(cb::sdl::CEvent const & event) {

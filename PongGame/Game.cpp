@@ -1,5 +1,8 @@
 #include "stdafx.h"
 
+#include <glm/gtc/matrix_transform.hpp>
+
+#include <CoreApp.h>
 #include <GFXCanvas.h>
 #include <GFXCanvasView.h>
 
@@ -12,35 +15,50 @@
 
 #include "Game.h"
 
-const glm::vec2 FIELD_PROPS{5.0f, 3.0f};
+const glm::vec2 FIELD_PROPS {5.0f, 3.0f};
 const float FIELD_ASP_RATIO = FIELD_PROPS.x / FIELD_PROPS.y;
 
 namespace pong {
-  CGame::CGame(glm::vec2 const & screenSize, CAssets& assets) {
+  CGame::CGame() {}
+
+  CGame::~CGame() {}
+
+  void CGame::PrepareConfig(cb::strvector const& args, core::CAppConfig& config) {
+    config.WindowTitle = L"Pong Game"s;
+  }
+
+  bool CGame::Init(core::CAppBase& app) {
+    core::bind<core::IInputKeyEvents>(app, *this);
+    core::bind<core::IInputMouseEvents>(app, *this);
+
+    auto aspectRatio = app.GetConfig().GetAspectRatio();
+    mScreenSize = glm::vec2(2.0f) * glm::vec2(aspectRatio, 1.0f);
+
     {
-      auto screenAspRatio = screenSize.x / screenSize.y;
       auto fieldPos = glm::vec2();
       auto fieldSize = glm::vec2();
-      if(screenAspRatio >= FIELD_ASP_RATIO) {
-        fieldSize = {FIELD_ASP_RATIO * screenSize.y, screenSize.y};
+      if(aspectRatio >= FIELD_ASP_RATIO) {
+        fieldSize = { FIELD_ASP_RATIO * mScreenSize.y, mScreenSize.y };
       }
       else {
-        fieldSize = {screenSize.x, screenSize.x / FIELD_ASP_RATIO};
+        fieldSize = { mScreenSize.x, mScreenSize.x / FIELD_ASP_RATIO };
       }
-      fieldPos = (screenSize - fieldSize) / 2.0f;
+      fieldPos = (mScreenSize - fieldSize) / 2.0f;
       mField = std::make_unique<CGameField>(fieldPos, fieldSize, glm::vec4(0.5f, 0.1f, 0.2f, 1.0f));
     }
 
     AddPlayer(GameControllerType::Mouse);
     AddPlayer(GameControllerType::Keyboard);
 
-    mBall = std::make_unique<CGameBall>(glm::vec2{0.1f, 0.1f}, 1.5f);
+    mBall = std::make_unique<CGameBall>(glm::vec2{ 0.1f, 0.1f }, 1.5f);
     mBall->SetPosition((mField->GetSize() - mBall->GetSize()) / 2.0f);
+
+    mAssets = std::make_unique<CAssets>(L"Assets"s);
 
     auto textureFileName = L"texture.png"s;
     auto textureSize = glm::uvec2(512);
-    auto texture = assets.Textures.Get(textureFileName);
-    auto shaderProg = assets.Shaders.Get({ L"font_vs"s, L"font_fs"s });
+    auto texture = mAssets->Textures.Get(textureFileName);
+    auto shaderProg = mAssets->Shaders.Get({ L"font_vs"s, L"font_fs"s });
 
     shaderProg->SetInLocation(gfx::CCanvasVertex::Inputs);
     shaderProg->Link();
@@ -48,22 +66,11 @@ namespace pong {
     mCanvas = std::make_unique<gfx::CCanvas>(gfx::CTextureAtlas(textureFileName, textureSize));
 
     mCanvasView = std::make_unique<gfx::CCanvasView>(shaderProg, texture, texture);
+
+    return true;
   }
 
-  CGame::~CGame() {}
-
-  void CGame::AddPlayer(GameControllerType controllerType) {
-    auto playerIndex = cb::u32(mPaddles.size());
-    auto side = GetPlayerPaddleSide(playerIndex);
-
-    auto paddle = std::make_shared<CGamePaddle>(side, GetPaddleSize(side), 0.5f, 4.0f);
-    paddle->SetPosition(GetPaddleStartPos(*paddle, side));
-    mPaddles.push_back(paddle);
-
-    AddController(paddle, controllerType);
-  }
-
-  void CGame::Update(float const timeDelta) {
+  void CGame::Update(core::CAppBase& app, float const timeDelta) {
     for(auto& controller : mControllers) {
       controller->Update(*this, timeDelta);
     }
@@ -73,7 +80,7 @@ namespace pong {
     mBall->Update(*this, timeDelta);
   }
 
-  void CGame::UpdateRender() {
+  void CGame::UpdateRender(core::CAppBase const& app, float const timeDelta) {
     mCanvas->Clear();
 
     for(auto& paddle : mPaddles) {
@@ -84,8 +91,24 @@ namespace pong {
     mCanvasView->UpdateRender(*mCanvas);
   }
 
-  void CGame::Render(glm::mat4 const & transform) {
+  void CGame::Render(core::CAppBase const& app) const {
+    cb::gl::clearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+    cb::gl::clear(cb::gl::ClearBuffer::COLOR | cb::gl::ClearBuffer::DEPTH);
+
+    auto transform = glm::ortho(0.0f, mScreenSize.x, 0.0f, mScreenSize.y);
+
     mCanvasView->Render(transform);
+  }
+
+  void CGame::AddPlayer(GameControllerType controllerType) {
+    auto playerIndex = cb::u32(mPaddles.size());
+    auto side = GetPlayerPaddleSide(playerIndex);
+
+    auto paddle = std::make_shared<CGamePaddle>(side, GetPaddleSize(side), 0.5f, 4.0f);
+    paddle->SetPosition(GetPaddleStartPos(*paddle, side));
+    mPaddles.push_back(paddle);
+
+    AddController(paddle, controllerType);
   }
 
   PaddleSide CGame::GetPlayerPaddleSide(cb::u32 const index) const {
@@ -118,10 +141,10 @@ namespace pong {
     auto padding = mField->GetSize().x / 16.0f;
     auto centerPos = (mField->GetSize() - paddle.GetSize()) / 2.0f;
     switch(side) {
-    case PaddleSide::Left:  return {padding, centerPos.y};
-    case PaddleSide::Right: return {mField->GetSize().x - paddle.GetSize().x - padding, centerPos.y};
-    case PaddleSide::Top:   return {centerPos.x, mField->GetSize().y - paddle.GetSize().y - padding};
-    case PaddleSide::Bottom:return {centerPos.x, padding};
+    case PaddleSide::Left:   return {padding, centerPos.y};
+    case PaddleSide::Right:  return {mField->GetSize().x - paddle.GetSize().x - padding, centerPos.y};
+    case PaddleSide::Top:    return {centerPos.x, mField->GetSize().y - paddle.GetSize().y - padding};
+    case PaddleSide::Bottom: return {centerPos.x, padding};
     default:
       return {};
     }
@@ -142,8 +165,10 @@ namespace pong {
   }
 
   void CGame::OnMouseMotion(glm::vec2 const & pos, glm::vec2 const & delta) {
+    auto gamePos = glm::vec2{ pos.x, 1.0f - pos.y } * mScreenSize;
+
     for(auto& observer : IEventSource<IMouseEventObserver>::GetObservers()) {
-      observer->EventMouseMove(pos / mField->GetSize());
+      observer->EventMouseMove(gamePos / mField->GetSize());
     }
   }
 

@@ -143,7 +143,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="App.cpp" />
     <ClCompile Include="Assets.cpp" />
     <ClCompile Include="GameField.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -162,7 +161,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="App.h" />
     <ClInclude Include="Assets.h" />
     <ClInclude Include="GameField.h" />
     <ClInclude Include="Consts.h" />

@@ -7,6 +7,7 @@
 
 #include <CoreEvents.h>
 #include <CoreInputEvents.h>
+#include <CoreAppTask.h>
 #include <GFXFwd.h>
 
 #include "ControlEventObservers.h"
@@ -24,7 +25,8 @@ namespace pong {
   class IGameController;
 
   class CGame
-    : public core::IEventSource<IMouseEventObserver>
+    : public core::IAppTask
+    , public core::IEventSource<IMouseEventObserver>
     , public core::IEventSource<IKeyboardEventObserver>
     , public core::IEventTarget<core::IInputKeyEvents>
     , public core::IEventTarget<core::IInputMouseEvents>
@@ -36,25 +38,30 @@ namespace pong {
     using PaddleControllerPtrVecT = std::vector<PaddleControllerPtrT>;
 
   private:
+    glm::vec2 mScreenSize;
     PaddlePtrVecT mPaddles;
     PaddleControllerPtrVecT mControllers;
+    std::unique_ptr<CAssets> mAssets;
     std::unique_ptr<CGameField> mField;
     std::unique_ptr<CGameBall> mBall;
     std::unique_ptr<gfx::CCanvas> mCanvas;
     std::unique_ptr<gfx::CCanvasView> mCanvasView;
 
   public:
-    CGame(glm::vec2 const& screenSize, CAssets& assets);
+    CGame();
     ~CGame();
+
+    void PrepareConfig(cb::strvector const& args, core::CAppConfig& config) override;
+    bool Init(core::CAppBase& app) override;
+
+    void Update(core::CAppBase& app, float const timeDelta) override;
+    void UpdateRender(core::CAppBase const& app, float const timeDelta) override;
+    void Render(core::CAppBase const& app) const override;
 
     const PaddlePtrVecT& GetPaddles() const { return mPaddles; }
     const CGameField& GetField() const { return *mField; }
 
     void AddPlayer(GameControllerType controllerType);
-
-    void Update(float const timeDelta);
-    void UpdateRender();
-    void Render(glm::mat4 const& transform);
 
     // Inherited via IEventTarget
     virtual void OnKeyState(cb::sdl::ScanCode const code, cb::sdl::KeyState const state) override;
@@ -68,6 +75,5 @@ namespace pong {
     glm::vec2 GetPaddleSize(PaddleSide const side) const;
     glm::vec2 GetPaddleStartPos(CGamePaddle const& paddle, PaddleSide const side) const;
     void AddController(std::shared_ptr<CGameObject> target, GameControllerType const type);
-
   };
 }

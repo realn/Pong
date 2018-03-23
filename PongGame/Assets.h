@@ -5,8 +5,6 @@
 #include <GFXTextureRepository.h>
 #include <GFXShaderRepository.h>
 
-
-
 namespace pong {
   class CAssets {
   public:
