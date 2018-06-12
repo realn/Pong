@@ -2,7 +2,7 @@
 #include "CoreApp.h"
 #include "CoreAppTask.h"
 #include "CoreAppEvents.h"
-#include "CoreInputEvents.h"
+#include "CoreAppInputEvents.h"
 
 #include <CBSDL/System.h>
 #include <CBSDL/GLContext.h>
@@ -150,7 +150,7 @@ namespace core {
   }
 
   void CAppBase::ProcessMouseEvent(cb::sdl::CEvent const & event) {
-    auto observers = IEventSource<IInputMouseEvents>::GetObservers();
+    auto observers = IEventSource<IAppMouseEvents>::GetObservers();
     if(observers.empty())
       return;
 
@@ -176,7 +176,7 @@ namespace core {
   }
 
   void CAppBase::ProcessKeyEvent(cb::sdl::CEvent const & event) {
-    auto observers = IEventSource<IInputKeyEvents>::GetObservers();
+    auto observers = IEventSource<IAppKeyEvents>::GetObservers();
     if(observers.empty())
       return;
     for(auto observer : observers) {

@@ -6,7 +6,7 @@
 #include <CBGL/Fwd.h>
 
 #include <CoreEvents.h>
-#include <CoreInputEvents.h>
+#include <CoreAppInputEvents.h>
 #include <CoreAppEvents.h>
 #include <CoreAppTask.h>
 #include <GFXFwd.h>
@@ -29,8 +29,8 @@ namespace pong {
     : public core::IAppTask
     , public core::IEventSource<IMouseEventObserver>
     , public core::IEventSource<IKeyboardEventObserver>
-    , public core::IEventTarget<core::IInputKeyEvents>
-    , public core::IEventTarget<core::IInputMouseEvents>
+    , public core::IEventTarget<core::IAppKeyEvents>
+    , public core::IEventTarget<core::IAppMouseEvents>
     , public core::IEventTarget<core::IAppEvents>
   {
   public:

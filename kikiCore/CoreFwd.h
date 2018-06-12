@@ -4,8 +4,8 @@ namespace core {
   class CAppConfig;
 
   class IAppTask;
-  class IInputMouseEvents;
-  class IInputKeyEvents;
+  class IAppMouseEvents;
+  class IAppKeyEvents;
 
   class CBSphere;
   class CBLine;
@@ -13,8 +13,8 @@ namespace core {
   class CFont;
   class CFontRepository;
 
-  class IInputMouseEvents;
-  class IInputKeyEvents;
+  class IAppMouseEvents;
+  class IAppKeyEvents;
 
   template<typename _Type> class CAssetRepository;
   template<typename _Type> class CApp;

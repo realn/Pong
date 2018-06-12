@@ -28,8 +28,8 @@ namespace pong {
   }
 
   bool CGame::Init(core::CAppBase& app) {
-    core::bind<core::IInputKeyEvents>(app, *this);
-    core::bind<core::IInputMouseEvents>(app, *this);
+    core::bind<core::IAppKeyEvents>(app, *this);
+    core::bind<core::IAppMouseEvents>(app, *this);
     core::bind<core::IAppEvents>(app, *this);
 
     auto aspectRatio = app.GetConfig().GetAspectRatio();

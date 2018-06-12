@@ -30,13 +30,13 @@ namespace core {
 
   class IAppTask;
   class IAppEvents;
-  class IInputMouseEvents;
-  class IInputKeyEvents;
+  class IAppMouseEvents;
+  class IAppKeyEvents;
 
   class CAppBase
     : public IEventSource<IAppEvents>
-    , public IEventSource<IInputMouseEvents>
-    , public IEventSource<IInputKeyEvents>
+    , public IEventSource<IAppMouseEvents>
+    , public IEventSource<IAppKeyEvents>
   {
   private:
     cb::strvector mArgs;

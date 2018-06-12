@@ -6,21 +6,21 @@
 #include "CoreEvents.h"
 
 namespace core {
-  class IInputMouseEvents {
+  class IAppMouseEvents {
   public:
-    IInputMouseEvents() = default;
-    IInputMouseEvents(IInputMouseEvents const&) = delete;
-    virtual ~IInputMouseEvents() = default;
+    IAppMouseEvents() = default;
+    IAppMouseEvents(IAppMouseEvents const&) = delete;
+    virtual ~IAppMouseEvents() = default;
 
     virtual void OnMouseMotion(glm::vec2 const& pos, glm::vec2 const& delta) = 0;
     virtual void OnMouseButton(cb::sdl::Button const button, cb::sdl::KeyState const state) = 0;
   };
 
-  class IInputKeyEvents {
+  class IAppKeyEvents {
   public:
-    IInputKeyEvents() = default;
-    IInputKeyEvents(IInputKeyEvents const&) = delete;
-    virtual ~IInputKeyEvents() = default;
+    IAppKeyEvents() = default;
+    IAppKeyEvents(IAppKeyEvents const&) = delete;
+    virtual ~IAppKeyEvents() = default;
 
     virtual void OnKeyState(cb::sdl::ScanCode const code, cb::sdl::KeyState const state) = 0;
   };
