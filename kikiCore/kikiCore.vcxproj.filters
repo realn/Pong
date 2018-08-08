@@ -31,6 +31,15 @@
     <ClCompile Include="CoreFastId.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CoreInputStdDevices.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CoreInput.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CoreInputDeviceEvent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -72,9 +81,28 @@
     <ClInclude Include="CoreFastId.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="CoreAppEvents.h" />
-    <ClInclude Include="CoreInput.h" />
     <ClInclude Include="CoreAppInputEvents.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreAppEvents.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreInput.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreInputContext.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreInputDevice.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreInputDeviceEvent.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreInputStdDevices.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreInputTarget.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

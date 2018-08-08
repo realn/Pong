@@ -1,0 +1,5 @@
+<config>
+	<inputMap device="Keyboard">
+		<bind event="Escape" action="APP_QUIT" />
+	</inputMap>
+</config>

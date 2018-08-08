@@ -145,6 +145,11 @@
     <ClInclude Include="CoreAssetRepository.h" />
     <ClInclude Include="CoreInput.h" />
     <ClInclude Include="CoreAppInputEvents.h" />
+    <ClInclude Include="CoreInputContext.h" />
+    <ClInclude Include="CoreInputDevice.h" />
+    <ClInclude Include="CoreInputDeviceEvent.h" />
+    <ClInclude Include="CoreInputStdDevices.h" />
+    <ClInclude Include="CoreInputTarget.h" />
     <ClInclude Include="DataFont.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
@@ -156,6 +161,9 @@
     <ClCompile Include="CoreFastId.cpp" />
     <ClCompile Include="CoreFont.cpp" />
     <ClCompile Include="CoreFontRepository.cpp" />
+    <ClCompile Include="CoreInput.cpp" />
+    <ClCompile Include="CoreInputDeviceEvent.cpp" />
+    <ClCompile Include="CoreInputStdDevices.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

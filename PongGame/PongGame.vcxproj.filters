@@ -14,6 +14,9 @@
     <Filter Include="Assets\Shaders">
       <UniqueIdentifier>{00ef3c88-8ec9-4fc4-8082-d9660dd1a1f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Other">
+      <UniqueIdentifier>{5c42f51c-543b-400a-b34a-def6eceb04ac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -94,6 +97,9 @@
     </None>
     <None Include="Assets\main_vs.glsl">
       <Filter>Assets\Shaders</Filter>
+    </None>
+    <None Include="config.xml">
+      <Filter>Other</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

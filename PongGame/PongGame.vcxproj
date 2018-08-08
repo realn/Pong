@@ -177,6 +177,7 @@
   <ItemGroup>
     <None Include="Assets\main_fs.glsl" />
     <None Include="Assets\main_vs.glsl" />
+    <None Include="config.xml" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Assets\font_fs.glsl" />
