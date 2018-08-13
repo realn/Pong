@@ -34,6 +34,10 @@ namespace core {
 
   class IInputDeviceEventSink {
   public:
-    virtual bool SendEvent(CInputDeviceEvent&& event) = 0;
+    virtual ~IInputDeviceEventSink() {}
+
+    virtual void SendEventAction(InputDeviceId devId, InputDeviceEventId id) = 0;
+    virtual void SendEventState(InputDeviceId devId, InputDeviceEventId id, bool state) = 0;
+    virtual void SendEventRange(InputDeviceId devId, InputDeviceEventId id, float range, float prevRange) = 0;
   };
 }

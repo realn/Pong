@@ -12,10 +12,8 @@ namespace core {
     return value ? 1.0f : 0.0f;
   }
 
-  CInputKeyboardDevice::CInputKeyboardDevice(CAppBase & app,
-                                             std::weak_ptr<IInputDeviceEventSink> sink)
-    : IInputDevice(sink)
-  {
+  CInputKeyboardDevice::CInputKeyboardDevice(CAppBase & app, InputDeviceId devId) 
+    : mDevId(devId) {
     core::bind<IAppKeyEvents>(app, *this);
   }
 
@@ -24,21 +22,20 @@ namespace core {
   void CInputKeyboardDevice::OnKeyState(cb::sdl::ScanCode const code, 
                                         cb::sdl::KeyState const state) {
     auto eventSink = mSink.lock();
+    if(!eventSink) {
+      return;
+    }
     bool prevState = mKeys[code];
     bool thisState = state == cb::sdl::KeyState::PRESSED;
 
     auto eventId = static_cast<InputDeviceEventId>(code);
 
     if(prevState && !thisState) {
-      eventSink->SendEvent(CInputDeviceEvent(0, eventId, InputEventType::Action));
+      eventSink->SendEventAction(mDevId, eventId);
     }
     if(prevState != thisState) {
-      eventSink->SendEvent(CInputDeviceEvent(0, eventId, InputEventType::State,
-                                       thisState, prevState));
-      eventSink->SendEvent(CInputDeviceEvent(0, eventId, InputEventType::Range,
-                                       stateToRange(thisState), stateToRange(prevState)));
-    }
-    
+      eventSink->SendEventState(mDevId, eventId, thisState);
+      eventSink->SendEventRange(mDevId, eventId, stateToRange(thisState), stateToRange(prevState));
+    }    
   }
-
 }

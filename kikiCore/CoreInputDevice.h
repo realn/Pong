@@ -9,12 +9,12 @@ namespace core {
   protected:
     std::weak_ptr<IInputDeviceEventSink> mSink;
 
-    IInputDevice(std::weak_ptr<IInputDeviceEventSink> sink) : mSink(sink) {}
+    IInputDevice() {}
 
   public:
     IInputDevice(IInputDevice const&) = delete;
     virtual ~IInputDevice() {}
 
-
+    void SetEventSink(std::weak_ptr<IInputDeviceEventSink> sink) { mSink = sink; }
   };
 }
