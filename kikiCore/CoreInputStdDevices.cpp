@@ -12,9 +12,9 @@ namespace core {
     return value ? 1.0f : 0.0f;
   }
 
-  CInputKeyboardDevice::CInputKeyboardDevice(CAppBase & app, InputDeviceId devId) 
+  CInputKeyboardDevice::CInputKeyboardDevice(InputDeviceId devId) 
     : mDevId(devId) {
-    core::bind<IAppKeyEvents>(app, *this);
+    //core::bind<IAppKeyEvents>(app, *this);
   }
 
   CInputKeyboardDevice::~CInputKeyboardDevice() {}

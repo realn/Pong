@@ -13,11 +13,9 @@ namespace core {
   class CFont;
   class CFontRepository;
 
-  class IAppMouseEvents;
-  class IAppKeyEvents;
+  class CApp;
 
   template<typename _Type> class CAssetRepository;
-  template<typename _Type> class CApp;
   template<typename _ObserverType> class IEventSource;
   template<typename _ObserverType> class IEventTarget;
 }

@@ -132,8 +132,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CoreApp.h" />
-    <ClInclude Include="CoreAppEvents.h" />
-    <ClInclude Include="CoreAppTask.h" />
     <ClInclude Include="CoreBLine.h" />
     <ClInclude Include="CoreBRect.h" />
     <ClInclude Include="CoreBSphere.h" />
@@ -144,7 +142,6 @@
     <ClInclude Include="CoreFwd.h" />
     <ClInclude Include="CoreAssetRepository.h" />
     <ClInclude Include="CoreInput.h" />
-    <ClInclude Include="CoreAppInputEvents.h" />
     <ClInclude Include="CoreInputContext.h" />
     <ClInclude Include="CoreInputDevice.h" />
     <ClInclude Include="CoreInputDeviceEvent.h" />

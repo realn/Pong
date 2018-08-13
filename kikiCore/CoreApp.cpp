@@ -1,24 +1,21 @@
 #include "stdafx.h"
 #include "CoreApp.h"
-#include "CoreAppTask.h"
-#include "CoreAppEvents.h"
-#include "CoreAppInputEvents.h"
 
 #include <CBSDL/System.h>
 #include <CBSDL/GLContext.h>
 #include <CBGL/System.h>
 
 namespace core {
-  CAppBase::CAppBase(cb::strvector const& args, CAppConfig const& config)
+  CApp::CApp(cb::strvector const& args, CAppConfig const& config)
     : mArgs(args)
     , mConfig(config)
     , mSystem(cb::sdl::System::VIDEO | cb::sdl::System::TIMER | cb::sdl::System::EVENTS) 
   {}
 
-  CAppBase::~CAppBase() {}
+  CApp::~CApp() {}
 
-  int CAppBase::Execute() {
-    if(!Init()) {
+  int CApp::Execute() {
+    if(!InitBase()) {
       return -1;
     }
 
@@ -28,7 +25,7 @@ namespace core {
     return 0;
   }
 
-  void CAppBase::MainLoop() {
+  void CApp::MainLoop() {
     auto frameTime = 0.0f;
     mTimer.Update();
     while(mRun) {
@@ -46,9 +43,10 @@ namespace core {
     }
   }
 
-  bool CAppBase::Init() {
-    mTask = CreateTask();
-    mTask->PrepareConfig(mArgs, mConfig);
+  bool CApp::InitBase() {
+    if(!AdjustConfig(mConfig)) {
+      return false;
+    }
 
     mWindow =
       std::make_unique<cb::sdl::CWindow>(mConfig.WindowTitle,
@@ -72,14 +70,14 @@ namespace core {
 
     cb::gl::initextensions();
 
-    if(!mTask->Init(*this)) {
+    if(!Init()) {
       return false;
     }
 
     return true;
   }
 
-  void CAppBase::ProcessEvents() {
+  void CApp::ProcessEvents() {
     using namespace cb::sdl;
     auto event = CEvent();
     for(int i = 0u; mConfig.EventMaxIters; i++) {
@@ -113,7 +111,7 @@ namespace core {
     }
   }
 
-  void CAppBase::Update(float& frameTime) {
+  void CApp::Update(float& frameTime) {
     for(auto i = 0u; i < mConfig.UpdateMaxStepsPerFrame; i++) {
       if(frameTime < mConfig.UpdateTimeStep)
         return;
@@ -123,64 +121,45 @@ namespace core {
     }
   }
 
-  void CAppBase::UpdateFrame(float const timeDelta) {
-    mTask->Update(*this, timeDelta);
+  void CApp::UpdateFrame(float const timeDelta) {
   }
 
-  void CAppBase::UpdateRender(float const timeDelta) {
-    mTask->UpdateRender(*this, timeDelta);
+  void CApp::UpdateRender(float const timeDelta) {
   }
 
-  void CAppBase::Render() {
-    mTask->Render(*this);
+  void CApp::Render() {
   }
 
-  void CAppBase::ProcessWindowEvent(cb::sdl::CEvent const & event) {
+  void CApp::ProcessWindowEvent(cb::sdl::CEvent const & event) {
     using namespace cb::sdl;
-    auto observers = IEventSource<IAppEvents>::GetObservers();
-    if(observers.empty())
-      return;
     auto const winEvent = event.Window();
 
-    for(auto observer : observers) {
-      if(winEvent.GetType() == WindowEventType::CLOSE) {
-        observer->OnAppClose(*this);
-      }
+    if(winEvent.GetType() == WindowEventType::CLOSE) {
+      OnAppClose();
     }
   }
 
-  void CAppBase::ProcessMouseEvent(cb::sdl::CEvent const & event) {
-    auto observers = IEventSource<IAppMouseEvents>::GetObservers();
-    if(observers.empty())
-      return;
+  void CApp::ProcessMouseEvent(cb::sdl::CEvent const & event) {
+    using namespace cb::sdl;
+    if(event.GetType() == EventType::MOUSEMOTION) {
+      auto const mouseEvent = event.Motion();
 
-    for(auto observer : observers) {
-      using namespace cb::sdl;
-      if(event.GetType() == EventType::MOUSEMOTION) {
-        auto const mouseEvent = event.Motion();
+      auto pos =
+        glm::vec2(mouseEvent.GetPosition()) / glm::vec2(mConfig.WindowSize);
+      auto delta =
+        glm::vec2(mouseEvent.GetRelative()) / glm::vec2(mConfig.WindowSize);
 
-        auto pos =
-          glm::vec2(mouseEvent.GetPosition()) / glm::vec2(mConfig.WindowSize);
-        auto delta =
-          glm::vec2(mouseEvent.GetRelative()) / glm::vec2(mConfig.WindowSize);
+      OnMouseMotion(pos, delta);
+    }
+    if(event.GetType() == EventType::MOUSEBUTTONUP ||
+        event.GetType() == EventType::MOUSEBUTTONDOWN) {
+      auto const mouseEvent = event.Button();
 
-        observer->OnMouseMotion(pos, delta);
-      }
-      if(event.GetType() == EventType::MOUSEBUTTONUP ||
-         event.GetType() == EventType::MOUSEBUTTONDOWN) {
-        auto const mouseEvent = event.Button();
-
-        observer->OnMouseButton(mouseEvent.GetButton(), mouseEvent.GetType());
-      }
+      OnMouseButton(mouseEvent.GetButton(), mouseEvent.GetType());
     }
   }
 
-  void CAppBase::ProcessKeyEvent(cb::sdl::CEvent const & event) {
-    auto observers = IEventSource<IAppKeyEvents>::GetObservers();
-    if(observers.empty())
-      return;
-    for(auto observer : observers) {
-      observer->OnKeyState(event.Key().GetScanCode(), event.Key().GetType());
-    }
+  void CApp::ProcessKeyEvent(cb::sdl::CEvent const & event) {
+    OnKeyState(event.Key().GetScanCode(), event.Key().GetType());
   }
 }

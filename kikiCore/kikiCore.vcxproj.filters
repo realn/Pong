@@ -63,9 +63,6 @@
     <ClInclude Include="CoreApp.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="CoreAppTask.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="CoreEvents.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -79,12 +76,6 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="CoreFastId.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CoreAppInputEvents.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CoreAppEvents.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="CoreInput.h">

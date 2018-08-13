@@ -6,9 +6,7 @@
 #include <CBGL/Fwd.h>
 
 #include <CoreEvents.h>
-#include <CoreAppInputEvents.h>
-#include <CoreAppEvents.h>
-#include <CoreAppTask.h>
+#include <CoreApp.h>
 #include <GFXFwd.h>
 
 #include "ControlEventObservers.h"
@@ -26,12 +24,9 @@ namespace pong {
   class IGameController;
 
   class CGame
-    : public core::IAppTask
+    : public core::CApp
     , public core::IEventSource<IMouseEventObserver>
     , public core::IEventSource<IKeyboardEventObserver>
-    , public core::IEventTarget<core::IAppKeyEvents>
-    , public core::IEventTarget<core::IAppMouseEvents>
-    , public core::IEventTarget<core::IAppEvents>
   {
   public:
     using PaddlePtrT = std::shared_ptr<CGamePaddle>;
@@ -50,30 +45,28 @@ namespace pong {
     std::unique_ptr<gfx::CCanvasView> mCanvasView;
 
   public:
-    CGame();
+    CGame(cb::strvector const& args);
+    CGame(CGame&&) = default;
     ~CGame();
 
-    void PrepareConfig(cb::strvector const& args, core::CAppConfig& config) override;
-    bool Init(core::CAppBase& app) override;
+    bool AdjustConfig(core::CAppConfig& config) override;
+    bool Init() override;
 
-    void Update(core::CAppBase& app, float const timeDelta) override;
-    void UpdateRender(core::CAppBase const& app, float const timeDelta) override;
-    void Render(core::CAppBase const& app) const override;
+    //void Update(core::CAppBase& app, float const timeDelta) override;
+    //void UpdateRender(core::CAppBase const& app, float const timeDelta) override;
+    //void Render(core::CAppBase const& app) const override;
 
     const PaddlePtrVecT& GetPaddles() const { return mPaddles; }
     const CGameField& GetField() const { return *mField; }
 
     void AddPlayer(GameControllerType controllerType);
 
-    // Inherited via IEventTarget
     virtual void OnKeyState(cb::sdl::ScanCode const code, cb::sdl::KeyState const state) override;
 
-    // Inherited via IEventTarget
     virtual void OnMouseMotion(glm::vec2 const & pos, glm::vec2 const & delta) override;
     virtual void OnMouseButton(cb::sdl::Button const button, cb::sdl::KeyState const state) override;
 
-    // Inherited via IEventTarget
-    virtual void OnAppClose(core::CAppBase& app) override;
+    virtual void OnAppClose() override;
 
   private:
     PaddleSide GetPlayerPaddleSide(cb::u32 const index) const;

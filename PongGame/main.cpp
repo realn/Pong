@@ -3,8 +3,6 @@
 #include <iostream>
 #include <CBLog/Logger.h>
 
-#include <CoreApp.h>
-
 #include "Game.h"
 
 using utf8strvec = std::vector<cb::utf8string>;
@@ -25,7 +23,7 @@ int WinMain(void*, void*, char*, int) {
     //std::transform(utf8cmdvec.begin(), utf8cmdvec.end(), std::back_inserter(cmdvec), func);
   }
 
-  auto app = core::CApp<pong::CGame>(cmdvec);
+  auto app = pong::CGame(cmdvec);
 
   return app.Execute();
 }

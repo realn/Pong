@@ -28,16 +28,11 @@ namespace core {
     }
   };
 
-  class IAppTask;
   class IAppEvents;
   class IAppMouseEvents;
   class IAppKeyEvents;
 
-  class CAppBase
-    : public IEventSource<IAppEvents>
-    , public IEventSource<IAppMouseEvents>
-    , public IEventSource<IAppKeyEvents>
-  {
+  class CApp {
   private:
     cb::strvector mArgs;
     CAppConfig mConfig;
@@ -45,24 +40,24 @@ namespace core {
     cb::sdl::CPerfTimer mTimer;
     std::unique_ptr<cb::sdl::CWindow> mWindow;
     std::unique_ptr<cb::sdl::CGLContext> mGLContext;
-    std::unique_ptr<IAppTask> mTask;
     bool mRun = true;
 
   public:
-    CAppBase(cb::strvector const& args, CAppConfig const& config = CAppConfig());
-    CAppBase(CAppBase&&) = default;
-    virtual ~CAppBase();
+    CApp(cb::strvector const& args, CAppConfig const& config = CAppConfig());
+    CApp(CApp&&) = default;
+    virtual ~CApp();
 
     int Execute();
 
     void Quit() { mRun = false; }
 
     CAppConfig const& GetConfig() const { return mConfig; }
+    const cb::strvector& GetArgs() const { return mArgs; }
 
   private:
     void MainLoop();
 
-    bool Init();
+    bool InitBase();
 
     void ProcessEvents();
     void Update(float& frameTime);
@@ -75,21 +70,14 @@ namespace core {
     void ProcessKeyEvent(cb::sdl::CEvent const& event);
 
   protected:
-    virtual std::unique_ptr<IAppTask> CreateTask() = 0;
-  };
+    virtual bool AdjustConfig(CAppConfig& config) { return true; }
+    virtual bool Init() = 0;
 
-  template<typename _Type>
-  class CApp
-    : public CAppBase {
-  public:
-    CApp(cb::strvector const& args = cb::strvector(), 
-         CAppConfig const& config = CAppConfig()) : CAppBase(args, config) {}
-    CApp(CApp&&) = default;
-    virtual ~CApp() = default;
+    virtual void OnKeyState(cb::sdl::ScanCode const code, cb::sdl::KeyState const state) {}
 
-  protected:
-    std::unique_ptr<IAppTask> CreateTask() override {
-      return std::make_unique<_Type>();
-    }
+    virtual void OnMouseMotion(glm::vec2 const & pos, glm::vec2 const & delta) {}
+    virtual void OnMouseButton(cb::sdl::Button const button, cb::sdl::KeyState const state) {}
+
+    virtual void OnAppClose() {}
   };
 }

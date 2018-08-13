@@ -19,20 +19,20 @@ const glm::vec2 FIELD_PROPS {5.0f, 3.0f};
 const float FIELD_ASP_RATIO = FIELD_PROPS.x / FIELD_PROPS.y;
 
 namespace pong {
-  CGame::CGame() {}
+  CGame::CGame(cb::strvector const& args)
+    : core::CApp(args)
+  {}
 
   CGame::~CGame() {}
 
-  void CGame::PrepareConfig(cb::strvector const& args, core::CAppConfig& config) {
+  bool CGame::AdjustConfig(core::CAppConfig& config) {
     config.WindowTitle = L"Pong Game"s;
+
+    return true;
   }
 
-  bool CGame::Init(core::CAppBase& app) {
-    core::bind<core::IAppKeyEvents>(app, *this);
-    core::bind<core::IAppMouseEvents>(app, *this);
-    core::bind<core::IAppEvents>(app, *this);
-
-    auto aspectRatio = app.GetConfig().GetAspectRatio();
+  bool CGame::Init() {
+    auto aspectRatio = GetConfig().GetAspectRatio();
     mScreenSize = glm::vec2(2.0f) * glm::vec2(aspectRatio, 1.0f);
 
     {
@@ -71,35 +71,35 @@ namespace pong {
     return true;
   }
 
-  void CGame::Update(core::CAppBase& app, float const timeDelta) {
-    for(auto& controller : mControllers) {
-      controller->Update(*this, timeDelta);
-    }
-    for(auto& paddle : mPaddles) {
-      paddle->Update(*this, timeDelta);
-    }
-    mBall->Update(*this, timeDelta);
-  }
+  //void CGame::Update(core::CAppBase& app, float const timeDelta) {
+  //  for(auto& controller : mControllers) {
+  //    controller->Update(*this, timeDelta);
+  //  }
+  //  for(auto& paddle : mPaddles) {
+  //    paddle->Update(*this, timeDelta);
+  //  }
+  //  mBall->Update(*this, timeDelta);
+  //}
 
-  void CGame::UpdateRender(core::CAppBase const& app, float const timeDelta) {
-    mCanvas->Clear();
+  //void CGame::UpdateRender(core::CAppBase const& app, float const timeDelta) {
+  //  mCanvas->Clear();
 
-    for(auto& paddle : mPaddles) {
-      paddle->UpdateRender(*mCanvas);
-    }
-    mBall->UpdateRender(*mCanvas);
+  //  for(auto& paddle : mPaddles) {
+  //    paddle->UpdateRender(*mCanvas);
+  //  }
+  //  mBall->UpdateRender(*mCanvas);
 
-    mCanvasView->UpdateRender(*mCanvas);
-  }
+  //  mCanvasView->UpdateRender(*mCanvas);
+  //}
 
-  void CGame::Render(core::CAppBase const& app) const {
-    cb::gl::clearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
-    cb::gl::clear(cb::gl::ClearBuffer::COLOR | cb::gl::ClearBuffer::DEPTH);
+  //void CGame::Render(core::CAppBase const& app) const {
+  //  cb::gl::clearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+  //  cb::gl::clear(cb::gl::ClearBuffer::COLOR | cb::gl::ClearBuffer::DEPTH);
 
-    auto transform = glm::ortho(0.0f, mScreenSize.x, 0.0f, mScreenSize.y);
+  //  auto transform = glm::ortho(0.0f, mScreenSize.x, 0.0f, mScreenSize.y);
 
-    mCanvasView->Render(transform);
-  }
+  //  mCanvasView->Render(transform);
+  //}
 
   void CGame::AddPlayer(GameControllerType controllerType) {
     auto playerIndex = cb::u32(mPaddles.size());
@@ -176,7 +176,7 @@ namespace pong {
   void CGame::OnMouseButton(cb::sdl::Button const button, cb::sdl::KeyState const state) {
   }
 
-  void CGame::OnAppClose(core::CAppBase & app) {
-    app.Quit();
+  void CGame::OnAppClose() {
+    Quit();
   }
 }
