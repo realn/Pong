@@ -93,7 +93,7 @@
     <ClInclude Include="CoreInputStdDevices.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="CoreInputTarget.h">
+    <ClInclude Include="CoreInputObserver.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

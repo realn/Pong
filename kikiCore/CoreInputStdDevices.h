@@ -9,11 +9,15 @@ namespace core {
     using KeyCodesT = std::map<cb::sdl::ScanCode, bool>;
   private:
     KeyCodesT mKeys;
-    InputDeviceId mDevId;
 
   public:
-    CInputKeyboardDevice(InputDeviceId devId);
+    CInputKeyboardDevice(const InputDeviceId devId, const cb::string& name);
     ~CInputKeyboardDevice();
+
+    virtual bool ParseEventId(const cb::string& value,
+                              InputDeviceEventId& outValue) const override;
+
+    virtual cb::string EventIdToString(const InputDeviceEventId value) const override;
 
     void OnKeyState(cb::sdl::ScanCode const code, cb::sdl::KeyState const state);
   };

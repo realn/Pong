@@ -7,6 +7,7 @@
 
 #include <CoreEvents.h>
 #include <CoreApp.h>
+#include <CoreInputObserver.h>
 #include <GFXFwd.h>
 
 #include "ControlEventObservers.h"
@@ -25,6 +26,7 @@ namespace pong {
 
   class CGame
     : public core::CApp
+    , public core::IEventTarget<core::IInputObserver>
     , public core::IEventSource<IMouseEventObserver>
     , public core::IEventSource<IKeyboardEventObserver>
   {
@@ -67,6 +69,10 @@ namespace pong {
     virtual void OnMouseButton(cb::sdl::Button const button, cb::sdl::KeyState const state) override;
 
     virtual void OnAppClose() override;
+
+    virtual void OnInputAction(core::InputEventId const id) override;;
+    virtual void OnInputState(core::InputEventId const id, bool value) override;
+    virtual void OnInputRange(core::InputEventId const id, float const value, float const prevValue) override;
 
   private:
     PaddleSide GetPlayerPaddleSide(cb::u32 const index) const;

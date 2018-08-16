@@ -3,10 +3,11 @@
 #include <vector>
 #include <memory>
 #include <map>
+#include <set>
 
 #include "CoreEvents.h"
 #include "CoreInputDeviceEvent.h"
-#include "CoreInputTarget.h"
+#include "CoreInputObserver.h"
 
 namespace core {
   using InputDeviceId = unsigned;
@@ -19,24 +20,36 @@ namespace core {
 
   class CInput 
     : public IInputDeviceEventSink
-    , public IEventSource<IInputTarget>
+    , public IEventSource<IInputObserver>
     , public std::enable_shared_from_this<CInput>
   {
   private:
-    using DevicesT = std::vector<std::shared_ptr<IInputDevice>>;
+    using DevicesT = std::map<InputDeviceId, std::shared_ptr<IInputDevice>>;
+    using DeviceNameIdsT = std::map<cb::string, InputDeviceId>;
     using DeviceEventsT = std::vector<CInputDeviceEvent>;
     using DeviceBindingsT = std::map<InputBindingId, InputEventId>;
+    using EventIdsT = std::set<InputEventId>;
+    using EventNameIdsT = std::map<cb::string, InputEventId>;
 
     DevicesT mDevices;
+    DeviceNameIdsT mDeviceNameIds;
     DeviceEventsT mDeviceEvents;
     DeviceBindingsT mBindings;
+    EventIdsT mEventIds;
+    EventNameIdsT mEventNameIds;
 
   public:
     CInput();
 
     void AddDevice(std::shared_ptr<IInputDevice> device);
+    void RegisterEvent(const cb::string& name, const InputEventId eventId);
 
-    void AddBinding(InputDeviceId devId, InputDeviceEventId devEventId, InputEventId eventId);
+    bool AddBinding(const InputDeviceId devId, 
+                    const InputDeviceEventId devEventId, 
+                    const InputEventId eventId);
+    bool AddBinding(const cb::string& devName, 
+                    const cb::string& devEventName, 
+                    const cb::string& eventName);
 
     void Update(float const timeDelta);
 

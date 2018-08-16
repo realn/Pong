@@ -146,7 +146,7 @@
     <ClInclude Include="CoreInputDevice.h" />
     <ClInclude Include="CoreInputDeviceEvent.h" />
     <ClInclude Include="CoreInputStdDevices.h" />
-    <ClInclude Include="CoreInputTarget.h" />
+    <ClInclude Include="CoreInputObserver.h" />
     <ClInclude Include="DataFont.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>

@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "CoreApp.h"
+#include "CoreInput.h"
+#include "CoreInputDevice.h"
+#include "CoreInputStdDevices.h"
 
 #include <CBSDL/System.h>
 #include <CBSDL/GLContext.h>
@@ -32,6 +35,7 @@ namespace core {
       Render();
       
       ProcessEvents();
+      mInput->Update(frameTime);
       Update(frameTime);
 
       mGLContext->SwapWindow(*mWindow);
@@ -69,6 +73,10 @@ namespace core {
     mGLContext->MakeCurrent(*mWindow);
 
     cb::gl::initextensions();
+
+    mInput = std::make_shared<CInput>();
+    mInputKeyboardDevice = std::make_unique<core::CInputKeyboardDevice>(0, L"Keyboard");
+    mInput->AddDevice(mInputKeyboardDevice);
 
     if(!Init()) {
       return false;
@@ -160,6 +168,7 @@ namespace core {
   }
 
   void CApp::ProcessKeyEvent(cb::sdl::CEvent const & event) {
+    mInputKeyboardDevice->OnKeyState(event.Key().GetScanCode(), event.Key().GetType());
     OnKeyState(event.Key().GetScanCode(), event.Key().GetType());
   }
 }

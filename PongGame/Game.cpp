@@ -3,6 +3,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <CoreApp.h>
+#include <CoreInput.h>
 #include <GFXCanvas.h>
 #include <GFXCanvasView.h>
 
@@ -67,6 +68,12 @@ namespace pong {
     mCanvas = std::make_unique<gfx::CCanvas>(gfx::CTextureAtlas(textureFileName, textureSize));
 
     mCanvasView = std::make_unique<gfx::CCanvasView>(shaderProg, texture, texture);
+
+    GetInput().RegisterEvent(L"QUIT_APP", 0);
+
+    GetInput().AddBinding(L"Keyboard", L"Escape", L"QUIT_APP");
+
+    core::bind(GetInput(), *this);
 
     return true;
   }
@@ -178,5 +185,17 @@ namespace pong {
 
   void CGame::OnAppClose() {
     Quit();
+  }
+
+  void CGame::OnInputAction(core::InputEventId const id) {
+    if(id == 0) {
+      Quit();
+    }
+  }
+
+  void CGame::OnInputState(core::InputEventId const id, bool value) {
+  }
+
+  void CGame::OnInputRange(core::InputEventId const id, float const value, float const prevValue) {
   }
 }

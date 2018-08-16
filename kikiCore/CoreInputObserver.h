@@ -3,7 +3,7 @@
 namespace core {
   using InputEventId = unsigned;
 
-  class IInputTarget {
+  class IInputObserver {
   public:
     virtual void OnInputAction(InputEventId const id) {};
     virtual void OnInputState(InputEventId const id, bool value) {}

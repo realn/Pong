@@ -27,10 +27,10 @@ namespace core {
       return static_cast<float>(WindowSize.x) / static_cast<float>(WindowSize.y);
     }
   };
+  
 
-  class IAppEvents;
-  class IAppMouseEvents;
-  class IAppKeyEvents;
+  class CInput;
+  class CInputKeyboardDevice;
 
   class CApp {
   private:
@@ -38,9 +38,14 @@ namespace core {
     CAppConfig mConfig;
     cb::sdl::CSystem mSystem;
     cb::sdl::CPerfTimer mTimer;
+    bool mRun = true;
+
     std::unique_ptr<cb::sdl::CWindow> mWindow;
     std::unique_ptr<cb::sdl::CGLContext> mGLContext;
-    bool mRun = true;
+
+    std::shared_ptr<CInput> mInput;
+    std::shared_ptr<CInputKeyboardDevice> mInputKeyboardDevice;
+
 
   public:
     CApp(cb::strvector const& args, CAppConfig const& config = CAppConfig());
@@ -53,6 +58,7 @@ namespace core {
 
     CAppConfig const& GetConfig() const { return mConfig; }
     const cb::strvector& GetArgs() const { return mArgs; }
+    CInput& GetInput() const { return *mInput; }
 
   private:
     void MainLoop();
