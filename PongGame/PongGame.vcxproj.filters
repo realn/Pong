@@ -90,6 +90,9 @@
     <ClInclude Include="GamePaddleController.h">
       <Filter>Source Files\Game</Filter>
     </ClInclude>
+    <ClInclude Include="GameConsts.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\main_fs.glsl">

@@ -9,7 +9,7 @@ namespace pong {
                                                            std::shared_ptr<CGameObject> target) {
     switch(type) {
     case GameControllerType::Mouse:  
-      return std::make_shared<CGamePaddleKeyboardController>(target);
+      return std::make_shared<CGamePaddleLocalController>(target, CGamePaddleLocalControllerConfig());
     case GameControllerType::Keyboard:
       return std::make_shared<CGamePaddleMouseController>(target);
     default:

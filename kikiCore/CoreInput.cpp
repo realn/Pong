@@ -22,13 +22,16 @@ namespace core {
 
   bool CInput::AddBinding(const InputDeviceId devId, 
                           const InputDeviceEventId devEventId, 
-                          const InputEventId eventId) {
+                          const InputEventId eventId,
+                          const bool negated,
+                          const float addValue,
+                          const float mulValue) {
     if(mDevices.find(devId) == mDevices.end() ||
        mEventIds.find(eventId) == mEventIds.end()) {
       return false;
     }
     InputBindingId bindId(devId, devEventId);
-    mBindings[bindId] = eventId;
+    mBindings[bindId] = { eventId, negated, addValue, mulValue };
     return true;
   }
 
@@ -65,16 +68,17 @@ namespace core {
         continue;
       }
 
+      const CBindData& data = it->second;
       for(auto observer : observers) {
         switch(event.mType) {
         default:
-        case InputEventType::Action:  observer->OnInputAction(it->second); break;
-        case InputEventType::State:   observer->OnInputState(it->second,
-                                                             event.mState.mValue);
+        case InputEventType::Action:  observer->OnInputAction(data.mEventId); break;
+        case InputEventType::State:   observer->OnInputState(data.mEventId,
+                                                             ModValue(data, event.mState.mValue));
           break;
-        case InputEventType::Range:   observer->OnInputRange(it->second,
-                                                             event.mRange.mValue,
-                                                             event.mRange.mPrevValue);
+        case InputEventType::Range:   observer->OnInputRange(data.mEventId,
+                                                             ModValue(data, event.mRange.mValue),
+                                                             ModValue(data, event.mRange.mPrevValue));
           break;
         }
       }
@@ -100,6 +104,16 @@ namespace core {
                                               id,
                                               InputEventType::Range,
                                               range, prevRange));
+  }
+
+  bool CInput::ModValue(const CBindData & data, const bool value) const {
+    if(data.mNegated) return !value;
+    return value;
+  }
+
+  float CInput::ModValue(const CBindData & data, const float value) const {
+    float result = data.mMulValue * value + data.mAddValue;
+    return data.mNegated ? -result : result;
   }
 
 }

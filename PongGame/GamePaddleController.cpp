@@ -2,6 +2,8 @@
 
 #include <glm/gtc/epsilon.hpp>
 
+#include <CoreInput.h>
+
 #include "Game.h"
 #include "GameField.h"
 #include "GamePaddle.h"
@@ -22,7 +24,7 @@ namespace pong {
   CGamePaddleMouseController::~CGamePaddleMouseController() {}
 
   bool CGamePaddleMouseController::InitController(CGame& game) {
-    core::bind<IMouseEventObserver>(game, *this);
+    //core::bind<IMouseEventObserver>(game, *this);
     return true;
   }
 
@@ -39,19 +41,21 @@ namespace pong {
     }
   }
 
-  CGamePaddleKeyboardController::CGamePaddleKeyboardController(std::shared_ptr<CGameObject> paddle) 
+  CGamePaddleLocalController::CGamePaddleLocalController(std::shared_ptr<CGameObject> paddle,
+                                                         const CGamePaddleLocalControllerConfig& config) 
     : CGamePaddleControllerBase(paddle)
+    , mConfig(config)
     , mMoveUp(false), mMoveDown(false)
   {}
 
-  CGamePaddleKeyboardController::~CGamePaddleKeyboardController() {}
+  CGamePaddleLocalController::~CGamePaddleLocalController() {}
 
-  bool CGamePaddleKeyboardController::InitController(CGame& game) {
-    core::bind<IKeyboardEventObserver>(game, *this);
+  bool CGamePaddleLocalController::InitController(CGame& game) {
+    core::bind<core::IInputObserver>(game.GetInput(), *this);
     return true;
   }
 
-  void CGamePaddleKeyboardController::Update(CGame & game, float const timeDelta) {
+  void CGamePaddleLocalController::Update(CGame & game, float const timeDelta) {
     if(mMoveUp) {
       mPaddle->SetMoveDir(PaddleMoveDir::Up);
     }
@@ -63,12 +67,12 @@ namespace pong {
     }
   }
 
-  void CGamePaddleKeyboardController::EventKeyPress(cb::sdl::ScanCode key, cb::sdl::KeyState state) {
-    if(key == cb::sdl::ScanCode::W) {
-      mMoveUp = state == cb::sdl::KeyState::PRESSED;
+  void CGamePaddleLocalController::OnInputState(core::InputEventId const id, bool value) {
+    if(id == mConfig.mUpId) {
+      mMoveUp = value;
     }
-    if(key == cb::sdl::ScanCode::S) {
-      mMoveDown = state == cb::sdl::KeyState::PRESSED;
+    if(id == mConfig.mDownId) {
+      mMoveDown = value;
     }
   }
 }

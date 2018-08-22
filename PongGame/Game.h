@@ -63,8 +63,6 @@ namespace pong {
 
     void AddPlayer(GameControllerType controllerType);
 
-    virtual void OnKeyState(cb::sdl::ScanCode const code, cb::sdl::KeyState const state) override;
-
     virtual void OnMouseMotion(glm::vec2 const & pos, glm::vec2 const & delta) override;
     virtual void OnMouseButton(cb::sdl::Button const button, cb::sdl::KeyState const state) override;
 

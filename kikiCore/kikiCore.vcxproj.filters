@@ -96,5 +96,8 @@
     <ClInclude Include="CoreInputObserver.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="CoreInputEventRegistry.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

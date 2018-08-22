@@ -9,6 +9,7 @@
 
 #include "Assets.h"
 #include "Consts.h"
+#include "GameConsts.h"
 #include "GamePaddle.h"
 #include "GameBall.h"
 #include "GameField.h"
@@ -49,8 +50,27 @@ namespace pong {
       mField = std::make_unique<CGameField>(fieldPos, fieldSize, glm::vec4(0.5f, 0.1f, 0.2f, 1.0f));
     }
 
+    core::bind(GetInput(), *this);
+
+    GetInput().RegisterEvent(L"PLAYER_ONE_UP", GameInput::PLAYER_ONE_UP);
+    GetInput().RegisterEvent(L"PLAYER_ONE_DOWN", GameInput::PLAYER_ONE_DOWN);
+    GetInput().RegisterEvent(L"PLAYER_ONE_LEFT", GameInput::PLAYER_ONE_LEFT);
+    GetInput().RegisterEvent(L"PLAYER_ONE_RIGHT", GameInput::PLAYER_ONE_RIGHT);
+
+    GetInput().RegisterEvent(L"PLAYER_TWO_UP", GameInput::PLAYER_TWO_UP);
+    GetInput().RegisterEvent(L"PLAYER_TWO_DOWN", GameInput::PLAYER_TWO_DOWN);
+    GetInput().RegisterEvent(L"PLAYER_TWO_LEFT", GameInput::PLAYER_TWO_LEFT);
+    GetInput().RegisterEvent(L"PLAYER_TWO_RIGHT", GameInput::PLAYER_TWO_RIGHT);
+
+    GetInput().RegisterEvent(L"GAME_QUIT", GameInput::GAME_QUIT);
+
+    GetInput().RegisterEvent(L"MENU_ITEM_ENTER)", GameInput::MENU_ITEM_ENTER);
+    GetInput().RegisterEvent(L"MENU_ITEM_RETURN)", GameInput::MENU_ITEM_RETURN);
+
     AddPlayer(GameControllerType::Mouse);
     AddPlayer(GameControllerType::Keyboard);
+
+    GetInput().AddBinding(L"Keyboard", L"Escape", L"QUIT_APP");
 
     mBall = std::make_unique<CGameBall>(glm::vec2{ 0.1f, 0.1f }, 1.5f);
     mBall->SetPosition((mField->GetSize() - mBall->GetSize()) / 2.0f);
@@ -69,11 +89,6 @@ namespace pong {
 
     mCanvasView = std::make_unique<gfx::CCanvasView>(shaderProg, texture, texture);
 
-    GetInput().RegisterEvent(L"QUIT_APP", 0);
-
-    GetInput().AddBinding(L"Keyboard", L"Escape", L"QUIT_APP");
-
-    core::bind(GetInput(), *this);
 
     return true;
   }
@@ -164,12 +179,6 @@ namespace pong {
       return;
     }
     mControllers.push_back(controller);
-  }
-
-  void CGame::OnKeyState(cb::sdl::ScanCode const code, cb::sdl::KeyState const state) {
-    for(auto& observer : IEventSource<IKeyboardEventObserver>::GetObservers()) {
-      observer->EventKeyPress(code, state);
-    }
   }
 
   void CGame::OnMouseMotion(glm::vec2 const & pos, glm::vec2 const & delta) {
