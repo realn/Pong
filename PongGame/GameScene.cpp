@@ -1,14 +1,14 @@
 #include "stdafx.h"
-#include "GameSceneLevel.h"
+#include "GameScene.h"
 
 namespace pong {
-  CGameSceneMain::CGameSceneMain() {}
+  CGameScene::CGameScene() {}
 
-  bool CGameSceneMain::Init() {
+  bool CGameScene::Init() {
     return false;
   }
 
-  void CGameSceneMain::Update(const float timeDelta) {
+  void CGameScene::Update(const float timeDelta) {
     //  for(auto& controller : mControllers) {
     //    controller->Update(*this, timeDelta);
     //  }
@@ -18,7 +18,7 @@ namespace pong {
     //  mBall->Update(*this, timeDelta);
   }
 
-  void CGameSceneMain::UpdateRender(const float timeDelta) {
+  void CGameScene::UpdateRender(const float timeDelta) {
     //  mCanvas->Clear();
 
     //  for(auto& paddle : mPaddles) {
@@ -29,7 +29,7 @@ namespace pong {
     //  mCanvasView->UpdateRender(*mCanvas);
   }
 
-  void CGameSceneMain::Render() {
+  void CGameScene::Render() {
     //  cb::gl::clearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
     //  cb::gl::clear(cb::gl::ClearBuffer::COLOR | cb::gl::ClearBuffer::DEPTH);
 
@@ -38,11 +38,11 @@ namespace pong {
     //  mCanvasView->Render(transform);
   }
 
-  bool CGameSceneMain::IsFinished() const {
+  bool CGameScene::IsFinished() const {
     return false;
   }
 
-  std::unique_ptr<core::CScene> CGameSceneMain::CreateScene() {
+  std::unique_ptr<core::CScene> CGameScene::OnCreateScene() {
     return std::unique_ptr<core::CScene>();
   }
 }

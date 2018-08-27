@@ -5,6 +5,9 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx;cpp</Extensions>
     </Filter>
+    <Filter Include="Source Files\Input">
+      <UniqueIdentifier>{0c40713b-b1bb-4af8-b778-c5c51debcb12}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -31,14 +34,14 @@
     <ClCompile Include="CoreFastId.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CoreInputStdDevices.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CoreInput.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Input</Filter>
     </ClCompile>
     <ClCompile Include="CoreInputDeviceEvent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="CoreInputStdDevices.cpp">
+      <Filter>Source Files\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -78,26 +81,26 @@
     <ClInclude Include="CoreFastId.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="CoreInput.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CoreInputDevice.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CoreInputDeviceEvent.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CoreInputStdDevices.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CoreInputObserver.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CoreInputEventRegistry.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="CoreScene.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreInput.h">
+      <Filter>Source Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreInputDevice.h">
+      <Filter>Source Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreInputDeviceEvent.h">
+      <Filter>Source Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreInputEventRegistry.h">
+      <Filter>Source Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreInputObserver.h">
+      <Filter>Source Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreInputStdDevices.h">
+      <Filter>Source Files\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

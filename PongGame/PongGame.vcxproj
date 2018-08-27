@@ -152,7 +152,7 @@
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="GamePaddleController.cpp" />
     <ClCompile Include="GamePlayer.cpp" />
-    <ClCompile Include="GameSceneLevel.cpp" />
+    <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -174,7 +174,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GamePaddle.h" />
     <ClInclude Include="GamePlayer.h" />
-    <ClInclude Include="GameSceneLevel.h" />
+    <ClInclude Include="GameScene.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>

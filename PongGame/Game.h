@@ -49,14 +49,10 @@ namespace pong {
     CGame(CGame&&) = default;
     ~CGame();
 
-    bool AdjustConfig(core::CAppConfig& config) override;
-    bool Init() override;
+    bool OnAdjustConfig(core::CAppConfig& config) override;
+    bool OnInit() override;
 
-	std::unique_ptr<core::CScene> CreateScene() override;
-
-    //void Update(core::CAppBase& app, float const timeDelta) override;
-    //void UpdateRender(core::CAppBase const& app, float const timeDelta) override;
-    //void Render(core::CAppBase const& app) const override;
+  std::unique_ptr<core::CScene> OnCreateScene() override;
 
     const PaddlePtrVecT& GetPaddles() const { return mPaddles; }
     const CGameField& GetField() const { return *mField; }

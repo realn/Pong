@@ -14,7 +14,7 @@
 #include "GameBall.h"
 #include "GameField.h"
 #include "GameController.h"
-#include "GameSceneLevel.h"
+#include "GameScene.h"
 
 #include "Game.h"
 
@@ -28,13 +28,13 @@ namespace pong {
 
   CGame::~CGame() {}
 
-  bool CGame::AdjustConfig(core::CAppConfig& config) {
+  bool CGame::OnAdjustConfig(core::CAppConfig& config) {
     config.WindowTitle = L"Pong Game"s;
 
     return true;
   }
 
-  bool CGame::Init() {
+  bool CGame::OnInit() {
     auto aspectRatio = GetConfig().GetAspectRatio();
     mScreenSize = glm::vec2(2.0f) * glm::vec2(aspectRatio, 1.0f);
 
@@ -92,8 +92,8 @@ namespace pong {
     return true;
   }
 
-  std::unique_ptr<core::CScene> CGame::CreateScene() {
-	  return std::make_unique<CGameSceneMain>();
+  std::unique_ptr<core::CScene> CGame::OnCreateScene() {
+    return std::make_unique<CGameScene>();
   }
 
   void CGame::AddPlayer(GameControllerType controllerType) {

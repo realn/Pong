@@ -3,10 +3,10 @@
 #include <CoreScene.h>
 
 namespace pong {
-  class CGameSceneMain
+  class CGameScene
     : public core::CScene {
   public:
-    CGameSceneMain();
+    CGameScene();
 
     bool Init();
 
@@ -16,6 +16,6 @@ namespace pong {
     virtual void Render() override;
 
     virtual bool IsFinished() const override;
-    virtual std::unique_ptr<core::CScene> CreateScene() override;
+    virtual std::unique_ptr<core::CScene> OnCreateScene() override;
   };
 }

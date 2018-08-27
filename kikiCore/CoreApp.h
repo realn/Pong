@@ -63,22 +63,19 @@ namespace core {
   private:
     void MainLoop();
 
-    bool InitBase();
+    bool Init();
 
     void ProcessEvents();
     void Update(float& frameTime);
-    void UpdateFrame(float const timeDelta);
-    void UpdateRender(float const timeDelta);
-    void Render();
 
     void ProcessWindowEvent(cb::sdl::CEvent const& event);
     void ProcessMouseEvent(cb::sdl::CEvent const& event);
     void ProcessKeyEvent(cb::sdl::CEvent const& event);
 
   protected:
-    virtual bool AdjustConfig(CAppConfig& config) { return true; }
-    virtual bool Init() = 0;
-    virtual std::unique_ptr<CScene> CreateScene() = 0;
+    virtual bool OnAdjustConfig(CAppConfig& config) { return true; }
+    virtual bool OnInit() = 0;
+    virtual std::unique_ptr<CScene> OnCreateScene() = 0;
 
     virtual void OnKeyState(cb::sdl::ScanCode const code, cb::sdl::KeyState const state) {}
     virtual void OnMouseMotion(glm::vec2 const & pos, glm::vec2 const & delta) {}

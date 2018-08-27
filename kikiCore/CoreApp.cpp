@@ -19,7 +19,7 @@ namespace core {
   CApp::~CApp() {}
 
   int CApp::Execute() {
-    if(!InitBase()) {
+    if(!Init()) {
       return -1;
     }
 
@@ -33,27 +33,27 @@ namespace core {
     auto frameTime = 0.0f;
     mTimer.Update();
     while(mRun && mScene) {
-      Render();
-      
+      mScene->Render();
+
       ProcessEvents();
       mInput->Update(frameTime);
       Update(frameTime);
 
       mGLContext->SwapWindow(*mWindow);
 
-      UpdateRender(frameTime);
+      mScene->UpdateRender(frameTime);
 
       mTimer.Update();
       frameTime += mTimer.GetTimeDelta();
 
       if(mScene->IsFinished()) {
-        mScene = mScene->CreateScene();
+        mScene = mScene->OnCreateScene();
       }
     }
   }
 
-  bool CApp::InitBase() {
-    if(!AdjustConfig(mConfig)) {
+  bool CApp::Init() {
+    if(!OnAdjustConfig(mConfig)) {
       return false;
     }
 
@@ -82,11 +82,11 @@ namespace core {
     mInput = std::make_shared<CInput>();
     mInput->AddDevice(std::make_shared<core::CInputKeyboardDevice>(0, L"Keyboard"));
 
-    if(!Init()) {
+    if(!OnInit()) {
       return false;
     }
 
-    mScene = CreateScene();
+    mScene = OnCreateScene();
     return true;
   }
 
@@ -131,21 +131,9 @@ namespace core {
       if(frameTime < mConfig.UpdateTimeStep)
         return;
 
-      UpdateFrame(mConfig.UpdateTimeStep);
+    mScene->Update(mConfig.UpdateTimeStep);
       frameTime -= mConfig.UpdateTimeStep;
     }
-  }
-
-  void CApp::UpdateFrame(float const timeDelta) {
-    mScene->Update(timeDelta);
-  }
-
-  void CApp::UpdateRender(float const timeDelta) {
-    mScene->UpdateRender(timeDelta);
-  }
-
-  void CApp::Render() {
-    mScene->Render();
   }
 
   void CApp::ProcessWindowEvent(cb::sdl::CEvent const & event) {

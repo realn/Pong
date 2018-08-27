@@ -10,6 +10,6 @@ namespace core {
     virtual void Render() = 0;
 
     virtual bool IsFinished() const = 0;
-    virtual std::unique_ptr<CScene> CreateScene() = 0;
+    virtual std::unique_ptr<CScene> OnCreateScene() = 0;
   };
 }
