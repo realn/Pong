@@ -10,8 +10,8 @@ namespace pong {
     switch(type) {
     case GameControllerType::Mouse:  
       return std::make_shared<CGamePaddleLocalController>(target, CGamePaddleLocalControllerConfig());
-    case GameControllerType::Keyboard:
-      return std::make_shared<CGamePaddleMouseController>(target);
+    //case GameControllerType::Keyboard:
+    //  return std::make_shared<CGamePaddleMouseController>(target);
     default:
       throw std::exception("Unknown game controller type.");
     }

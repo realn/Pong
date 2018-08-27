@@ -28,21 +28,10 @@ namespace pong {
     : public core::CApp
     , public core::IEventTarget<core::IInputObserver>
   {
-  public:
-    using PaddlePtrT = std::shared_ptr<CGamePaddle>;
-    using PaddlePtrVecT = std::vector<PaddlePtrT>;
-    using PaddleControllerPtrT = std::shared_ptr<IGameController>;
-    using PaddleControllerPtrVecT = std::vector<PaddleControllerPtrT>;
 
   private:
     glm::vec2 mScreenSize;
-    PaddlePtrVecT mPaddles;
-    PaddleControllerPtrVecT mControllers;
     std::unique_ptr<CAssets> mAssets;
-    std::unique_ptr<CGameField> mField;
-    std::unique_ptr<CGameBall> mBall;
-    std::unique_ptr<gfx::CCanvas> mCanvas;
-    std::unique_ptr<gfx::CCanvasView> mCanvasView;
 
   public:
     CGame(cb::strvector const& args);
@@ -52,26 +41,12 @@ namespace pong {
     bool OnAdjustConfig(core::CAppConfig& config) override;
     bool OnInit() override;
 
-  std::unique_ptr<core::CScene> OnCreateScene() override;
-
-    const PaddlePtrVecT& GetPaddles() const { return mPaddles; }
-    const CGameField& GetField() const { return *mField; }
-
-    void AddPlayer(GameControllerType controllerType);
-
-    virtual void OnMouseMotion(glm::vec2 const & pos, glm::vec2 const & delta) override;
-    virtual void OnMouseButton(cb::sdl::Button const button, cb::sdl::KeyState const state) override;
+    std::unique_ptr<core::CScene> OnCreateScene() override;
 
     virtual void OnAppClose() override;
 
     virtual void OnInputAction(core::InputEventId const id) override;;
     virtual void OnInputState(core::InputEventId const id, bool value) override;
     virtual void OnInputRange(core::InputEventId const id, float const value, float const prevValue) override;
-
-  private:
-    PaddleSide GetPlayerPaddleSide(cb::u32 const index) const;
-    glm::vec2 GetPaddleSize(PaddleSide const side) const;
-    glm::vec2 GetPaddleStartPos(CGamePaddle const& paddle, PaddleSide const side) const;
-    void AddController(std::shared_ptr<CGameObject> target, GameControllerType const type);
   };
 }

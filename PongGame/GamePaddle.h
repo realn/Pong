@@ -22,16 +22,21 @@ namespace pong {
     PaddleSide mSide;
     PaddleMoveDir mMoveDir;
     float mAccel;
+    glm::vec2 mFieldSize;
 
   public:
-    CGamePaddle(PaddleSide const side, glm::vec2 const& size, float const speed, float const accel);
+    CGamePaddle(PaddleSide const side, 
+                glm::vec2 const& size, 
+                float const speed, 
+                float const accel,
+                const glm::vec2& fieldSize);
     virtual ~CGamePaddle() {}
 
     void SetMoveDir(PaddleMoveDir const value) { mMoveDir = value; }
 
     PaddleMoveDir GetMoveDir() const { return mMoveDir; }
 
-    void Update(CGame& game, float const timeDelta) override;
+    void Update(float const timeDelta) override;
     void UpdateRender(gfx::CCanvas& canvas) override;
   };
 }

@@ -24,22 +24,22 @@ namespace pong {
     virtual ~CGamePaddleControllerBase();
   };
 
-  class CGamePaddleMouseController 
-    : public CGamePaddleControllerBase 
-    //, public core::IEventTarget<IMouseEventObserver>
-  {
-  private:
-    glm::vec2 mMousePos;
+  //class CGamePaddleMouseController 
+  //  : public CGamePaddleControllerBase 
+  //  //, public core::IEventTarget<IMouseEventObserver>
+  //{
+  //private:
+  //  glm::vec2 mMousePos;
 
-  public:
-    CGamePaddleMouseController(std::shared_ptr<CGameObject> paddle);
-    virtual ~CGamePaddleMouseController();
+  //public:
+  //  CGamePaddleMouseController(std::shared_ptr<CGameObject> paddle);
+  //  virtual ~CGamePaddleMouseController();
 
-    bool InitController(CGame& game) override;
-    void Update(CGame& game, float const timeDelta) override;
+  //  bool InitController(CGame& game) override;
+  //  void Update(CGame& game, float const timeDelta) override;
 
-    //void EventMouseMove(glm::vec2 const& pos) override { mMousePos = pos; }
-  };
+  //  //void EventMouseMove(glm::vec2 const& pos) override { mMousePos = pos; }
+  //};
 
   class CGamePaddleLocalControllerConfig {
   public:

@@ -11,14 +11,17 @@ namespace pong {
   CGamePaddle::CGamePaddle(PaddleSide const side,
                            glm::vec2 const & size,
                            float const speed,
-                           float const accel)
+                           float const accel,
+                           const glm::vec2& fieldSize)
     : CGameObject(size, speed)
     , mColor(1.0f, 0.0f, 0.5f, 1.0f)
     , mMoveDir(PaddleMoveDir::None)
     , mSide(side)
-    , mAccel(accel) {}
+    , mAccel(accel)
+    , mFieldSize(fieldSize)
+  {}
 
-  void CGamePaddle::Update(CGame& game, float const timeDelta) {
+  void CGamePaddle::Update(float const timeDelta) {
     auto dir = glm::vec2();
     switch(mMoveDir) {
     case PaddleMoveDir::Up:     dir = { 0.0f, 1.0f }; break;
@@ -32,8 +35,8 @@ namespace pong {
 
     mPos += mVec * mSpeed * timeDelta;
 
-    if(mPos.y < 0.0f || mPos.y + mSize.y > game.GetField().GetSize().y) {
-      mPos.y = glm::clamp(mPos.y, 0.0f, game.GetField().GetSize().y - mSize.y);
+    if(mPos.y < 0.0f || mPos.y + mSize.y > mFieldSize.y) {
+      mPos.y = glm::clamp(mPos.y, 0.0f, mFieldSize.y - mSize.y);
       mVec = glm::vec2(0.0f);
     }
   }

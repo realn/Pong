@@ -17,29 +17,29 @@ namespace pong {
 
   CGamePaddleControllerBase::~CGamePaddleControllerBase() {}
 
-  CGamePaddleMouseController::CGamePaddleMouseController(std::shared_ptr<CGameObject> paddle) 
-    : CGamePaddleControllerBase(paddle)
-  {}
+  //CGamePaddleMouseController::CGamePaddleMouseController(std::shared_ptr<CGameObject> paddle) 
+  //  : CGamePaddleControllerBase(paddle)
+  //{}
 
-  CGamePaddleMouseController::~CGamePaddleMouseController() {}
+  //CGamePaddleMouseController::~CGamePaddleMouseController() {}
 
-  bool CGamePaddleMouseController::InitController(CGame& game) {
-    //core::bind<IMouseEventObserver>(game, *this);
-    return true;
-  }
+  //bool CGamePaddleMouseController::InitController(CGame& game) {
+  //  //core::bind<IMouseEventObserver>(game, *this);
+  //  return true;
+  //}
 
-  void CGamePaddleMouseController::Update(CGame & game, float const timeDelta) {
-    glm::vec2 paddlePos = mPaddle->GetCenterPos() / game.GetField().GetSize();
-    if(glm::epsilonEqual(paddlePos.y, mMousePos.y, 0.01f)) {
-      mPaddle->SetMoveDir(PaddleMoveDir::None);
-    }
-    else if(paddlePos.y < mMousePos.y) {
-      mPaddle->SetMoveDir(PaddleMoveDir::Up);
-    }
-    else if(paddlePos.y > mMousePos.y) {
-      mPaddle->SetMoveDir(PaddleMoveDir::Down);
-    }
-  }
+  //void CGamePaddleMouseController::Update(CGame & game, float const timeDelta) {
+  //  glm::vec2 paddlePos = mPaddle->GetCenterPos() / game.GetField().GetSize();
+  //  if(glm::epsilonEqual(paddlePos.y, mMousePos.y, 0.01f)) {
+  //    mPaddle->SetMoveDir(PaddleMoveDir::None);
+  //  }
+  //  else if(paddlePos.y < mMousePos.y) {
+  //    mPaddle->SetMoveDir(PaddleMoveDir::Up);
+  //  }
+  //  else if(paddlePos.y > mMousePos.y) {
+  //    mPaddle->SetMoveDir(PaddleMoveDir::Down);
+  //  }
+  //}
 
   CGamePaddleLocalController::CGamePaddleLocalController(std::shared_ptr<CGameObject> paddle,
                                                          const CGamePaddleLocalControllerConfig& config) 

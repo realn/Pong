@@ -21,7 +21,7 @@ namespace pong {
     CGameField(glm::vec2 const& pos, glm::vec2 const& size, glm::vec4 const& color);
     virtual ~CGameField();
 
-    virtual void Update(CGame & game, float const timeDelta) override;
+    virtual void Update(float const timeDelta) override;
 
     virtual void UpdateRender(gfx::CCanvas& canvas) override;
   };

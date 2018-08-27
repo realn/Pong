@@ -18,7 +18,7 @@ namespace pong {
 
   CGameField::~CGameField() {}
 
-  void CGameField::Update(CGame & game, float const timeDelta) {}
+  void CGameField::Update(float const timeDelta) {}
 
   void CGameField::UpdateRender(gfx::CCanvas& canvas) {
     canvas.DrawRect(GetBRect(), mColor);

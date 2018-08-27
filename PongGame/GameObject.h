@@ -33,7 +33,7 @@ namespace pong {
 
     core::CBRect GetBRect() const;
 
-    virtual void Update(CGame& game, float const timeDelta) = 0;
+    virtual void Update(float const timeDelta) = 0;
     virtual void UpdateRender(gfx::CCanvas& canvas) = 0;
   };
 }

@@ -1,41 +1,56 @@
 #include "stdafx.h"
+
+#include <GFXCanvas.h>
+#include <GFXCanvasView.h>
+
+#include "Assets.h"
+#include "GameObject.h"
+
 #include "GameScene.h"
 
 namespace pong {
-  CGameScene::CGameScene() {}
+  CGameScene::CGameScene(const glm::vec2& screenSize, CAssets& assets) 
+    : mScreenSize(screenSize)
+  {
+    auto textureFileName = L"texture.png"s;
+    auto textureSize = glm::uvec2(512);
+    auto texture = assets.Textures.Get(textureFileName);
+    auto shaderProg = assets.Shaders.Get({ L"font_vs"s, L"font_fs"s });
 
-  bool CGameScene::Init() {
-    return false;
+    shaderProg->SetInLocation(gfx::CCanvasVertex::Inputs);
+    shaderProg->Link();
+
+    mCanvas = std::make_unique<gfx::CCanvas>(gfx::CTextureAtlas(textureFileName, textureSize));
+    mCanvasView = std::make_unique<gfx::CCanvasView>(shaderProg, texture, texture);
+  }
+
+  void CGameScene::AddObject(std::shared_ptr<CGameObject> object) {
+    mObjects.push_back(object);
   }
 
   void CGameScene::Update(const float timeDelta) {
-    //  for(auto& controller : mControllers) {
-    //    controller->Update(*this, timeDelta);
-    //  }
-    //  for(auto& paddle : mPaddles) {
-    //    paddle->Update(*this, timeDelta);
-    //  }
-    //  mBall->Update(*this, timeDelta);
+    for (auto& object : mObjects) {
+      object->Update(timeDelta);
+    }
   }
 
   void CGameScene::UpdateRender(const float timeDelta) {
-    //  mCanvas->Clear();
+      mCanvas->Clear();
 
-    //  for(auto& paddle : mPaddles) {
-    //    paddle->UpdateRender(*mCanvas);
-    //  }
-    //  mBall->UpdateRender(*mCanvas);
+      for (auto& object : mObjects) {
+        object->UpdateRender(*mCanvas);
+      }
 
-    //  mCanvasView->UpdateRender(*mCanvas);
+      mCanvasView->UpdateRender(*mCanvas);
   }
 
   void CGameScene::Render() {
-    //  cb::gl::clearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
-    //  cb::gl::clear(cb::gl::ClearBuffer::COLOR | cb::gl::ClearBuffer::DEPTH);
+      cb::gl::clearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+      cb::gl::clear(cb::gl::ClearBuffer::COLOR | cb::gl::ClearBuffer::DEPTH);
 
-    //  auto transform = glm::ortho(0.0f, mScreenSize.x, 0.0f, mScreenSize.y);
+      auto transform = glm::ortho(0.0f, mScreenSize.x, 0.0f, mScreenSize.y);
 
-    //  mCanvasView->Render(transform);
+      mCanvasView->Render(transform);
   }
 
   bool CGameScene::IsFinished() const {
