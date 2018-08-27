@@ -2,6 +2,7 @@
 
 #include <CBSDL/Consts.h>
 #include <CBSDL/Funcs.h>
+#include <CBSDL/Events.h>
 
 #include "CoreApp.h"
 #include "CoreInputDeviceEvent.h"
@@ -32,6 +33,15 @@ namespace core {
   cb::string CInputKeyboardDevice::EventIdToString(const InputDeviceEventId value) const {
     cb::sdl::ScanCode code = static_cast<cb::sdl::ScanCode>(value);
     return cb::sdl::GetNameFromScanCode(code);
+  }
+
+  void CInputKeyboardDevice::ProcessSystemEvent(const cb::sdl::CEvent & event) {
+    if(event.GetType() != cb::sdl::EventType::KEYDOWN &&
+       event.GetType() != cb::sdl::EventType::KEYUP) {
+      return;
+    }
+
+    OnKeyState(event.Key().GetScanCode(), event.Key().GetType());
   }
 
   void CInputKeyboardDevice::OnKeyState(cb::sdl::ScanCode const code, 

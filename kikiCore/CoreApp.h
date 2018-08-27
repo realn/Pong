@@ -28,9 +28,9 @@ namespace core {
     }
   };
   
-
   class CInput;
   class CInputKeyboardDevice;
+  class CScene;
 
   class CApp {
   private:
@@ -43,9 +43,9 @@ namespace core {
     std::unique_ptr<cb::sdl::CWindow> mWindow;
     std::unique_ptr<cb::sdl::CGLContext> mGLContext;
 
-    std::shared_ptr<CInput> mInput;
-    std::shared_ptr<CInputKeyboardDevice> mInputKeyboardDevice;
+    std::shared_ptr<CInput> mInput;  
 
+    std::unique_ptr<CScene> mScene;
 
   public:
     CApp(cb::strvector const& args, CAppConfig const& config = CAppConfig());
@@ -78,9 +78,9 @@ namespace core {
   protected:
     virtual bool AdjustConfig(CAppConfig& config) { return true; }
     virtual bool Init() = 0;
+    virtual std::unique_ptr<CScene> CreateScene() = 0;
 
     virtual void OnKeyState(cb::sdl::ScanCode const code, cb::sdl::KeyState const state) {}
-
     virtual void OnMouseMotion(glm::vec2 const & pos, glm::vec2 const & delta) {}
     virtual void OnMouseButton(cb::sdl::Button const button, cb::sdl::KeyState const state) {}
 

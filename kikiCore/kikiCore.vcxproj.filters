@@ -81,9 +81,6 @@
     <ClInclude Include="CoreInput.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="CoreInputContext.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="CoreInputDevice.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -97,6 +94,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="CoreInputEventRegistry.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreScene.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

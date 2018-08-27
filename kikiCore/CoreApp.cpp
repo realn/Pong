@@ -3,6 +3,7 @@
 #include "CoreInput.h"
 #include "CoreInputDevice.h"
 #include "CoreInputStdDevices.h"
+#include "CoreScene.h"
 
 #include <CBSDL/System.h>
 #include <CBSDL/GLContext.h>
@@ -31,7 +32,7 @@ namespace core {
   void CApp::MainLoop() {
     auto frameTime = 0.0f;
     mTimer.Update();
-    while(mRun) {
+    while(mRun && mScene) {
       Render();
       
       ProcessEvents();
@@ -44,6 +45,10 @@ namespace core {
 
       mTimer.Update();
       frameTime += mTimer.GetTimeDelta();
+
+      if(mScene->IsFinished()) {
+        mScene = mScene->CreateScene();
+      }
     }
   }
 
@@ -75,13 +80,13 @@ namespace core {
     cb::gl::initextensions();
 
     mInput = std::make_shared<CInput>();
-    mInputKeyboardDevice = std::make_unique<core::CInputKeyboardDevice>(0, L"Keyboard");
-    mInput->AddDevice(mInputKeyboardDevice);
+    mInput->AddDevice(std::make_shared<core::CInputKeyboardDevice>(0, L"Keyboard"));
 
     if(!Init()) {
       return false;
     }
 
+    mScene = CreateScene();
     return true;
   }
 
@@ -116,6 +121,8 @@ namespace core {
       default:
         break;
       }
+
+      mInput->ProcessSystemEvent(event);
     }
   }
 
@@ -130,12 +137,15 @@ namespace core {
   }
 
   void CApp::UpdateFrame(float const timeDelta) {
+    mScene->Update(timeDelta);
   }
 
   void CApp::UpdateRender(float const timeDelta) {
+    mScene->UpdateRender(timeDelta);
   }
 
   void CApp::Render() {
+    mScene->Render();
   }
 
   void CApp::ProcessWindowEvent(cb::sdl::CEvent const & event) {
@@ -168,7 +178,6 @@ namespace core {
   }
 
   void CApp::ProcessKeyEvent(cb::sdl::CEvent const & event) {
-    mInputKeyboardDevice->OnKeyState(event.Key().GetScanCode(), event.Key().GetType());
     OnKeyState(event.Key().GetScanCode(), event.Key().GetType());
   }
 }

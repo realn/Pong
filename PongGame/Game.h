@@ -27,8 +27,6 @@ namespace pong {
   class CGame
     : public core::CApp
     , public core::IEventTarget<core::IInputObserver>
-    , public core::IEventSource<IMouseEventObserver>
-    , public core::IEventSource<IKeyboardEventObserver>
   {
   public:
     using PaddlePtrT = std::shared_ptr<CGamePaddle>;
@@ -53,6 +51,8 @@ namespace pong {
 
     bool AdjustConfig(core::CAppConfig& config) override;
     bool Init() override;
+
+	std::unique_ptr<core::CScene> CreateScene() override;
 
     //void Update(core::CAppBase& app, float const timeDelta) override;
     //void UpdateRender(core::CAppBase const& app, float const timeDelta) override;

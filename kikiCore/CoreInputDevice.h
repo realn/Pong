@@ -30,6 +30,8 @@ namespace core {
 
     virtual cb::string EventIdToString(const InputDeviceEventId value) const = 0;
 
+    virtual void ProcessSystemEvent(const cb::sdl::CEvent& event) = 0;
+
     void SetEventSink(std::weak_ptr<IInputDeviceEventSink> sink) { mSink = sink; }
   };
 }

@@ -19,6 +19,8 @@ namespace core {
 
     virtual cb::string EventIdToString(const InputDeviceEventId value) const override;
 
+    virtual void ProcessSystemEvent(const cb::sdl::CEvent& event) override;
+
     void OnKeyState(cb::sdl::ScanCode const code, cb::sdl::KeyState const state);
   };
 }

@@ -5,6 +5,8 @@
 #include <map>
 #include <set>
 
+#include <CBSDL/Fwd.h>
+
 #include "CoreEvents.h"
 #include "CoreInputDeviceEvent.h"
 #include "CoreInputObserver.h"
@@ -63,6 +65,8 @@ namespace core {
     bool AddBinding(const cb::string& devName, 
                     const cb::string& devEventName, 
                     const cb::string& eventName);
+
+    void ProcessSystemEvent(const cb::sdl::CEvent& event);
 
     void Update(float const timeDelta);
 

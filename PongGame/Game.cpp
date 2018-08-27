@@ -14,6 +14,7 @@
 #include "GameBall.h"
 #include "GameField.h"
 #include "GameController.h"
+#include "GameSceneLevel.h"
 
 #include "Game.h"
 
@@ -86,42 +87,14 @@ namespace pong {
     shaderProg->Link();
 
     mCanvas = std::make_unique<gfx::CCanvas>(gfx::CTextureAtlas(textureFileName, textureSize));
-
     mCanvasView = std::make_unique<gfx::CCanvasView>(shaderProg, texture, texture);
-
 
     return true;
   }
 
-  //void CGame::Update(core::CAppBase& app, float const timeDelta) {
-  //  for(auto& controller : mControllers) {
-  //    controller->Update(*this, timeDelta);
-  //  }
-  //  for(auto& paddle : mPaddles) {
-  //    paddle->Update(*this, timeDelta);
-  //  }
-  //  mBall->Update(*this, timeDelta);
-  //}
-
-  //void CGame::UpdateRender(core::CAppBase const& app, float const timeDelta) {
-  //  mCanvas->Clear();
-
-  //  for(auto& paddle : mPaddles) {
-  //    paddle->UpdateRender(*mCanvas);
-  //  }
-  //  mBall->UpdateRender(*mCanvas);
-
-  //  mCanvasView->UpdateRender(*mCanvas);
-  //}
-
-  //void CGame::Render(core::CAppBase const& app) const {
-  //  cb::gl::clearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
-  //  cb::gl::clear(cb::gl::ClearBuffer::COLOR | cb::gl::ClearBuffer::DEPTH);
-
-  //  auto transform = glm::ortho(0.0f, mScreenSize.x, 0.0f, mScreenSize.y);
-
-  //  mCanvasView->Render(transform);
-  //}
+  std::unique_ptr<core::CScene> CGame::CreateScene() {
+	  return std::make_unique<CGameSceneMain>();
+  }
 
   void CGame::AddPlayer(GameControllerType controllerType) {
     auto playerIndex = cb::u32(mPaddles.size());
@@ -182,11 +155,11 @@ namespace pong {
   }
 
   void CGame::OnMouseMotion(glm::vec2 const & pos, glm::vec2 const & delta) {
-    auto gamePos = glm::vec2{ pos.x, 1.0f - pos.y } * mScreenSize;
+    //auto gamePos = glm::vec2{ pos.x, 1.0f - pos.y } * mScreenSize;
 
-    for(auto& observer : IEventSource<IMouseEventObserver>::GetObservers()) {
-      observer->EventMouseMove(gamePos / mField->GetSize());
-    }
+    //for(auto& observer : IEventSource<IMouseEventObserver>::GetObservers()) {
+    //  observer->EventMouseMove(gamePos / mField->GetSize());
+    //}
   }
 
   void CGame::OnMouseButton(cb::sdl::Button const button, cb::sdl::KeyState const state) {

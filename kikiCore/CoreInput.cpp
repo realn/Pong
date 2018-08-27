@@ -57,6 +57,12 @@ namespace core {
     return AddBinding(devIdIt->second, devEventId, eventIt->second);
   }
 
+  void CInput::ProcessSystemEvent(const cb::sdl::CEvent & event) {
+    for(auto device : mDevices) {
+      device.second->ProcessSystemEvent(event);
+    }
+  }
+
   void CInput::Update(float const timeDelta) {
     auto observers = IEventSource<IInputObserver>::GetObservers();
 
