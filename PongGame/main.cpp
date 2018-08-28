@@ -5,6 +5,11 @@
 
 #include "Game.h"
 
+// "Run on Nvidia Graphic Processor" hack
+extern "C" {
+  _declspec(dllexport) unsigned int NvOptimusEnablement = 0x00000001;
+}
+
 using utf8strvec = std::vector<cb::utf8string>;
 
 int WinMain(void*, void*, char*, int) {
