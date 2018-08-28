@@ -15,10 +15,9 @@ namespace pong {
     : public CGameObject
   {
   private:
-    glm::vec4 mColor;
 
   public:
-    CGameField(glm::vec2 const& pos, glm::vec2 const& size, glm::vec4 const& color);
+    CGameField();
     virtual ~CGameField();
 
     virtual void Update(float const timeDelta) override;

@@ -99,6 +99,9 @@
     <ClInclude Include="GameScene.h">
       <Filter>Source Files\Game</Filter>
     </ClInclude>
+    <ClInclude Include="GameMovingObject.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\main_fs.glsl">

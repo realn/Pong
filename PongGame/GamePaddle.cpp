@@ -13,12 +13,6 @@ namespace pong {
                            float const speed,
                            float const accel,
                            const glm::vec2& fieldSize)
-    : CGameObject(size, speed)
-    , mColor(1.0f, 0.0f, 0.5f, 1.0f)
-    , mMoveDir(PaddleMoveDir::None)
-    , mSide(side)
-    , mAccel(accel)
-    , mFieldSize(fieldSize)
   {}
 
   void CGamePaddle::Update(float const timeDelta) {

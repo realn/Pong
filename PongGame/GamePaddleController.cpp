@@ -56,15 +56,15 @@ namespace pong {
   }
 
   void CGamePaddleLocalController::Update(CGame & game, float const timeDelta) {
-    if(mMoveUp) {
-      mPaddle->SetMoveDir(PaddleMoveDir::Up);
-    }
-    else if(mMoveDown) {
-      mPaddle->SetMoveDir(PaddleMoveDir::Down);
-    }
-    else {
-      mPaddle->SetMoveDir(PaddleMoveDir::None);
-    }
+    //if(mMoveUp) {
+    //  mPaddle->SetMoveDir(PaddleMoveDir::Up);
+    //}
+    //else if(mMoveDown) {
+    //  mPaddle->SetMoveDir(PaddleMoveDir::Down);
+    //}
+    //else {
+    //  mPaddle->SetMoveDir(PaddleMoveDir::None);
+    //}
   }
 
   void CGamePaddleLocalController::OnInputState(core::InputEventId const id, bool value) {

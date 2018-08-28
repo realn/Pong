@@ -170,6 +170,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameBall.h" />
     <ClInclude Include="GameController.h" />
+    <ClInclude Include="GameMovingObject.h" />
     <ClInclude Include="GamePaddleController.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GamePaddle.h" />

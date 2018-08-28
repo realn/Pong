@@ -5,7 +5,7 @@
 
 #include <CoreBRect.h>
 
-#include "GameObject.h"
+#include "GameMovingObject.h"
 
 namespace pong {
   enum class PaddleSide {
@@ -16,7 +16,7 @@ namespace pong {
   };
 
   class CGamePaddle
-    : public CGameObject {
+    : public CGameMovingObject {
   private:
     glm::vec4 mColor;
     PaddleSide mSide;

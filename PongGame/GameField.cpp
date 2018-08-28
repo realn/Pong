@@ -9,12 +9,7 @@
 #include "GameField.h"
 
 namespace pong {
-  CGameField::CGameField(glm::vec2 const & pos, glm::vec2 const & size, glm::vec4 const & color) 
-    : CGameObject(size, 0.0f)
-    , mColor(color)
-  {
-    mPos = pos;
-  }
+  CGameField::CGameField() {}
 
   CGameField::~CGameField() {}
 

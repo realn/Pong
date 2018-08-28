@@ -7,30 +7,25 @@
 #include <GFXFwd.h>
 
 namespace pong {
-  class CGame;
-
   class CGameObject {
   protected:
-    glm::vec2 mSize;
     glm::vec2 mPos;
-    glm::vec2 mVec;
-    float mSpeed;
+    glm::vec2 mSize;
+    glm::vec4 mColor;
 
   public:
-    CGameObject(glm::vec2 const& size, float const speed)
-      : mSize(size), mSpeed(speed) {}
+    CGameObject() {}
     virtual ~CGameObject() {}
 
     void SetPosition(glm::vec2 const& value) { mPos = value; }
-    void SetVector(glm::vec2 const& value) { mVec = value; }
-    void SetSpeed(float const speed) { mSpeed = speed; }
+    void SetSize(const glm::vec2& value) { mSize = value; }
+    void SetColor(const glm::vec4& value) { mColor = value; }
 
     glm::vec2 GetPosition() const { return mPos; }
-    glm::vec2 GetVector() const { return mVec; }
     glm::vec2 GetSize() const { return mSize; }
-    glm::vec2 GetCenterPos() const { return mPos + (mSize / 2.0f); }
-    float GetSpeed() const { return mSpeed; }
+    glm::vec4 GetColor() const { return mColor; }
 
+    glm::vec2 GetCenterPos() const { return mPos + (mSize / 2.0f); }
     core::CBRect GetBRect() const;
 
     virtual void Update(float const timeDelta) = 0;
