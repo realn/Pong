@@ -71,6 +71,14 @@ namespace pong {
     field->SetColor({ 0.2f, 0.2f, 0.2f, 1.0f });
     scene->AddObject(field);
 
+    auto paddle = std::make_shared<CGamePaddle>();
+    paddle->SetField(field);
+    paddle->SetColor({ 0.8f, 0.6f, 0.2f, 1.0f });
+    paddle->SetPosition(mScreenSize * 0.2f);
+    paddle->SetSize({ 0.1, 0.3f });
+    paddle->SetAccel(1.0f);
+    scene->AddObject(paddle);
+
     auto ball = std::make_shared<CGameBall>();
     ball->SetField(field);
     ball->SetSize(mScreenSize * 0.1f);

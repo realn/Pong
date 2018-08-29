@@ -8,12 +8,13 @@
 #include <GFXConsts.h>
 
 namespace pong {
-  CGamePaddle::CGamePaddle(PaddleSide const side,
-                           glm::vec2 const & size,
-                           float const speed,
-                           float const accel,
-                           const glm::vec2& fieldSize)
-  {}
+  CGamePaddle::CGamePaddle() {}
+
+  CGamePaddle::~CGamePaddle() {}
+
+  void CGamePaddle::SetField(std::shared_ptr<CGameField> field) {
+    mField = field;
+  }
 
   void CGamePaddle::Update(float const timeDelta) {
     auto dir = glm::vec2();
@@ -26,11 +27,12 @@ namespace pong {
     }
 
     mVec = glm::clamp(mVec + dir * mAccel * timeDelta, -1.0f, 1.0f);
+    glm::vec2 fieldSize = mField->GetSize();
 
     mPos += mVec * mSpeed * timeDelta;
 
-    if(mPos.y < 0.0f || mPos.y + mSize.y > mFieldSize.y) {
-      mPos.y = glm::clamp(mPos.y, 0.0f, mFieldSize.y - mSize.y);
+    if(mPos.y < 0.0f || mPos.y + mSize.y > fieldSize.y) {
+      mPos.y = glm::clamp(mPos.y, 0.0f, fieldSize.y - mSize.y);
       mVec = glm::vec2(0.0f);
     }
   }

@@ -15,23 +15,23 @@ namespace pong {
     None, Up, Down, Left, Right,
   };
 
+  class CGameField;
+
   class CGamePaddle
     : public CGameMovingObject {
   private:
-    glm::vec4 mColor;
-    PaddleSide mSide;
-    PaddleMoveDir mMoveDir;
-    float mAccel;
-    glm::vec2 mFieldSize;
+    std::shared_ptr<CGameField> mField;
+    float mAccel = 0.0f;
+    PaddleSide mSide = PaddleSide::Left;
+    PaddleMoveDir mMoveDir = PaddleMoveDir::None;
 
   public:
-    CGamePaddle(PaddleSide const side, 
-                glm::vec2 const& size, 
-                float const speed, 
-                float const accel,
-                const glm::vec2& fieldSize);
-    virtual ~CGamePaddle() {}
+    CGamePaddle();
+    ~CGamePaddle();
 
+    void SetField(std::shared_ptr<CGameField> field);
+    void SetAccel(const float accel) { mAccel; }
+    void SetPaddleSide(const PaddleSide side) { mSide = side; }
     void SetMoveDir(PaddleMoveDir const value) { mMoveDir = value; }
 
     PaddleMoveDir GetMoveDir() const { return mMoveDir; }
