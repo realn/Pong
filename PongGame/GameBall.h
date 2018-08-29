@@ -1,21 +1,27 @@
 #pragma once
 
-#include "GameObject.h"
 #include <CBGL/Buffer.h>
 
+#include "GameMovingObject.h"
+
 namespace pong {
-  //class CGameBall
-  //  : public CGameObject {
-  //private:
-  //  glm::vec4 mColor;
-  //  glm::vec2 mVec;
+  class CGameField;
 
-  //public:
-  //  CGameBall(glm::vec2 const& size, float const speed);
-  //  virtual ~CGameBall();
+  class CGameBall
+    : public CGameMovingObject {
+  private:
+    std::shared_ptr<CGameField> mField;
 
-  //  virtual void Update(CGame & game, float const timeDelta) override;
+  public:
+    CGameBall();
+    ~CGameBall();
 
-  //  virtual void UpdateRender(gfx::CCanvas& canvas) override;
-  //};
+    void SetField(std::shared_ptr<CGameField> field);
+
+    std::shared_ptr<CGameField> GetField() const;
+
+    virtual void Update(float const timeDelta) override;
+
+    virtual void UpdateRender(gfx::CCanvas& canvas) override;
+  };
 }

@@ -8,7 +8,7 @@ namespace pong {
   {
   protected:
     glm::vec2 mVec;
-    float mSpeed;
+    float mSpeed = 0.0f;
 
   public:
     CGameMovingObject() {}

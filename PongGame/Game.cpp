@@ -65,13 +65,20 @@ namespace pong {
   std::unique_ptr<core::CScene> CGame::OnCreateScene() {
     auto scene = std::make_unique<CGameScene>(mScreenSize, *mAssets);
     
-    {
-      auto field = std::make_shared<CGameField>();
-      field->SetPosition(mScreenSize * 0.1f);
-      field->SetSize(mScreenSize * 0.8f);
-      field->SetColor({ 0.2f, 0.2f, 0.2f, 1.0f });
-      scene->AddObject(field);
-    }
+    auto field = std::make_shared<CGameField>();
+    field->SetPosition(mScreenSize * 0.1f);
+    field->SetSize(mScreenSize * 0.8f);
+    field->SetColor({ 0.2f, 0.2f, 0.2f, 1.0f });
+    scene->AddObject(field);
+
+    auto ball = std::make_shared<CGameBall>();
+    ball->SetField(field);
+    ball->SetSize(mScreenSize * 0.1f);
+    ball->SetPosition(mScreenSize * 0.5f);
+    ball->SetColor({ 0.6f, 0.2f, 0.3f, 1.0f });
+    ball->SetVector({ 1.0f, 1.0f });
+    ball->SetSpeed(2.0f);
+    scene->AddObject(ball);
 
     return scene;
   }
