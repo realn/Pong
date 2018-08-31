@@ -7,39 +7,11 @@
 #include <CoreInputObserver.h>
 
 #include "GameConsts.h"
-#include "GameController.h"
+#include "GameSceneProcess.h"
 
 namespace pong {
   class CGame;
   class CGamePaddle;
-
-  class CGamePaddleControllerBase 
-    : public IGameController
-  {
-  protected:
-    std::shared_ptr<CGamePaddle> mPaddle;
-
-  public:
-    CGamePaddleControllerBase(std::shared_ptr<CGameObject> paddle);
-    virtual ~CGamePaddleControllerBase();
-  };
-
-  //class CGamePaddleMouseController 
-  //  : public CGamePaddleControllerBase 
-  //  //, public core::IEventTarget<IMouseEventObserver>
-  //{
-  //private:
-  //  glm::vec2 mMousePos;
-
-  //public:
-  //  CGamePaddleMouseController(std::shared_ptr<CGameObject> paddle);
-  //  virtual ~CGamePaddleMouseController();
-
-  //  bool InitController(CGame& game) override;
-  //  void Update(CGame& game, float const timeDelta) override;
-
-  //  //void EventMouseMove(glm::vec2 const& pos) override { mMousePos = pos; }
-  //};
 
   class CGamePaddleLocalControllerConfig {
   public:
@@ -50,23 +22,24 @@ namespace pong {
   };
 
   class CGamePaddleLocalController
-    : public CGamePaddleControllerBase
+    : public CGameSceneProcess
     , public core::IEventTarget<core::IInputObserver>
   {
   private:
+    std::shared_ptr<CGamePaddle> mPaddle;
     CGamePaddleLocalControllerConfig mConfig;
     bool mMoveUp;
     bool mMoveDown;
 
   public:
-    CGamePaddleLocalController(std::shared_ptr<CGameObject> paddle,
+    CGamePaddleLocalController(std::shared_ptr<CGamePaddle> paddle,
                                const CGamePaddleLocalControllerConfig& config);
     virtual ~CGamePaddleLocalController();
 
-    bool InitController(CGame& game) override;
-    void Update(CGame& game, float const timeDelta) override;
+    bool Init(CGame& game);
+
+    void Update(const float timeDelta) override;
 
     virtual void OnInputState(core::InputEventId const id, bool value) override;
-    //void EventKeyPress(cb::sdl::ScanCode key, cb::sdl::KeyState state) override;
   };
 }

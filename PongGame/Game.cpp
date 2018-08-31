@@ -13,7 +13,7 @@
 #include "GamePaddle.h"
 #include "GameBall.h"
 #include "GameField.h"
-#include "GameController.h"
+#include "GamePaddleController.h"
 #include "GameScene.h"
 
 #include "Game.h"
@@ -56,6 +56,8 @@ namespace pong {
     GetInput().RegisterEvent(L"MENU_ITEM_RETURN)", GameInput::MENU_ITEM_RETURN);
 
     GetInput().AddBinding(L"Keyboard", L"Escape", L"GAME_QUIT");
+    GetInput().AddBinding(L"Keyboard", L"Up", L"PLAYER_ONE_UP");
+    GetInput().AddBinding(L"Keyboard", L"Down", L"PLAYER_ONE_DOWN");
 
     mAssets = std::make_unique<CAssets>(L"Assets"s);
 
@@ -76,8 +78,17 @@ namespace pong {
     paddle->SetColor({ 0.8f, 0.6f, 0.2f, 1.0f });
     paddle->SetPosition(mScreenSize * 0.2f);
     paddle->SetSize({ 0.1, 0.3f });
+    paddle->SetSpeed(1.0f);
     paddle->SetAccel(1.0f);
     scene->AddObject(paddle);
+
+    auto cfg = CGamePaddleLocalControllerConfig();
+    cfg.mUpId = GameInput::PLAYER_ONE_UP;
+    cfg.mDownId = GameInput::PLAYER_ONE_DOWN;
+
+    auto paddleCtrl = std::make_shared<CGamePaddleLocalController>(paddle, cfg);
+    paddleCtrl->Init(*this);
+    scene->AddProcess(paddleCtrl);
 
     auto ball = std::make_shared<CGameBall>();
     ball->SetField(field);

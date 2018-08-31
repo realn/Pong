@@ -30,7 +30,7 @@ namespace pong {
     ~CGamePaddle();
 
     void SetField(std::shared_ptr<CGameField> field);
-    void SetAccel(const float accel) { mAccel; }
+    void SetAccel(const float accel) { mAccel = accel; }
     void SetPaddleSide(const PaddleSide side) { mSide = side; }
     void SetMoveDir(PaddleMoveDir const value) { mMoveDir = value; }
 

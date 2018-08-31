@@ -11,12 +11,6 @@
 #include "GamePaddleController.h"
 
 namespace pong {
-  CGamePaddleControllerBase::CGamePaddleControllerBase(std::shared_ptr<CGameObject> paddle) 
-    : mPaddle(std::dynamic_pointer_cast<CGamePaddle>(paddle))
-  {}
-
-  CGamePaddleControllerBase::~CGamePaddleControllerBase() {}
-
   //CGamePaddleMouseController::CGamePaddleMouseController(std::shared_ptr<CGameObject> paddle) 
   //  : CGamePaddleControllerBase(paddle)
   //{}
@@ -41,30 +35,30 @@ namespace pong {
   //  }
   //}
 
-  CGamePaddleLocalController::CGamePaddleLocalController(std::shared_ptr<CGameObject> paddle,
-                                                         const CGamePaddleLocalControllerConfig& config) 
-    : CGamePaddleControllerBase(paddle)
+  CGamePaddleLocalController::CGamePaddleLocalController(std::shared_ptr<CGamePaddle> paddle,
+                                                         const CGamePaddleLocalControllerConfig& config)
+    : mPaddle(paddle)
     , mConfig(config)
     , mMoveUp(false), mMoveDown(false)
   {}
 
   CGamePaddleLocalController::~CGamePaddleLocalController() {}
 
-  bool CGamePaddleLocalController::InitController(CGame& game) {
+  bool CGamePaddleLocalController::Init(CGame& game) {
     core::bind<core::IInputObserver>(game.GetInput(), *this);
     return true;
   }
 
-  void CGamePaddleLocalController::Update(CGame & game, float const timeDelta) {
-    //if(mMoveUp) {
-    //  mPaddle->SetMoveDir(PaddleMoveDir::Up);
-    //}
-    //else if(mMoveDown) {
-    //  mPaddle->SetMoveDir(PaddleMoveDir::Down);
-    //}
-    //else {
-    //  mPaddle->SetMoveDir(PaddleMoveDir::None);
-    //}
+  void CGamePaddleLocalController::Update(float const timeDelta) {
+    if(mMoveUp) {
+      mPaddle->SetMoveDir(PaddleMoveDir::Up);
+    }
+    else if(mMoveDown) {
+      mPaddle->SetMoveDir(PaddleMoveDir::Down);
+    }
+    else {
+      mPaddle->SetMoveDir(PaddleMoveDir::None);
+    }
   }
 
   void CGamePaddleLocalController::OnInputState(core::InputEventId const id, bool value) {

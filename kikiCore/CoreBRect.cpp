@@ -2,6 +2,11 @@
 #include "CoreBRect.h"
 
 namespace core {
+  template<typename _T>
+  bool constexpr inrange(const _T val, const _T valMin, const _T valMax) {
+    return val >= valMin && val <= valMax;
+  }
+
   cb::u32 constexpr flipValue(cb::u32 const value, bool const flip) { 
     if(!flip) { return value; }
     return value == 0 ? 1 : 0; 
@@ -48,6 +53,12 @@ namespace core {
 
   bool CBRect::Contains(CBRect const & rect) const {
     return Contains(rect.GetMin()) && Contains(rect.GetMax());
+  }
+
+  CBRect CBRect::ClampInside(const CBRect & rect) const {
+    auto result = rect;
+    result.SetPosition(glm::clamp(result.GetPosition(), GetMin(), GetMax() - result.GetSize()));
+    return result;
   }
 
   RectEdge CBRect::ContainsEdgeOf(CBRect const & rect) const {

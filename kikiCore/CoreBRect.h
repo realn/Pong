@@ -44,6 +44,8 @@ namespace core {
     bool Contains(glm::vec2 const& pos) const;
     bool Contains(CBRect const& rect) const;
 
+    CBRect ClampInside(const CBRect& rect) const;
+
     RectEdge ContainsEdgeOf(CBRect const& rect) const;
     RectCorner ContainsCornerOf(CBRect const& rect) const;
 

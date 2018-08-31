@@ -31,8 +31,12 @@ namespace pong {
 
     mPos += mVec * mSpeed * timeDelta;
 
-    if(mPos.y < 0.0f || mPos.y + mSize.y > fieldSize.y) {
-      mPos.y = glm::clamp(mPos.y, 0.0f, fieldSize.y - mSize.y);
+    auto fieldRect = mField->GetBRect();
+    auto paddleRect = GetBRect();
+
+    if(!fieldRect.Contains(paddleRect)) {
+      paddleRect = fieldRect.ClampInside(paddleRect);
+      SetPosition(paddleRect.GetPosition());
       mVec = glm::vec2(0.0f);
     }
   }

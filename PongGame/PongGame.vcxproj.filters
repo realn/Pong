@@ -46,9 +46,6 @@
     <ClCompile Include="Assets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameController.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
     <ClCompile Include="GamePaddleController.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
@@ -87,9 +84,6 @@
     <ClInclude Include="ControlEventObservers.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameController.h">
-      <Filter>Source Files\Game</Filter>
-    </ClInclude>
     <ClInclude Include="GamePaddleController.h">
       <Filter>Source Files\Game</Filter>
     </ClInclude>
@@ -100,6 +94,9 @@
       <Filter>Source Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="GameMovingObject.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSceneProcess.h">
       <Filter>Source Files\Game</Filter>
     </ClInclude>
   </ItemGroup>

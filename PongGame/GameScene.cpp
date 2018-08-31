@@ -5,6 +5,7 @@
 
 #include "Assets.h"
 #include "GameObject.h"
+#include "GameSceneProcess.h"
 
 #include "GameScene.h"
 
@@ -28,7 +29,14 @@ namespace pong {
     mObjects.push_back(object);
   }
 
+  void CGameScene::AddProcess(std::shared_ptr<CGameSceneProcess> process) {
+    mProcesses.push_back(process);
+  }
+
   void CGameScene::Update(const float timeDelta) {
+    for(auto& process : mProcesses) {
+      process->Update(timeDelta);
+    }
     for (auto& object : mObjects) {
       object->Update(timeDelta);
     }
